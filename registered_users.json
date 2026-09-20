@@ -1,0 +1,15 @@
+[
+  {
+    "id": "farmer_9035914558_1789890201092",
+    "role": "FARMER",
+    "name": "Gagan",
+    "mobile": "+91 90359 14558",
+    "cleanMobile": "9035914558",
+    "crop": "Paddy & Ragi",
+    "quantity": "10 Tons",
+    "district": "Mysuru",
+    "location": "Mysuru Agricultural Belt, Karnataka",
+    "verifiedIndian": true,
+    "registeredAt": "2026-09-20T07:43:21.092Z"
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "name": "agrichain-platform",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix frontend install && npm --prefix frontend run build",
+    "build:frontend": "npm --prefix frontend install && npm --prefix frontend run build",
+    "build:bulk-buyer": "npm --prefix bulk-buyer install && npm --prefix bulk-buyer run build"
+  }
+}

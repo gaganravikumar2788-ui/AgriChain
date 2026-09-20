@@ -172,10 +172,12 @@ export default function FarmerSchemes() {
 
       <nav className="bg-white/95 backdrop-blur-md shadow-[0_2px_10px_rgba(0,0,0,0.03)] border-b border-gray-100 px-6 sm:px-10 lg:px-12 py-4 sm:py-5 flex items-center justify-between sticky top-0 z-50">
         <div className="flex items-center gap-3.5 sm:gap-4 cursor-pointer" onClick={() => navigate('/farmer-dashboard')}>
-          <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-emerald-600 to-green-700 rounded-2xl flex items-center justify-center text-2xl sm:text-3xl shadow-md border-2 border-emerald-100 flex-shrink-0">🌾</div>
+          <div className="w-12 h-12 sm:w-14 sm:h-14 bg-white rounded-2xl flex items-center justify-center p-1 shadow-md border-2 border-emerald-200 flex-shrink-0">
+            <img src="/logo.png" alt="AgriChain Logo" className="w-full h-full object-contain" />
+          </div>
           <div>
             <div className="font-black text-green-950 text-2xl sm:text-3xl leading-tight">AgriChain</div>
-            <div className="text-xs sm:text-sm text-gray-500 font-semibold tracking-wide mt-0.5">Farmers • Markets • Freshness</div>
+            <div className="text-xs sm:text-sm text-gray-500 font-semibold tracking-wide mt-0.5">Field to Fork Freshness</div>
           </div>
         </div>
         <div className="hidden md:flex items-center gap-2 bg-gray-50/90 p-1.5 rounded-full border border-gray-200/70 shadow-inner">

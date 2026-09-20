@@ -6,6 +6,7 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../firebase';
 import { verifyIndianMobile, verifyIndianGST, cleanIndianMobile } from '../utils/indianVerification';
 import { analyzeVegetableShopPhoto } from '../utils/imageVerification';
+import { checkRegistrationEligibility, persistUserRegistration } from '../services/userService';
 
 export default function BuyerRegistration() {
   const navigate = useNavigate();
@@ -193,6 +194,29 @@ export default function BuyerRegistration() {
 
     setIsSubmitting(true);
 
+    // 0. ENFORCE SINGLE-ROLE IDENTITY & PREVENT DUPLICATE ACCOUNTS
+    const eligibility = await checkRegistrationEligibility('BUYER', formData.mobile, formData.name);
+
+    if (eligibility.status === 'ROLE_CONFLICT') {
+      setIsSubmitting(false);
+      setFormError(eligibility.message);
+      alert(eligibility.message);
+      navigate(eligibility.redirectPath);
+      return;
+    }
+
+    if (eligibility.status === 'SAME_ROLE_RETURN') {
+      setIsSubmitting(false);
+      const existing = eligibility.existingUser;
+      localStorage.setItem('agrichain_user', JSON.stringify(existing));
+      localStorage.setItem('buyerName', existing.name);
+      localStorage.setItem('buyerMobile', existing.mobile);
+      if (existing.businessName) localStorage.setItem('buyerBusinessName', existing.businessName);
+      alert(eligibility.message);
+      navigate(eligibility.redirectPath || '/buyer-dashboard');
+      return;
+    }
+
     const buyerName = formData.name.trim() || 'Suresh Kumar';
     const cleanDigits = cleanIndianMobile(formData.mobile) || '9845098765';
     const formattedMobile = `+91 ${cleanDigits.substring(0, 5)} ${cleanDigits.substring(5, 10)}`;
@@ -201,15 +225,20 @@ export default function BuyerRegistration() {
     // 1. GUARANTEED PERSISTENCE
     localStorage.setItem('buyerName', buyerName);
     localStorage.setItem('buyerMobile', formattedMobile);
-    localStorage.setItem('agrichain_user', JSON.stringify({
+    localStorage.setItem('buyerBusinessName', formData.businessName || 'Sri Balaji Agro Traders');
+
+    await persistUserRegistration({
       id: userId,
       role: 'BUYER',
       name: buyerName,
-      businessName: formData.businessName,
+      businessName: formData.businessName || 'Sri Balaji Agro Traders',
       mobile: formattedMobile,
+      city: formData.city,
+      state: formData.state,
+      gstNumber: formData.gstNumber.toUpperCase(),
       verifiedIndian: true,
       shopPhotoVerified: true
-    }));
+    });
 
     // 2. NON-BLOCKING BACKGROUND SYNC
     (async () => {
@@ -247,8 +276,8 @@ export default function BuyerRegistration() {
       }
     })();
 
-    // 3. IMMEDIATE REDIRECT
-    navigate('/farmer/market');
+    // 3. IMMEDIATE REDIRECT TO BULK BUYER DASHBOARD
+    navigate('/buyer-dashboard');
   };
 
   return (
@@ -556,12 +585,13 @@ export default function BuyerRegistration() {
             type="button"
             onClick={() => {
               localStorage.setItem('buyerName', formData.name || 'Suresh Kumar');
+              localStorage.setItem('buyerBusinessName', formData.businessName || 'Sri Balaji Agro Traders');
               localStorage.setItem('buyerMobile', '+91 98450 98765');
-              navigate('/farmer/market');
+              navigate('/buyer-dashboard');
             }}
-            className="text-xs font-bold text-amber-700 hover:text-amber-900 hover:underline inline-flex items-center gap-1"
+            className="text-xs font-bold text-amber-700 hover:text-amber-900 hover:underline inline-flex items-center gap-1 cursor-pointer"
           >
-            ⚡ Direct Access: Go to B2B Market →
+            ⚡ Direct Access: Go to Bulk Buyer Portal →
           </button>
         </div>
 

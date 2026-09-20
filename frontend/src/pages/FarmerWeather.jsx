@@ -156,15 +156,15 @@ export default function FarmerWeather() {
       <nav className="bg-white/95 backdrop-blur-md border-b border-gray-100 px-6 sm:px-10 lg:px-12 py-4 sm:py-5 flex items-center justify-between sticky top-0 z-50 shadow-[0_2px_10px_rgba(0,0,0,0.03)] flex-shrink-0">
         {/* Logo & Subtitle */}
         <div className="flex items-center gap-3.5 sm:gap-4 cursor-pointer" onClick={() => navigate('/farmer-dashboard')}>
-          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-emerald-600 to-green-700 flex items-center justify-center text-2xl sm:text-3xl shadow-md border-2 border-emerald-100 flex-shrink-0">
-            🌾
+          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white flex items-center justify-center p-1 shadow-md border-2 border-emerald-200 flex-shrink-0">
+            <img src="/logo.png" alt="AgriChain Logo" className="w-full h-full object-contain" />
           </div>
           <div>
             <div className="font-black text-green-950 text-2xl sm:text-3xl tracking-tight leading-tight flex items-center gap-2">
               AgriChain
             </div>
             <div className="text-xs sm:text-sm text-gray-500 font-semibold tracking-wide mt-0.5">
-              Farmers • Markets • Freshness
+              Field to Fork Freshness
             </div>
           </div>
         </div>

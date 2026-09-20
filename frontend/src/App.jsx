@@ -12,6 +12,9 @@ import GovernmentSchemes from './pages/GovernmentSchemes';
 
 import FarmerWeather from './pages/FarmerWeather';
 import FarmerCropRecommendation from './pages/FarmerCropRecommendation';
+import BulkBuyerDashboard from './pages/BulkBuyerDashboard';
+import RouteOptimizationView from './components/RouteOptimizationView';
+import ConsumerDashboard from './pages/ConsumerDashboard';
 
 /* Non-farmer pages keep the original background wrapper + top nav */
 function AppWrapper() {
@@ -24,11 +27,16 @@ function AppWrapper() {
       <div className="relative z-10 flex flex-col min-h-screen">
         <nav className="bg-white/90 backdrop-blur-md shadow-lg p-3 border-b border-green-200">
           <div className="w-full px-4 flex justify-start items-center">
-            <Link to="/" className="flex items-center gap-4 hover:opacity-90 transition-opacity">
-              <img src="/logo.png" alt="AgriChain Logo" className="h-24 w-auto object-contain rounded-full shadow-md" />
-              <span className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-700 to-emerald-600 tracking-tight drop-shadow-sm">
-                AgriChain
-              </span>
+            <Link to="/" className="flex items-center gap-3.5 hover:opacity-95 transition-opacity">
+              <img src="/logo.png" alt="AgriChain Logo" className="h-14 w-14 object-contain rounded-full shadow-md bg-white p-1 border border-emerald-300" />
+              <div>
+                <span className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-800 to-emerald-600 tracking-tight drop-shadow-xs block leading-none">
+                  AgriChain
+                </span>
+                <span className="text-[11px] font-bold text-emerald-800/80 tracking-wider uppercase">
+                  Field to Fork Freshness
+                </span>
+              </div>
             </Link>
           </div>
         </nav>
@@ -51,6 +59,20 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* Bulk Buyer pages — full screen, independent navigation */}
+        <Route path="/buyer-dashboard" element={<BulkBuyerDashboard />} />
+        <Route path="/buyer/dashboard" element={<BulkBuyerDashboard />} />
+        <Route path="/buyer" element={<BulkBuyerDashboard />} />
+        <Route path="/bulk-buyer" element={<BulkBuyerDashboard />} />
+        <Route path="/routes" element={<div className="min-h-screen bg-[#f4f7f4] p-4"><RouteOptimizationView /></div>} />
+        <Route path="/route-optimization" element={<div className="min-h-screen bg-[#f4f7f4] p-4"><RouteOptimizationView /></div>} />
+
+        {/* Consumer Quick Commerce (Blinkit Replica) — full screen independent */}
+        <Route path="/consumer" element={<ConsumerDashboard />} />
+        <Route path="/consumer/dashboard" element={<ConsumerDashboard />} />
+        <Route path="/consumer-portal" element={<ConsumerDashboard />} />
+        <Route path="/quick-commerce" element={<ConsumerDashboard />} />
+
         {/* Farmer pages — full screen, no global wrapper or top nav */}
         <Route path="/farmer-dashboard" element={<FarmerDashboard />} />
         <Route path="/farmer/dashboard" element={<FarmerDashboard />} />

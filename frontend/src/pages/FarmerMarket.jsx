@@ -87,15 +87,15 @@ export default function FarmerMarket() {
       {/* ── TOP ENLARGED NAVIGATION BAR ── */}
       <nav className="bg-white/95 backdrop-blur-md border-b border-gray-100 px-6 sm:px-10 lg:px-12 py-4 sm:py-5 flex items-center justify-between sticky top-0 z-50 shadow-[0_2px_10px_rgba(0,0,0,0.03)] flex-shrink-0">
         <div className="flex items-center gap-3.5 sm:gap-4 cursor-pointer" onClick={() => navigate('/farmer-dashboard')}>
-          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-emerald-600 to-green-700 flex items-center justify-center text-2xl sm:text-3xl shadow-md border-2 border-emerald-100 flex-shrink-0">
-            🌾
+          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white flex items-center justify-center p-1 shadow-md border-2 border-emerald-200 flex-shrink-0">
+            <img src="/logo.png" alt="AgriChain Logo" className="w-full h-full object-contain" />
           </div>
           <div>
             <div className="font-black text-green-950 text-2xl sm:text-3xl tracking-tight leading-tight flex items-center gap-2">
               AgriChain
             </div>
             <div className="text-xs sm:text-sm text-gray-500 font-semibold tracking-wide mt-0.5">
-              Farmers • Markets • Freshness
+              Field to Fork Freshness
             </div>
           </div>
         </div>
@@ -426,8 +426,22 @@ export default function FarmerMarket() {
                     {/* Header */}
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-2xl bg-amber-50 text-2xl flex items-center justify-center border-2 border-amber-300 shadow-sm flex-shrink-0 group-hover:scale-110 transition-transform">
-                          {item.icon}
+                        <div className="w-14 h-14 rounded-2xl bg-amber-50/70 p-1 flex items-center justify-center border-2 border-amber-300 shadow-sm flex-shrink-0 group-hover:scale-105 transition-transform overflow-hidden relative">
+                          {item.image ? (
+                            <img
+                              src={item.image}
+                              alt={item.name}
+                              className="w-full h-full object-cover rounded-xl drop-shadow-xs"
+                              loading="lazy"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                                if (e.currentTarget.nextElementSibling) {
+                                  e.currentTarget.nextElementSibling.style.display = 'block';
+                                }
+                              }}
+                            />
+                          ) : null}
+                          <span className={`text-2xl ${item.image ? 'hidden' : 'block'}`}>{item.icon}</span>
                         </div>
                         <div>
                           <h3 className="font-extrabold text-base sm:text-lg text-gray-900 group-hover:text-amber-800 transition-colors leading-tight">
@@ -542,7 +556,13 @@ export default function FarmerMarket() {
                       >
                         <td className="py-3.5 px-6">
                           <div className="flex items-center gap-3">
-                            <span className="text-xl">{item.icon}</span>
+                            <div className="w-10 h-10 rounded-xl bg-amber-50/70 p-1 flex items-center justify-center border border-amber-200 shrink-0 overflow-hidden">
+                              {item.image ? (
+                                <img src={item.image} alt={item.name} className="w-full h-full object-contain" />
+                              ) : (
+                                <span className="text-xl">{item.icon}</span>
+                              )}
+                            </div>
                             <div>
                               <div className="font-bold text-gray-900">{item.name}</div>
                               <div className="text-[11px] text-gray-400">{item.variety}</div>
@@ -621,8 +641,12 @@ export default function FarmerMarket() {
 
             {/* Modal Header */}
             <div className="flex items-center gap-4 mb-5">
-              <div className="w-14 h-14 rounded-2xl bg-amber-100 text-3xl flex items-center justify-center shadow-sm">
-                {selectedCommodity.icon}
+              <div className="w-16 h-16 rounded-2xl bg-amber-50 p-1.5 flex items-center justify-center border-2 border-amber-300 shadow-sm flex-shrink-0 overflow-hidden">
+                {selectedCommodity.image ? (
+                  <img src={selectedCommodity.image} alt={selectedCommodity.name} className="w-full h-full object-contain" />
+                ) : (
+                  <span className="text-3xl">{selectedCommodity.icon}</span>
+                )}
               </div>
               <div>
                 <span className="text-xs bg-amber-100 text-amber-800 font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">

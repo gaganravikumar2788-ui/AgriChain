@@ -6,14 +6,16 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db, storage } from '../firebase';
 import { verifyIndianMobile, verifyIndianAadhaar, cleanIndianMobile } from '../utils/indianVerification';
 import { analyzeFarmlandPhoto } from '../utils/imageVerification';
+import { saveLocalRegisteredFarmer, formatFarmerRecord } from '../services/farmerService';
+import { checkRegistrationEligibility, persistUserRegistration } from '../services/userService';
 
 export default function FarmerRegistration() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: 'Ramesh Gowda',
-    crop: 'Paddy & Ragi',
-    quantity: '10 Tons',
-    mobile: '9845012345',
+    name: '',
+    crop: '',
+    quantity: '',
+    mobile: '',
     district: 'Mysuru',
     aadhaar: '',
     landPhoto: null
@@ -196,6 +198,30 @@ export default function FarmerRegistration() {
 
     setIsSubmitting(true);
 
+    // 0. ENFORCE SINGLE-ROLE IDENTITY & PREVENT DUPLICATE ACCOUNTS
+    const eligibility = await checkRegistrationEligibility('FARMER', formData.mobile, formData.name);
+
+    if (eligibility.status === 'ROLE_CONFLICT') {
+      setIsSubmitting(false);
+      setFormError(eligibility.message);
+      alert(eligibility.message);
+      navigate(eligibility.redirectPath);
+      return;
+    }
+
+    if (eligibility.status === 'SAME_ROLE_RETURN') {
+      setIsSubmitting(false);
+      const existing = eligibility.existingUser;
+      localStorage.setItem('agrichain_user', JSON.stringify(existing));
+      localStorage.setItem('farmerName', existing.name);
+      localStorage.setItem('farmerMobile', existing.mobile);
+      if (existing.district) localStorage.setItem('farmerDistrict', existing.district);
+      if (existing.crop) localStorage.setItem('farmerCrop', existing.crop);
+      alert(eligibility.message);
+      navigate(eligibility.redirectPath || '/farmer-dashboard');
+      return;
+    }
+
     const farmerName = formData.name.trim() || 'Ramesh Gowda';
     const cleanDigits = cleanIndianMobile(formData.mobile) || '9845012345';
     const formattedMobile = `+91 ${cleanDigits.substring(0, 5)} ${cleanDigits.substring(5, 10)}`;
@@ -206,16 +232,48 @@ export default function FarmerRegistration() {
     localStorage.setItem('farmerMobile', formattedMobile);
     localStorage.setItem('farmerCrop', formData.crop || 'Paddy');
     localStorage.setItem('farmerDistrict', formData.district || 'Mysuru');
-    localStorage.setItem('agrichain_user', JSON.stringify({
+    
+    const cropList = (formData.crop || 'Paddy & Ragi')
+      .split(/[,&+]| and /i)
+      .map(c => c.trim())
+      .filter(Boolean);
+    const parsedCrops = cropList.length > 0
+      ? cropList.map(c => ({
+          name: c,
+          qty: formData.quantity || '10 MT',
+          price: 'Market Rate / Qtl'
+        }))
+      : [{ name: formData.crop || 'Produce', qty: formData.quantity || '10 MT', price: 'Market Rate / Qtl' }];
+
+    const farmerRecord = formatFarmerRecord(userId, {
+      name: farmerName,
+      crop: formData.crop || 'Paddy & Ragi',
+      quantity: formData.quantity || '10 Tons',
+      mobile: formattedMobile,
+      district: formData.district || 'Mysuru',
+      location: `${formData.district || 'Mysuru'} Agricultural Belt, Karnataka`,
+      verifiedIndian: true,
+      landPhotoVerified: true,
+      greenCoveragePct: photoState.result?.greenCoverage || 78,
+      avatar: photoState.previewUrl || null,
+      vegetableImage: photoState.previewUrl || null,
+      availableCrops: parsedCrops
+    });
+
+    saveLocalRegisteredFarmer(farmerRecord);
+
+    await persistUserRegistration({
       id: userId,
       role: 'FARMER',
       name: farmerName,
       mobile: formattedMobile,
-      crop: formData.crop || 'Paddy',
+      crop: formData.crop || 'Paddy & Ragi',
+      quantity: formData.quantity || '10 Tons',
       district: formData.district || 'Mysuru',
+      location: `${formData.district || 'Mysuru'} Agricultural Belt, Karnataka`,
       verifiedIndian: true,
       landPhotoVerified: true
-    }));
+    });
 
     // 2. NON-BLOCKING BACKGROUND FIREBASE SYNC (Never throws or blocks navigation)
     (async () => {
@@ -226,6 +284,14 @@ export default function FarmerRegistration() {
             const photoRef = ref(storage, `landPhotos/${userId}_${activePhoto.name || 'farm.jpg'}`);
             await uploadBytes(photoRef, activePhoto);
             photoURL = await getDownloadURL(photoRef);
+            if (photoURL) {
+              saveLocalRegisteredFarmer({
+                ...farmerRecord,
+                avatar: photoURL,
+                vegetableImage: photoURL,
+                landPhotoURL: photoURL
+              });
+            }
           } catch (storageErr) {
             console.warn("Storage upload optional sync:", storageErr.message);
           }
@@ -236,9 +302,9 @@ export default function FarmerRegistration() {
             role: 'FARMER',
             name: farmerName,
             mobile: formattedMobile,
-            crop: formData.crop,
-            quantity: formData.quantity,
-            district: formData.district,
+            crop: formData.crop || 'Paddy & Ragi',
+            quantity: formData.quantity || '10 Tons',
+            district: formData.district || 'Mysuru',
             aadhaar: formData.aadhaar ? aadhaarVerification.formatted : null,
             landPhotoURL: photoURL,
             landPhotoVerified: true,

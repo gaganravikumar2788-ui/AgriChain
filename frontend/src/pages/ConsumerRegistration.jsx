@@ -4,6 +4,7 @@ import { Mail, Phone, User, MapPin, CheckCircle2, AlertCircle, ShoppingBag, Shie
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebase';
 import { verifyIndianMobile, verifyIndianPincode, cleanIndianMobile } from '../utils/indianVerification';
+import { checkRegistrationEligibility, persistUserRegistration } from '../services/userService';
 
 export default function ConsumerRegistration() {
   const navigate = useNavigate();
@@ -45,6 +46,28 @@ export default function ConsumerRegistration() {
     }
 
     setIsSubmitting(true);
+
+    // 0. ENFORCE SINGLE-ROLE IDENTITY & PREVENT DUPLICATE ACCOUNTS
+    const eligibility = await checkRegistrationEligibility('CONSUMER', formData.mobile, formData.name);
+
+    if (eligibility.status === 'ROLE_CONFLICT') {
+      setIsSubmitting(false);
+      alert(eligibility.message);
+      navigate(eligibility.redirectPath);
+      return;
+    }
+
+    if (eligibility.status === 'SAME_ROLE_RETURN') {
+      setIsSubmitting(false);
+      const existing = eligibility.existingUser;
+      localStorage.setItem('agrichain_user', JSON.stringify(existing));
+      localStorage.setItem('consumerName', existing.name);
+      localStorage.setItem('consumerMobile', existing.mobile);
+      alert(eligibility.message);
+      navigate(eligibility.redirectPath || '/consumer');
+      return;
+    }
+
     const userId = `consumer_${cleanIndianMobile(formData.mobile)}_${Date.now()}`;
 
     try {
@@ -69,17 +92,21 @@ export default function ConsumerRegistration() {
 
       localStorage.setItem('consumerName', formData.name);
       localStorage.setItem('consumerMobile', mobileVerification.formatted);
-      localStorage.setItem('agrichain_user', JSON.stringify({
+
+      await persistUserRegistration({
         id: userId,
         role: 'CONSUMER',
         name: formData.name,
+        email: formData.email,
         mobile: mobileVerification.formatted,
         city: formData.city,
+        pincode: formData.pincode,
+        state: formData.state,
         verifiedIndian: true
-      }));
+      });
 
-      alert(`🇮🇳 Indian Consumer Identity Automatically Verified!\nWelcome to AgriChain Direct-to-Consumer, ${formData.name}.`);
-      navigate('/farmer/market');
+      alert(`🇮🇳 Indian Consumer Identity Automatically Verified!\nWelcome to AgriChain Quick Commerce (10-Min Delivery), ${formData.name}.`);
+      navigate('/consumer');
     } catch (error) {
       console.error("Registration error:", error);
       alert("Registration failed: " + error.message);

@@ -57,15 +57,15 @@ export default function FarmerCropRecommendation() {
       {/* ── TOP ENLARGED NAVIGATION BAR ── */}
       <nav className="bg-white/95 backdrop-blur-md border-b border-gray-100 px-6 sm:px-10 lg:px-12 py-4 sm:py-5 flex items-center justify-between sticky top-0 z-50 shadow-[0_2px_10px_rgba(0,0,0,0.03)] flex-shrink-0">
         <div className="flex items-center gap-3.5 sm:gap-4 cursor-pointer" onClick={() => navigate('/farmer-dashboard')}>
-          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-emerald-600 to-green-700 flex items-center justify-center text-2xl sm:text-3xl shadow-md border-2 border-emerald-100 flex-shrink-0">
-            🌾
+          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white flex items-center justify-center p-1 shadow-md border-2 border-emerald-200 flex-shrink-0">
+            <img src="/logo.png" alt="AgriChain Logo" className="w-full h-full object-contain" />
           </div>
           <div>
             <div className="font-black text-green-950 text-2xl sm:text-3xl tracking-tight leading-tight flex items-center gap-2">
               AgriChain
             </div>
             <div className="text-xs sm:text-sm text-gray-500 font-semibold tracking-wide mt-0.5">
-              Farmers • Markets • Freshness
+              Field to Fork Freshness
             </div>
           </div>
         </div>
@@ -296,11 +296,27 @@ export default function FarmerCropRecommendation() {
                     {/* Top Row: Icon + Name + Season */}
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex items-center gap-3">
-                        <span className="text-4xl group-hover:scale-110 transition-transform">
-                          {crop.icon}
-                        </span>
+                        <div className="w-14 h-14 rounded-2xl bg-purple-50 p-1 flex items-center justify-center border-2 border-purple-300 shadow-xs flex-shrink-0 group-hover:scale-105 transition-transform overflow-hidden relative">
+                          {crop.image ? (
+                            <img
+                              src={crop.image}
+                              alt={crop.name}
+                              className="w-full h-full object-cover rounded-xl"
+                              loading="lazy"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                                if (e.currentTarget.nextElementSibling) {
+                                  e.currentTarget.nextElementSibling.style.display = 'block';
+                                }
+                              }}
+                            />
+                          ) : null}
+                          <span className={`text-3xl ${crop.image ? 'hidden' : 'block'}`}>
+                            {crop.icon}
+                          </span>
+                        </div>
                         <div>
-                          <h3 className="text-lg font-black text-gray-900 leading-tight group-hover:text-purple-800 transition-colors">
+                          <h3 className="font-extrabold text-base sm:text-lg text-gray-900 leading-tight group-hover:text-purple-800 transition-colors">
                             {crop.name}
                           </h3>
                           {crop.nameKn && (
