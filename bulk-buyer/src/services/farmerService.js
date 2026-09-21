@@ -82,165 +82,44 @@ export function formatFarmerRecord(id, data = {}) {
   };
 }
 
-export const DEFAULT_VERIFIED_FARMERS = [
-  {
-    id: "farmer_9035914558_01",
-    name: "Gagan",
-    crops: "Paddy & Ragi",
-    quantity: "10 Tons",
-    district: "Mysuru",
-    location: "Mysuru Agricultural Belt, Karnataka",
-    distance: "18.5 km",
-    travelTime: "38 min",
-    phone: "+91 90359 14558",
-    rating: 4.9,
-    reviewsCount: 31,
-    verified: true,
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300",
-    vegetableImage: "https://www.languageguide.org/vocabulary/food_new/small/rice.png",
-    greenCoveragePct: 82,
-    availableCrops: [
-      { name: "Paddy (Fine Jyothi)", qty: "6 MT", price: "₹ 2,450 / Qtl" },
-      { name: "Finger Millet (Ragi)", qty: "4 MT", price: "₹ 3,850 / Qtl" }
-    ],
-    registeredAt: "2026-09-20T10:00:00.000Z"
-  },
-  {
-    id: "farmer_9876543210_02",
-    name: "Ramesh Kumar",
-    crops: "Tomato, Onion",
-    quantity: "34 MT",
-    district: "Kolar",
-    location: "Kuppam Road, Kolar Agricultural Belt",
-    distance: "5.2 km",
-    travelTime: "15 min",
-    phone: "+91 98765 43210",
-    rating: 4.9,
-    reviewsCount: 38,
-    verified: true,
-    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=300",
-    vegetableImage: "https://www.languageguide.org/vocabulary/veg/images/tomato.webp",
-    greenCoveragePct: 78,
-    availableCrops: [
-      { name: "Red Hybrid Tomato", qty: "14 MT", price: "₹ 1,400 / Qtl" },
-      { name: "Fresh Harvest Onion", qty: "20 MT", price: "₹ 2,100 / Qtl" }
-    ],
-    registeredAt: "2026-09-19T09:30:00.000Z"
-  },
-  {
-    id: "farmer_8765432109_03",
-    name: "Lakshmi Devi",
-    crops: "Brinjal, Okra",
-    quantity: "10 MT",
-    district: "Mandya",
-    location: "Bagalur Agricultural Cluster, Mandya",
-    distance: "8.7 km",
-    travelTime: "18 min",
-    phone: "+91 87654 32109",
-    rating: 4.8,
-    reviewsCount: 29,
-    verified: true,
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300",
-    vegetableImage: "https://www.languageguide.org/vocabulary/veg/images/eggplant.webp",
-    greenCoveragePct: 85,
-    availableCrops: [
-      { name: "Purple Stripe Brinjal", qty: "6 MT", price: "₹ 1,600 / Qtl" },
-      { name: "Tender Green Okra", qty: "4 MT", price: "₹ 2,400 / Qtl" }
-    ],
-    registeredAt: "2026-09-18T14:15:00.000Z"
-  },
-  {
-    id: "farmer_7654321098_04",
-    name: "Suresh Patel",
-    crops: "Tomato, Chilli",
-    quantity: "26 MT",
-    district: "Kolar",
-    location: "Malur Farm Belt, Kolar",
-    distance: "12.4 km",
-    travelTime: "25 min",
-    phone: "+91 76543 21098",
-    rating: 4.7,
-    reviewsCount: 44,
-    verified: true,
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=300",
-    vegetableImage: "https://www.languageguide.org/vocabulary/veg/images/chili.webp",
-    greenCoveragePct: 80,
-    availableCrops: [
-      { name: "G4 Green Chilli", qty: "8 MT", price: "₹ 4,200 / Qtl" },
-      { name: "Firm Salad Tomato", qty: "18 MT", price: "₹ 1,350 / Qtl" }
-    ],
-    registeredAt: "2026-09-17T11:00:00.000Z"
-  },
-  {
-    id: "farmer_9345678901_05",
-    name: "Murugan",
-    crops: "Drumstick, Beans",
-    quantity: "16 MT",
-    district: "Chamarajanagar",
-    location: "Berigai Valley Organic Collective, Chamarajanagar",
-    distance: "16.8 km",
-    travelTime: "32 min",
-    phone: "+91 93456 78901",
-    rating: 4.9,
-    reviewsCount: 52,
-    verified: true,
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=300",
-    vegetableImage: "https://www.languageguide.org/vocabulary/veg/images/beans.webp",
-    greenCoveragePct: 88,
-    availableCrops: [
-      { name: "PKM-1 Hybrid Drumstick", qty: "9 MT", price: "₹ 3,100 / Qtl" },
-      { name: "French Bush Beans", qty: "7 MT", price: "₹ 3,800 / Qtl" }
-    ],
-    registeredAt: "2026-09-16T16:20:00.000Z"
-  },
-  {
-    id: "farmer_9123456789_06",
-    name: "Anitha",
-    crops: "Cucumber, Capsicum",
-    quantity: "17.5 MT",
-    district: "Bengaluru Rural",
-    location: "Sarjapur High-Tech Polyhouse Belt, Bengaluru Rural",
-    distance: "20.3 km",
-    travelTime: "40 min",
-    phone: "+91 91234 56789",
-    rating: 4.8,
-    reviewsCount: 31,
-    verified: true,
-    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=300",
-    vegetableImage: "https://www.languageguide.org/vocabulary/veg/images/bell-pepper.webp",
-    greenCoveragePct: 91,
-    availableCrops: [
-      { name: "English Seedless Cucumber", qty: "11 MT", price: "₹ 1,850 / Qtl" },
-      { name: "Yellow & Green Capsicum", qty: "6.5 MT", price: "₹ 4,600 / Qtl" }
-    ],
-    registeredAt: "2026-09-15T08:45:00.000Z"
-  }
+// List of mock/spam names to purge
+const SPAM_MOCK_NAMES = [
+  'Ramesh Kumar', 'Lakshmi Devi', 'Suresh Patel', 'Murugan', 'Anitha',
+  'Ramesh Gowda', 'Basavaraju', 'Suresh Patil'
 ];
 
-// Read current cached farmers from localStorage with guaranteed default verified farmers
+// Read current cached farmers from localStorage (only authentic registrations)
 export function getLocalRegisteredFarmers() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     let list = raw ? JSON.parse(raw) : [];
 
-    if (!Array.isArray(list) || list.length === 0) {
-      list = [...DEFAULT_VERIFIED_FARMERS];
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-    } else {
-      // Ensure baseline DEFAULT_VERIFIED_FARMERS are merged alongside newly registered farmers
-      DEFAULT_VERIFIED_FARMERS.forEach(def => {
-        if (!list.some(f => f.id === def.id || (def.phone && f.phone === def.phone))) {
-          list.push(def);
+    // Filter out any previously saved mock/spam data
+    if (Array.isArray(list) && list.length > 0) {
+      list = list.filter(f => {
+        if (!f || !f.name) return false;
+        if (SPAM_MOCK_NAMES.includes(f.name)) return false;
+        if (typeof f.id === 'string' && (
+          f.id.startsWith('farmer_98765') || 
+          f.id.startsWith('farmer_87654') || 
+          f.id.startsWith('farmer_76543') || 
+          f.id.startsWith('farmer_93456') || 
+          f.id.startsWith('farmer_91234') || 
+          f.id.startsWith('farmer-')
+        )) {
+          return false;
         }
+        return true;
       });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
     }
 
-    // Also check if current session user is a registered farmer not yet in list
+    // Check if current session user is a registered farmer
     const sessionUserRaw = localStorage.getItem('agrichain_user');
     if (sessionUserRaw) {
       const sessionUser = JSON.parse(sessionUserRaw);
-      if (sessionUser?.role === 'FARMER' && sessionUser?.name) {
-        const exists = list.some(f => f.id === sessionUser.id || f.phone === sessionUser.mobile);
+      if (sessionUser?.role === 'FARMER' && sessionUser?.name && !SPAM_MOCK_NAMES.includes(sessionUser.name)) {
+        const exists = list.some(f => f.id === sessionUser.id || (sessionUser.mobile && f.phone === sessionUser.mobile));
         if (!exists) {
           const formatted = formatFarmerRecord(sessionUser.id, sessionUser);
           list = [formatted, ...list];
@@ -249,10 +128,10 @@ export function getLocalRegisteredFarmers() {
       }
     }
 
-    return Array.isArray(list) ? list : [...DEFAULT_VERIFIED_FARMERS];
+    return Array.isArray(list) ? list : [];
   } catch (err) {
     console.warn("Failed to read local registered farmers:", err);
-    return [...DEFAULT_VERIFIED_FARMERS];
+    return [];
   }
 }
 
