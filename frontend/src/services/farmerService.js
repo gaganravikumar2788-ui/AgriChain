@@ -28,6 +28,7 @@ export function getProduceImageForCrop(cropName = '') {
   if (c.includes('ginger')) return 'https://images.unsplash.com/photo-1615485500704-8e990f9900f7?auto=format&fit=crop&q=80&w=500';
   if (c.includes('turmeric')) return 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&q=80&w=500';
   if (c.includes('cotton')) return 'https://images.unsplash.com/photo-1606041008023-472dfb5e530f?auto=format&fit=crop&q=80&w=500';
+  if (c.includes('coconut')) return 'https://images.immediate.co.uk/production/volatile/sites/30/2024/06/Coconut-water440-c1acff0.jpg';
   return 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=500';
 }
 

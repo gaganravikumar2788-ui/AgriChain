@@ -231,7 +231,7 @@ export const CONSUMER_PRODUCTS = [
     price: 49,
     mrp: 65,
     discount: '24% OFF',
-    image: 'https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&q=80&w=500',
+    image: 'https://images.immediate.co.uk/production/volatile/sites/30/2024/06/Coconut-water440-c1acff0.jpg',
     tag: 'Electrolyte Boost',
     rating: 5.0,
     reviews: 4200,
