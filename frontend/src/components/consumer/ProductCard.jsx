@@ -27,6 +27,10 @@ export default function ProductCard({ product, cartQty = 0, onAdd, onRemove }) {
           alt={product.name}
           className="w-full h-full object-contain object-center transform group-hover:scale-106 transition-transform duration-300"
           loading="lazy"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=500';
+          }}
         />
         {product.tag && (
           <div className="absolute bottom-1.5 left-1.5 bg-black/60 backdrop-blur-xs text-white text-[9px] font-bold px-2 py-0.5 rounded-md flex items-center gap-1">

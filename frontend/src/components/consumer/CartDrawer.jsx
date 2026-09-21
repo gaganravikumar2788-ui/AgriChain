@@ -143,6 +143,10 @@ export default function CartDrawer({
                           src={item.image} 
                           alt={item.name} 
                           className="w-12 h-12 rounded-xl object-contain bg-slate-50 border border-slate-100 shrink-0" 
+                          onError={(e) => {
+                            e.currentTarget.onerror = null;
+                            e.currentTarget.src = 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=500';
+                          }}
                         />
                         <div className="min-w-0">
                           <h4 className="font-extrabold text-xs text-slate-900 truncate leading-tight">
