@@ -424,7 +424,7 @@ function generateSmoothHighwayCurve(waypoints) {
   return result;
 }
 
-export default function RouteOptimizationView({ registeredFarmers = [], onBackToDashboard }) {
+export default function RouteOptimizationView({ registeredFarmers = [], buyerProfile = null, onBackToDashboard }) {
   const [activeSubTab, setActiveSubTab] = useState('plan');
   const [mapLayerType, setMapLayerType] = useState('roadmap'); // 'roadmap' | 'satellite'
   const [selectedRouteType, setSelectedRouteType] = useState('collection');
@@ -435,6 +435,28 @@ export default function RouteOptimizationView({ registeredFarmers = [], onBackTo
   const [activeStopIndex, setActiveStopIndex] = useState(0);
   const [isOptimizing, setIsOptimizing] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
+
+  // Dynamic Bulk Buyer identity & warehouse details
+  const buyerInfo = useMemo(() => {
+    let name = buyerProfile?.businessName || buyerProfile?.name;
+    let city = buyerProfile?.city;
+
+    if (!name || !city) {
+      try {
+        const stored = localStorage.getItem('agrichain_user');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (!name) name = parsed.businessName || parsed.name;
+          if (!city) city = parsed.city;
+        }
+      } catch (e) {}
+    }
+
+    if (!name) name = localStorage.getItem('buyerBusinessName') || localStorage.getItem('buyerName') || 'Ravi Traders';
+    if (!city) city = localStorage.getItem('buyerCity') || 'Bengaluru / Hosur Agro Corridor';
+
+    return { name, city };
+  }, [buyerProfile]);
 
   // Fallback auto-subscription so Route Optimization ALWAYS has live farmers even if opened directly
   const [internalFarmers, setInternalFarmers] = useState(registeredFarmers || []);
@@ -479,29 +501,33 @@ export default function RouteOptimizationView({ registeredFarmers = [], onBackTo
     }
   }, [allAvailableFarmers]);
 
-  // Compute Hub Location dynamically based on active farmer stops
+  // Compute Bulk Buyer Location dynamically
   const hubLocation = useMemo(() => {
     if (stops.length > 0) {
       const firstStop = stops[0];
       const distInfo = matchDistrict(firstStop.district);
       return {
-        name: `AgriChain Central Collection Depot`,
-        area: `${distInfo.name} Agro Corridor`,
+        name: `${buyerInfo.name} Warehouse`,
+        label: "Bulk Buyer Location",
+        area: `${distInfo.name} Wholesale Agro Hub`,
         lat: distInfo.hubLat,
         lng: distInfo.hubLng,
         startTime: "08:00 AM",
-        endTime: "02:30 PM"
+        endTime: "02:30 PM",
+        isBuyerWarehouse: true
       };
     }
     return {
-      name: "AgriChain Central Collection Depot",
-      area: "Mysuru Agro Corridor",
+      name: `${buyerInfo.name} Warehouse`,
+      label: "Bulk Buyer Location",
+      area: `${buyerInfo.city}`,
       lat: DISTRICT_HUBS['mysuru'].hubLat,
       lng: DISTRICT_HUBS['mysuru'].hubLng,
       startTime: "08:00 AM",
-      endTime: "02:30 PM"
+      endTime: "02:30 PM",
+      isBuyerWarehouse: true
     };
-  }, [stops]);
+  }, [stops, buyerInfo]);
 
   // Calculate realistic route metrics based on real connected stops
   const metrics = useMemo(() => {
@@ -645,14 +671,25 @@ export default function RouteOptimizationView({ registeredFarmers = [], onBackTo
       truckMarkerRef.current = null;
     }
 
-    // 1. Central Hub Marker (Green AgriChain Depot)
+    // 1. Central Bulk Buyer Location Marker (Indigo/Emerald Premium Warehouse Pin)
     const hubIconHtml = `
       <div class="flex flex-col items-center pointer-events-auto select-none group cursor-pointer">
-        <div class="w-11 h-11 rounded-2xl bg-[#064e3b] text-white flex items-center justify-center border-3 border-white shadow-2xl ring-2 ring-emerald-900/30 transition-transform group-hover:scale-110">
-          <svg class="w-6 h-6 fill-white" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        <div class="relative">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-950 via-indigo-700 to-emerald-600 text-white flex items-center justify-center border-3 border-white shadow-2xl ring-4 ring-indigo-500/30 transition-transform group-hover:scale-110">
+            <svg class="w-6 h-6 fill-white" viewBox="0 0 24 24">
+              <path d="M12 3L2 12h3v8h14v-8h3L12 3zm0 2.84L18 11v7h-3v-5H9v5H6v-7l6-5.16z"/>
+            </svg>
+          </div>
+          <span class="absolute -top-1.5 -right-2 px-1.5 py-0.5 bg-amber-500 text-slate-950 font-black text-[8px] rounded-full uppercase tracking-tighter border border-white shadow-xs">
+            Buyer Location
+          </span>
         </div>
-        <div class="bg-white/95 text-slate-900 text-[10px] font-black px-2.5 py-0.5 rounded-lg shadow-md border border-slate-300 mt-1 whitespace-nowrap">
-          ${hubLocation.name}
+        <div class="bg-slate-900/95 text-white text-[11px] font-black px-2.5 py-1 rounded-xl shadow-lg border border-slate-700 mt-1 whitespace-nowrap flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping inline-block"></span>
+          <span>${hubLocation.name}</span>
+        </div>
+        <div class="text-[9px] font-extrabold text-slate-700 bg-white/95 px-2 py-0.5 rounded-md shadow-xs border border-slate-300 mt-0.5 whitespace-nowrap">
+          Bulk Buyer Location • ${hubLocation.area}
         </div>
       </div>
     `;
@@ -661,19 +698,28 @@ export default function RouteOptimizationView({ registeredFarmers = [], onBackTo
       icon: L.divIcon({
         className: 'custom-hub-marker',
         html: hubIconHtml,
-        iconSize: [180, 64],
-        iconAnchor: [90, 22]
+        iconSize: [220, 76],
+        iconAnchor: [110, 24]
       })
     });
     hubMarker.bindPopup(`
-      <div class="p-1 font-sans text-xs">
-        <p class="font-black text-slate-900 text-sm flex items-center gap-1.5">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-600 inline-block"></span>
-          ${hubLocation.name}
-        </p>
-        <p class="text-emerald-700 font-bold mt-0.5">${hubLocation.area}</p>
-        <p class="text-slate-500 mt-1">Dispatched Fleet: <strong>${metrics.vehicleNo}</strong></p>
-        <p class="text-slate-500">Departure: <strong>${hubLocation.startTime}</strong></p>
+      <div class="p-1 font-sans text-xs min-w-[220px]">
+        <div class="flex items-center justify-between border-b pb-1 mb-1">
+          <span class="font-black text-slate-900 text-sm flex items-center gap-1.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-indigo-600 inline-block"></span>
+            ${hubLocation.name}
+          </span>
+          <span class="px-1.5 py-0.2 rounded text-[9px] font-extrabold bg-indigo-100 text-indigo-800 border border-indigo-200">
+            Buyer Hub
+          </span>
+        </div>
+        <p class="text-indigo-900 font-bold mt-0.5">Bulk Buyer Main Warehouse & Receiving Depot</p>
+        <p class="text-slate-600 font-medium">${hubLocation.area}</p>
+        <div class="mt-2 pt-1 border-t border-slate-100 text-slate-500 space-y-0.5">
+          <p>🚚 Dispatched Fleet: <strong>${metrics.vehicleNo}</strong></p>
+          <p>⏰ Departure from Warehouse: <strong>${hubLocation.startTime}</strong></p>
+          <p>🏁 Return to Warehouse: <strong>${hubLocation.endTime}</strong></p>
+        </div>
       </div>
     `);
     markersGroupRef.current.addLayer(hubMarker);
@@ -878,7 +924,7 @@ export default function RouteOptimizationView({ registeredFarmers = [], onBackTo
             </span>
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">
-            AI-powered highway corridor planning connecting all verified registered farmers
+            AI-powered highway corridor connecting verified farmers directly to Bulk Buyer Warehouse
           </p>
         </div>
 
@@ -994,7 +1040,7 @@ export default function RouteOptimizationView({ registeredFarmers = [], onBackTo
           <div>
             {/* Top Badges */}
             <div className="flex items-center gap-2.5 text-xs font-black text-slate-700 mb-3">
-              <span className="px-2.5 py-0.5 rounded-full bg-[#064e3b] text-white text-[11px] font-black">
+              <span className="px-2.5 py-0.5 rounded-full bg-indigo-900 text-white text-[11px] font-black">
                 {stops.length} {stops.length === 1 ? 'Stop' : 'Stops'}
               </span>
               <span>{metrics.distanceKm} km</span>
@@ -1023,8 +1069,8 @@ export default function RouteOptimizationView({ registeredFarmers = [], onBackTo
               <span className="text-xs text-slate-500 font-medium">
                 {hubLocation.area}
               </span>
-              <span className="px-2 py-0.2 rounded-full bg-emerald-100 text-[#15803d] border border-emerald-300 text-[10px] font-extrabold uppercase tracking-wide">
-                AI Connected
+              <span className="px-2 py-0.2 rounded-full bg-indigo-100 text-indigo-800 border border-indigo-300 text-[10px] font-extrabold uppercase tracking-wide">
+                Bulk Buyer Hub
               </span>
             </div>
 
@@ -1033,13 +1079,18 @@ export default function RouteOptimizationView({ registeredFarmers = [], onBackTo
               {/* Connecting vertical line */}
               <div className="absolute left-[11px] top-3 bottom-3 w-0.5 bg-slate-200" />
 
-              {/* Start Point: Hub */}
+              {/* Start Point: Bulk Buyer Location */}
               <div className="relative flex items-start justify-between gap-2 text-xs">
-                <div className="absolute -left-6 top-1 w-3.5 h-3.5 rounded-full bg-[#064e3b] ring-4 ring-emerald-100 flex items-center justify-center">
+                <div className="absolute -left-6 top-1 w-3.5 h-3.5 rounded-full bg-indigo-900 ring-4 ring-indigo-100 flex items-center justify-center">
                   <div className="w-1.5 h-1.5 rounded-full bg-white" />
                 </div>
                 <div>
-                  <h4 className="font-extrabold text-slate-900 leading-tight">Collection Hub</h4>
+                  <div className="flex items-center gap-1.5">
+                    <h4 className="font-extrabold text-indigo-950 leading-tight">Bulk Buyer Warehouse</h4>
+                    <span className="text-[9px] font-black px-1.5 py-0.2 rounded bg-indigo-100 text-indigo-800 border border-indigo-200">
+                      Start
+                    </span>
+                  </div>
                   <p className="text-[11px] font-bold text-slate-700">{hubLocation.name}</p>
                   <p className="text-[10px] text-slate-400">{hubLocation.area}</p>
                 </div>
@@ -1090,13 +1141,18 @@ export default function RouteOptimizationView({ registeredFarmers = [], onBackTo
                 })
               )}
 
-              {/* End Point: Hub Return */}
+              {/* End Point: Bulk Buyer Return */}
               <div className="relative flex items-start justify-between gap-2 text-xs pt-1">
-                <div className="absolute -left-6 top-1 text-slate-900">
-                  <Flag className="w-4 h-4 fill-slate-900 stroke-slate-900" />
+                <div className="absolute -left-6 top-1 text-indigo-900">
+                  <Flag className="w-4 h-4 fill-indigo-900 stroke-indigo-900" />
                 </div>
                 <div>
-                  <h4 className="font-extrabold text-slate-900 leading-tight">Return to Depot</h4>
+                  <div className="flex items-center gap-1.5">
+                    <h4 className="font-extrabold text-indigo-950 leading-tight">Return to Buyer Warehouse</h4>
+                    <span className="text-[9px] font-black px-1.5 py-0.2 rounded bg-indigo-100 text-indigo-800 border border-indigo-200">
+                      End
+                    </span>
+                  </div>
                   <p className="text-[11px] font-bold text-slate-700">{hubLocation.name}</p>
                   <p className="text-[10px] text-slate-400">{hubLocation.area}</p>
                 </div>
@@ -1229,8 +1285,8 @@ export default function RouteOptimizationView({ registeredFarmers = [], onBackTo
             {/* Legend / Route Direction Badge (Bottom Left) */}
             <div className="absolute bottom-3 left-3 z-10 bg-white/95 backdrop-blur-md rounded-xl px-3 py-1.5 shadow-md border-2 border-slate-800 flex items-center gap-3 text-[11px] font-bold text-slate-800">
               <div className="flex items-center gap-1.5">
-                <span className="w-3 h-3 rounded-full bg-[#064e3b]"></span>
-                <span>Hub Depot</span>
+                <span className="w-3 h-3 rounded-full bg-indigo-700"></span>
+                <span>Bulk Buyer Location</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="w-3 h-3 rounded-full bg-[#2563eb]"></span>

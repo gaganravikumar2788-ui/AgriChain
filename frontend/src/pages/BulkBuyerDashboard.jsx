@@ -441,6 +441,7 @@ export default function BulkBuyerDashboard() {
               {activeTab === 'routes' && (
                 <RouteOptimizationView
                   registeredFarmers={registeredFarmers}
+                  buyerProfile={buyerProfile}
                   onBackToDashboard={() => setActiveTab('home')}
                 />
               )}
@@ -1397,6 +1398,7 @@ export default function BulkBuyerDashboard() {
             </button>
             <RouteOptimizationView
               registeredFarmers={registeredFarmers}
+              buyerProfile={buyerProfile}
               onBackToDashboard={() => setShowRoutePlanner(false)}
             />
           </div>

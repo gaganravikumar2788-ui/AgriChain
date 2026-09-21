@@ -184,6 +184,7 @@ export default function App() {
               {activeTab === 'routes' && (
                 <RouteOptimizationView
                   registeredFarmers={registeredFarmers}
+                  buyerProfile={BUYER_PROFILE}
                   onBackToDashboard={() => setActiveTab('home')}
                 />
               )}
@@ -763,6 +764,7 @@ export default function App() {
             </button>
             <RouteOptimizationView 
               registeredFarmers={registeredFarmers} 
+              buyerProfile={BUYER_PROFILE}
               onBackToDashboard={() => setShowRoutePlanner(false)} 
             />
           </div>
