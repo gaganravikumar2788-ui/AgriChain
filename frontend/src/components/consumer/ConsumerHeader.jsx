@@ -12,6 +12,7 @@ import {
   LogOut,
   X
 } from 'lucide-react';
+import LanguageSelector from '../LanguageSelector';
 import { DELIVERY_AREAS } from '../../data/consumerData';
 
 const ROTATING_SEARCH_HINTS = [
@@ -224,6 +225,9 @@ export default function ConsumerHeader({
               </div>
             )}
           </div>
+
+          {/* Option in the right side top beside profile / sign out */}
+          <LanguageSelector />
 
           {/* Blinkit-Signature Green Floating Cart Button */}
           <button

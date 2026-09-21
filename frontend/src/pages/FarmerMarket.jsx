@@ -15,8 +15,12 @@ import {
   getFormattedTime
 } from '../services/marketPriceService';
 
+import LanguageSelector from '../components/LanguageSelector';
+import { useLanguage } from '../context/LanguageContext';
+
 export default function FarmerMarket() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
@@ -72,11 +76,11 @@ export default function FarmerMarket() {
   };
 
   const navLinks = [
-    { icon: Home, label: 'Home', active: false, action: () => navigate('/farmer-dashboard') },
-    { icon: FileText, label: 'Schemes', active: false, action: () => navigate('/farmer/schemes') },
-    { icon: BarChart2, label: 'Market', active: true, action: () => { } },
-    { icon: Cloud, label: 'Weather', active: false, action: () => navigate('/farmer/weather') },
-    { icon: Sprout, label: 'Crop Recommendation', active: false, action: () => navigate('/farmer/crops') },
+    { icon: Home, label: t('home', 'Home'), active: false, action: () => navigate('/farmer-dashboard') },
+    { icon: FileText, label: t('schemes', 'Schemes'), active: false, action: () => navigate('/farmer/schemes') },
+    { icon: BarChart2, label: t('market', 'Market'), active: true, action: () => { } },
+    { icon: Cloud, label: t('weather', 'Weather'), active: false, action: () => navigate('/farmer/weather') },
+    { icon: Sprout, label: t('cropAdvisory', 'Crop Recommendation'), active: false, action: () => navigate('/farmer/crops') },
   ];
 
   const popularChips = ['Tomato', 'Onion', 'Wheat', 'Paddy', 'Cotton', 'Soybean', 'Chana', 'Mustard', 'Turmeric', 'Banana'];
@@ -117,8 +121,8 @@ export default function FarmerMarket() {
           ))}
         </div>
 
-        {/* Right Controls: Farmer Profile & Logout */}
-        <div className="flex items-center gap-2 sm:gap-3.5">
+        {/* Right Controls: Farmer Profile, Logout & Language */}
+        <div className="flex items-center gap-2 sm:gap-3">
           {/* Farmer Profile Pill */}
           <div
             onClick={() => navigate('/farmer-dashboard')}
@@ -129,22 +133,27 @@ export default function FarmerMarket() {
               <User size={15} />
             </div>
             <div className="text-left leading-tight pr-1">
-              <div className="text-[9px] sm:text-[10px] font-black uppercase text-emerald-800 tracking-wider">Farmer</div>
+              <div className="text-[9px] sm:text-[10px] font-black uppercase text-emerald-800 tracking-wider">
+                {t('farmer', 'Farmer')}
+              </div>
               <div className="text-xs sm:text-sm font-black text-gray-900 truncate max-w-[85px] sm:max-w-[130px]">
                 {farmerName}
               </div>
             </div>
           </div>
 
-          {/* Logout button right next to Farmer */}
+          {/* Logout button */}
           <button
             onClick={handleLogout}
             className="flex items-center gap-1.5 bg-rose-50 hover:bg-rose-100 active:bg-rose-200 border-2 border-rose-300 text-rose-700 hover:text-rose-900 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-2xl text-xs sm:text-sm font-black transition-all shadow-xs active:scale-95 cursor-pointer"
             title="Logout from Farmer Account"
           >
             <LogOut size={15} className="text-rose-600 flex-shrink-0" />
-            <span className="font-black hidden sm:inline">Logout</span>
+            <span className="font-black hidden sm:inline">{t('logout', 'Logout')}</span>
           </button>
+
+          {/* Option in the right side top beside logout */}
+          <LanguageSelector />
 
           <button
             onClick={() => setMenuOpen(o => !o)}
@@ -159,6 +168,10 @@ export default function FarmerMarket() {
       {/* Mobile Drawer */}
       {menuOpen && (
         <div className="lg:hidden bg-white border-b border-gray-100 shadow-xl px-4 py-3 flex flex-col gap-1 z-40">
+          <div className="py-2 px-1 flex items-center justify-between border-b border-gray-100 mb-1">
+            <span className="text-xs font-bold text-gray-500 uppercase">{t('selectLanguage', 'Language')}</span>
+            <LanguageSelector />
+          </div>
           {navLinks.map(({ icon: Icon, label, active, action }) => (
             <button
               key={label}

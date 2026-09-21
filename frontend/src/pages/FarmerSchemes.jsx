@@ -5,6 +5,8 @@ import {
   Search, Sprout, Star, ExternalLink,
   CheckCircle, TrendingUp, Info, ChevronDown, ArrowLeft, Bell
 } from 'lucide-react';
+import LanguageSelector from '../components/LanguageSelector';
+import { useLanguage } from '../context/LanguageContext';
 
 const SCHEME_DB = {
   wheat:['pm-kisan','pmfby','kcc','msp','nfsm','agri-infra'],
@@ -138,6 +140,7 @@ const CATEGORIES = [
 
 export default function FarmerSchemes() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
@@ -193,7 +196,7 @@ export default function FarmerSchemes() {
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-2 sm:gap-3.5">
+        <div className="flex items-center gap-2 sm:gap-3">
           <button className="relative p-2 text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-full transition-all">
             <Bell size={20} /><span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
           </button>
@@ -204,6 +207,26 @@ export default function FarmerSchemes() {
           >
             <User size={18} />
           </div>
+
+          {/* Logout button */}
+          <button
+            onClick={() => {
+              if (window.confirm("Are you sure you want to log out?")) {
+                localStorage.removeItem('farmerName');
+                localStorage.removeItem('agrichain_user');
+                navigate('/');
+              }
+            }}
+            className="flex items-center gap-1.5 bg-rose-50 hover:bg-rose-100 active:bg-rose-200 border-2 border-rose-300 text-rose-700 hover:text-rose-900 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-2xl text-xs sm:text-sm font-black transition-all shadow-xs active:scale-95 cursor-pointer"
+            title="Logout from Farmer Account"
+          >
+            <LogOut size={15} className="text-rose-600 flex-shrink-0" />
+            <span className="font-black hidden sm:inline">{t('logout', 'Logout')}</span>
+          </button>
+
+          {/* Option in the right side top beside logout */}
+          <LanguageSelector />
+
           <button onClick={() => setMenuOpen(o => !o)} className="text-gray-700 lg:hidden p-1.5 rounded-xl hover:bg-gray-100 cursor-pointer">
             {menuOpen ? <X size={26} /> : <Menu size={26} />}
           </button>
@@ -212,6 +235,10 @@ export default function FarmerSchemes() {
 
       {menuOpen && (
         <div className="lg:hidden bg-white border-b px-4 py-3 flex flex-col gap-1 shadow-lg z-40">
+          <div className="py-2 px-1 flex items-center justify-between border-b border-gray-100 mb-1">
+            <span className="text-xs font-bold text-gray-500 uppercase">{t('selectLanguage', 'Language')}</span>
+            <LanguageSelector />
+          </div>
           {NAV_LINKS.map(({ icon: Icon, label, active }) => (
             <button key={label} onClick={() => {
               setMenuOpen(false);

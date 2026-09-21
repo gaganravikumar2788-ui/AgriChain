@@ -5,8 +5,9 @@ import {
   getAccuWeatherUrl
 } from '../services/karnatakaWeatherService';
 
-import { useNavigate } from 'react-router-dom';
 import CropSeasonModal from '../components/CropSeasonModal';
+import LanguageSelector from '../components/LanguageSelector';
+import { useLanguage } from '../context/LanguageContext';
 import {
   Home, FileText, BarChart2, Cloud, User, Menu, X,
   Zap, Leaf, MapPin, Droplets, Wind, Umbrella, ArrowRight,
@@ -15,6 +16,7 @@ import {
 
 export default function FarmerDashboard() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
   const [slideIndex, setSlideIndex] = useState(0);
   const [weather, setWeather] = useState({
@@ -75,11 +77,11 @@ export default function FarmerDashboard() {
   };
 
   const navLinks = [
-    { icon: Home, label: 'Home', active: true, action: () => navigate('/farmer-dashboard') },
-    { icon: FileText, label: 'Schemes', active: false, action: () => navigate('/farmer/schemes') },
-    { icon: BarChart2, label: 'Market', active: false, action: () => navigate('/farmer/market') },
-    { icon: Cloud, label: 'Weather', active: false, action: () => navigate('/farmer/weather') },
-    { icon: Sprout, label: 'Crop Recommendation', active: false, action: () => setActiveModal('cropSeason') },
+    { icon: Home, label: t('home', 'Home'), active: true, action: () => navigate('/farmer-dashboard') },
+    { icon: FileText, label: t('schemes', 'Schemes'), active: false, action: () => navigate('/farmer/schemes') },
+    { icon: BarChart2, label: t('market', 'Market'), active: false, action: () => navigate('/farmer/market') },
+    { icon: Cloud, label: t('weather', 'Weather'), active: false, action: () => navigate('/farmer/weather') },
+    { icon: Sprout, label: t('cropAdvisory', 'Crop Recommendation'), active: false, action: () => setActiveModal('cropSeason') },
   ];
 
   return (
@@ -120,8 +122,8 @@ export default function FarmerDashboard() {
           ))}
         </div>
 
-        {/* Right Controls: Farmer Profile & Logout */}
-        <div className="flex items-center gap-2 sm:gap-3.5">
+        {/* Right Controls: Farmer Profile, Logout & Language */}
+        <div className="flex items-center gap-2 sm:gap-3">
           {/* Farmer Profile Pill */}
           <div
             onClick={() => setActiveModal('profile')}
@@ -132,22 +134,27 @@ export default function FarmerDashboard() {
               <User size={15} />
             </div>
             <div className="text-left leading-tight pr-1">
-              <div className="text-[9px] sm:text-[10px] font-black uppercase text-emerald-800 tracking-wider">Farmer</div>
+              <div className="text-[9px] sm:text-[10px] font-black uppercase text-emerald-800 tracking-wider">
+                {t('farmer', 'Farmer')}
+              </div>
               <div className="text-xs sm:text-sm font-black text-gray-900 truncate max-w-[85px] sm:max-w-[130px]">
                 {farmerName || 'Ramesh Gowda'}
               </div>
             </div>
           </div>
 
-          {/* Logout button right next to Farmer */}
+          {/* Logout button */}
           <button
             onClick={handleLogout}
             className="flex items-center gap-1.5 bg-rose-50 hover:bg-rose-100 active:bg-rose-200 border-2 border-rose-300 text-rose-700 hover:text-rose-900 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-2xl text-xs sm:text-sm font-black transition-all shadow-xs active:scale-95 cursor-pointer"
             title="Logout from Farmer Account"
           >
             <LogOut size={15} className="text-rose-600 flex-shrink-0" />
-            <span className="font-black hidden sm:inline">Logout</span>
+            <span className="font-black hidden sm:inline">{t('logout', 'Logout')}</span>
           </button>
+
+          {/* Option in the right side top beside logout */}
+          <LanguageSelector />
 
           <button
             onClick={() => setMenuOpen(o => !o)}
@@ -162,6 +169,10 @@ export default function FarmerDashboard() {
       {/* Mobile Drawer Menu */}
       {menuOpen && (
         <div className="lg:hidden bg-white border-b border-gray-100 shadow-xl px-4 py-3 flex flex-col gap-1 z-40">
+          <div className="py-2 px-1 flex items-center justify-between border-b border-gray-100 mb-1">
+            <span className="text-xs font-bold text-gray-500 uppercase">{t('selectLanguage', 'Language')}</span>
+            <LanguageSelector />
+          </div>
           {navLinks.map(({ icon: Icon, label, active, action }) => (
             <button
               key={label}
@@ -174,7 +185,7 @@ export default function FarmerDashboard() {
               <span>{label}</span>
             </button>
           ))}
-          <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-black text-rose-700 hover:bg-rose-50 border-t border-gray-100 mt-1"><LogOut size={16} /><span>Logout ({farmerName || 'Farmer'})</span></button>
+          <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-black text-rose-700 hover:bg-rose-50 border-t border-gray-100 mt-1"><LogOut size={16} /><span>{t('logout', 'Logout')} ({farmerName || 'Farmer'})</span></button>
         </div>
       )}
 
@@ -197,17 +208,17 @@ export default function FarmerDashboard() {
             {/* Left Content */}
             <div className="max-w-xl text-center md:text-left">
               <span className="text-xs sm:text-sm font-bold text-green-700 tracking-wide uppercase">
-                Welcome Back,
+                {t('welcomeBack', 'Welcome Back,')}
               </span>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-green-950 mt-0.5 tracking-tight">
-                Happy Farming!
+                {t('happyFarming', 'Happy Farming!')}
               </h1>
               {/* Farmer Name Greeting & Quick Logout */}
               <div className="mt-2 mb-1 flex flex-wrap items-center gap-2.5">
                 <div className="inline-flex items-center gap-2 bg-emerald-800/15 border border-emerald-700/25 px-4 py-1.5 rounded-full shadow-sm backdrop-blur-sm">
                   <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse" />
                   <span className="text-xs sm:text-sm lg:text-base font-black text-emerald-950 tracking-wider">
-                    WELCOME {farmerName ? farmerName.toUpperCase() : 'FARMER'}
+                    {t('welcomeFarmer', 'WELCOME')} {farmerName ? farmerName.toUpperCase() : 'FARMER'}
                   </span>
                 </div>
                 <button
@@ -216,11 +227,11 @@ export default function FarmerDashboard() {
                   title="Logout from Farmer Portal"
                 >
                   <LogOut size={13} />
-                  <span>Logout</span>
+                  <span>{t('logout', 'Logout')}</span>
                 </button>
               </div>
               <p className="text-green-900/80 text-xs sm:text-sm lg:text-base mt-2 font-medium leading-relaxed max-w-lg">
-                Access government schemes, check market prices, get weather updates and more – all in one place.
+                {t('heroSubtitle', 'Access government schemes, check market prices, get weather updates and more – all in one place.')}
               </p>
               <div className="mt-4 flex flex-wrap items-center justify-center md:justify-start gap-3">
                 <button
@@ -228,7 +239,7 @@ export default function FarmerDashboard() {
                   className="bg-green-800 hover:bg-green-900 active:scale-95 text-white px-5 sm:px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold flex items-center gap-2 shadow-md shadow-green-900/20 transition-all"
                 >
                   <Leaf size={15} />
-                  <span>Explore Services</span>
+                  <span>{t('exploreServices', 'Explore Services')}</span>
                   <ArrowRight size={14} />
                 </button>
                 {/* Carousel indicator dots */}

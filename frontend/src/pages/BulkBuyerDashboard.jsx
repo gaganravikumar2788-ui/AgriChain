@@ -38,8 +38,11 @@ import {
   Star,
   Send,
   Check,
-  Menu
+  Menu,
+  LogOut
 } from 'lucide-react';
+import LanguageSelector from '../components/LanguageSelector';
+import { useLanguage } from '../context/LanguageContext';
 import { 
   DEFAULT_BUYER_PROFILE, 
   METRICS, 
@@ -64,6 +67,7 @@ export default function BulkBuyerDashboard() {
     } catch {}
     return 'home';
   });
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -522,10 +526,44 @@ export default function BulkBuyerDashboard() {
                       >
                         Purchase Ledger
                       </div>
+                      <div 
+                        onClick={() => {
+                          if (window.confirm("Are you sure you want to log out of Bulk Buyer Portal?")) {
+                            localStorage.removeItem('buyerName');
+                            localStorage.removeItem('buyerMobile');
+                            localStorage.removeItem('agrichain_user');
+                            window.location.href = '/';
+                          }
+                        }}
+                        className="p-2 text-rose-600 hover:bg-rose-50 rounded-lg cursor-pointer font-bold flex items-center gap-2 border-t border-slate-100 mt-1"
+                      >
+                        <LogOut size={14} />
+                        <span>{t('logout', 'Logout')}</span>
+                      </div>
                     </div>
                   </div>
                 )}
               </div>
+
+              {/* Logout button */}
+              <button
+                onClick={() => {
+                  if (window.confirm("Are you sure you want to log out of Bulk Buyer Portal?")) {
+                    localStorage.removeItem('buyerName');
+                    localStorage.removeItem('buyerMobile');
+                    localStorage.removeItem('agrichain_user');
+                    window.location.href = '/';
+                  }
+                }}
+                className="flex items-center gap-1.5 bg-rose-50 hover:bg-rose-100 active:bg-rose-200 border-2 border-rose-300 text-rose-700 hover:text-rose-900 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-2xl text-xs sm:text-sm font-black transition-all shadow-xs active:scale-95 cursor-pointer"
+                title="Logout from Buyer Account"
+              >
+                <LogOut size={15} className="text-rose-600 flex-shrink-0" />
+                <span className="font-black hidden md:inline">{t('logout', 'Logout')}</span>
+              </button>
+
+              {/* Option in the right side top beside logout */}
+              <LanguageSelector />
             </div>
           </header>
 

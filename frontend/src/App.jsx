@@ -15,6 +15,7 @@ import FarmerCropRecommendation from './pages/FarmerCropRecommendation';
 import BulkBuyerDashboard from './pages/BulkBuyerDashboard';
 import RouteOptimizationView from './components/RouteOptimizationView';
 import ConsumerDashboard from './pages/ConsumerDashboard';
+import { LanguageProvider } from './context/LanguageContext';
 
 /* Non-farmer pages keep the original background wrapper + top nav */
 function AppWrapper() {
@@ -57,37 +58,39 @@ function AppWrapper() {
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        {/* Bulk Buyer pages — full screen, independent navigation */}
-        <Route path="/buyer-dashboard" element={<BulkBuyerDashboard />} />
-        <Route path="/buyer/dashboard" element={<BulkBuyerDashboard />} />
-        <Route path="/buyer" element={<BulkBuyerDashboard />} />
-        <Route path="/bulk-buyer" element={<BulkBuyerDashboard />} />
-        <Route path="/routes" element={<div className="min-h-screen bg-[#f4f7f4] p-4"><RouteOptimizationView /></div>} />
-        <Route path="/route-optimization" element={<div className="min-h-screen bg-[#f4f7f4] p-4"><RouteOptimizationView /></div>} />
+    <LanguageProvider>
+      <Router>
+        <Routes>
+          {/* Bulk Buyer pages — full screen, independent navigation */}
+          <Route path="/buyer-dashboard" element={<BulkBuyerDashboard />} />
+          <Route path="/buyer/dashboard" element={<BulkBuyerDashboard />} />
+          <Route path="/buyer" element={<BulkBuyerDashboard />} />
+          <Route path="/bulk-buyer" element={<BulkBuyerDashboard />} />
+          <Route path="/routes" element={<div className="min-h-screen bg-[#f4f7f4] p-4"><RouteOptimizationView /></div>} />
+          <Route path="/route-optimization" element={<div className="min-h-screen bg-[#f4f7f4] p-4"><RouteOptimizationView /></div>} />
 
-        {/* Consumer Quick Commerce (Blinkit Replica) — full screen independent */}
-        <Route path="/consumer" element={<ConsumerDashboard />} />
-        <Route path="/consumer/dashboard" element={<ConsumerDashboard />} />
-        <Route path="/consumer-portal" element={<ConsumerDashboard />} />
-        <Route path="/quick-commerce" element={<ConsumerDashboard />} />
+          {/* Consumer Quick Commerce (Blinkit Replica) — full screen independent */}
+          <Route path="/consumer" element={<ConsumerDashboard />} />
+          <Route path="/consumer/dashboard" element={<ConsumerDashboard />} />
+          <Route path="/consumer-portal" element={<ConsumerDashboard />} />
+          <Route path="/quick-commerce" element={<ConsumerDashboard />} />
 
-        {/* Farmer pages — full screen, no global wrapper or top nav */}
-        <Route path="/farmer-dashboard" element={<FarmerDashboard />} />
-        <Route path="/farmer/dashboard" element={<FarmerDashboard />} />
-        <Route path="/farmer/schemes" element={<FarmerSchemes />} />
-        <Route path="/schemes" element={<FarmerSchemes />} />
-        <Route path="/farmer/market" element={<FarmerMarket />} />
-        <Route path="/market" element={<FarmerMarket />} />
-        <Route path="/farmer/weather" element={<FarmerWeather />} />
-        <Route path="/weather" element={<FarmerWeather />} />
-        <Route path="/farmer/crops" element={<FarmerCropRecommendation />} />
-        <Route path="/farmer/crop-recommendation" element={<FarmerCropRecommendation />} />
-        {/* All other pages — use the background wrapper */}
-        <Route path="/*" element={<AppWrapper />} />
-      </Routes>
-    </Router>
+          {/* Farmer pages — full screen, no global wrapper or top nav */}
+          <Route path="/farmer-dashboard" element={<FarmerDashboard />} />
+          <Route path="/farmer/dashboard" element={<FarmerDashboard />} />
+          <Route path="/farmer/schemes" element={<FarmerSchemes />} />
+          <Route path="/schemes" element={<FarmerSchemes />} />
+          <Route path="/farmer/market" element={<FarmerMarket />} />
+          <Route path="/market" element={<FarmerMarket />} />
+          <Route path="/farmer/weather" element={<FarmerWeather />} />
+          <Route path="/weather" element={<FarmerWeather />} />
+          <Route path="/farmer/crops" element={<FarmerCropRecommendation />} />
+          <Route path="/farmer/crop-recommendation" element={<FarmerCropRecommendation />} />
+          {/* All other pages — use the background wrapper */}
+          <Route path="/*" element={<AppWrapper />} />
+        </Routes>
+      </Router>
+    </LanguageProvider>
   );
 }
 
