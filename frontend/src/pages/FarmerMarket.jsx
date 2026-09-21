@@ -560,10 +560,19 @@ export default function FarmerMarket() {
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-xl bg-amber-50/70 p-1 flex items-center justify-center border border-amber-200 shrink-0 overflow-hidden">
                               {item.image ? (
-                                <img src={item.image} alt={item.name} className="w-full h-full object-contain" />
-                              ) : (
-                                <span className="text-xl">{item.icon}</span>
-                              )}
+                                <img
+                                  src={item.image}
+                                  alt={item.name}
+                                  className="w-full h-full object-cover rounded-lg"
+                                  onError={(e) => {
+                                    e.currentTarget.style.display = 'none';
+                                    if (e.currentTarget.nextElementSibling) {
+                                      e.currentTarget.nextElementSibling.style.display = 'block';
+                                    }
+                                  }}
+                                />
+                              ) : null}
+                              <span className={`text-xl ${item.image ? 'hidden' : 'block'}`}>{item.icon}</span>
                             </div>
                             <div>
                               <div className="font-bold text-gray-900">{item.name}</div>
@@ -643,12 +652,21 @@ export default function FarmerMarket() {
 
             {/* Modal Header */}
             <div className="flex items-center gap-4 mb-5">
-              <div className="w-16 h-16 rounded-2xl bg-amber-50 p-1.5 flex items-center justify-center border-2 border-amber-300 shadow-sm flex-shrink-0 overflow-hidden">
+              <div className="w-16 h-16 rounded-2xl bg-amber-50 p-1 flex items-center justify-center border-2 border-amber-300 shadow-sm flex-shrink-0 overflow-hidden relative">
                 {selectedCommodity.image ? (
-                  <img src={selectedCommodity.image} alt={selectedCommodity.name} className="w-full h-full object-contain" />
-                ) : (
-                  <span className="text-3xl">{selectedCommodity.icon}</span>
-                )}
+                  <img
+                    src={selectedCommodity.image}
+                    alt={selectedCommodity.name}
+                    className="w-full h-full object-cover rounded-xl drop-shadow-xs"
+                    onError={(e) => {
+                      e.currentTarget.style.display = 'none';
+                      if (e.currentTarget.nextElementSibling) {
+                        e.currentTarget.nextElementSibling.style.display = 'block';
+                      }
+                    }}
+                  />
+                ) : null}
+                <span className={`text-3xl ${selectedCommodity.image ? 'hidden' : 'block'}`}>{selectedCommodity.icon}</span>
               </div>
               <div>
                 <span className="text-xs bg-amber-100 text-amber-800 font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">

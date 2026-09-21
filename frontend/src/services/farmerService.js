@@ -4,25 +4,31 @@ import { db } from '../firebase';
 const STORAGE_KEY = 'agrichain_registered_farmers';
 const BROADCAST_KEY = 'agrichain_farmers_sync';
 
-// Authentic produce photos from LanguageGuide
+// Authentic produce photos matching single crop stock photography
 export function getProduceImageForCrop(cropName = '') {
   const c = (cropName || '').toLowerCase();
-  if (c.includes('tomato')) return 'https://www.languageguide.org/vocabulary/veg/images/tomato.webp';
-  if (c.includes('potato')) return 'https://www.languageguide.org/vocabulary/veg/images/potato.webp';
-  if (c.includes('onion')) return 'https://www.languageguide.org/vocabulary/veg/images/onion.webp';
-  if (c.includes('chilli') || c.includes('chili')) return 'https://www.languageguide.org/vocabulary/veg/images/chili.webp';
-  if (c.includes('brinjal') || c.includes('eggplant')) return 'https://www.languageguide.org/vocabulary/veg/images/eggplant.webp';
-  if (c.includes('cabbage')) return 'https://www.languageguide.org/vocabulary/veg/images/cabbage.webp';
-  if (c.includes('carrot')) return 'https://www.languageguide.org/vocabulary/veg/images/carrot.webp';
-  if (c.includes('cucumber')) return 'https://www.languageguide.org/vocabulary/veg/images/cucumber.webp';
-  if (c.includes('capsicum') || c.includes('pepper')) return 'https://www.languageguide.org/vocabulary/veg/images/bell-pepper.webp';
-  if (c.includes('bean') || c.includes('gram') || c.includes('dal') || c.includes('pulse')) return 'https://www.languageguide.org/vocabulary/veg/images/beans.webp';
-  if (c.includes('rice') || c.includes('paddy')) return 'https://www.languageguide.org/vocabulary/food_new/small/rice.png';
-  if (c.includes('wheat')) return 'https://www.languageguide.org/vocabulary/food_new/small/wheat.png';
-  if (c.includes('peanut') || c.includes('groundnut')) return 'https://www.languageguide.org/vocabulary/food_new/small/peanut.png';
-  if (c.includes('banana')) return 'https://www.languageguide.org/vocabulary/fruits/small/banana.png';
-  if (c.includes('mango')) return 'https://www.languageguide.org/vocabulary/fruits/small/mango.png';
-  return 'https://www.languageguide.org/vocabulary/veg/images/tomato.webp';
+  if (c.includes('tomato')) return 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=500';
+  if (c.includes('potato')) return 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&q=80&w=500';
+  if (c.includes('onion')) return 'https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?auto=format&fit=crop&q=80&w=500';
+  if (c.includes('chilli') || c.includes('chili')) return 'https://images.unsplash.com/photo-1525607551316-4a8e16d1f9ba?auto=format&fit=crop&q=80&w=500';
+  if (c.includes('brinjal') || c.includes('eggplant')) return 'https://images.unsplash.com/photo-1528825871115-3581a5387919?auto=format&fit=crop&q=80&w=500';
+  if (c.includes('cabbage')) return 'https://images.unsplash.com/photo-1594282486552-05b4d80fbb9f?auto=format&fit=crop&q=80&w=500';
+  if (c.includes('carrot')) return 'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&q=80&w=500';
+  if (c.includes('cucumber')) return 'https://images.unsplash.com/photo-1449300079323-02e209d9d3a6?auto=format&fit=crop&q=80&w=500';
+  if (c.includes('capsicum') || c.includes('pepper')) return 'https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?auto=format&fit=crop&q=80&w=500';
+  if (c.includes('okra') || c.includes('bhindi') || c.includes('lady finger')) return 'https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?auto=format&fit=crop&q=80&w=500';
+  if (c.includes('toor') || c.includes('dal') || c.includes('pulse')) return 'https://images.unsplash.com/photo-1585994192701-f1a505c817ea?auto=format&fit=crop&q=80&w=500';
+  if (c.includes('chana') || c.includes('gram') || c.includes('chickpea')) return 'https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&q=80&w=500';
+  if (c.includes('rice') || c.includes('paddy')) return 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&q=80&w=500';
+  if (c.includes('wheat')) return 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&q=80&w=500';
+  if (c.includes('peanut') || c.includes('groundnut')) return 'https://images.unsplash.com/photo-1567894340315-735d7c361db0?auto=format&fit=crop&q=80&w=500';
+  if (c.includes('banana')) return 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&q=80&w=500';
+  if (c.includes('mango')) return 'https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&q=80&w=500';
+  if (c.includes('garlic')) return 'https://images.unsplash.com/photo-1540148426945-6cf22a6b2383?auto=format&fit=crop&q=80&w=500';
+  if (c.includes('ginger')) return 'https://images.unsplash.com/photo-1615485500704-8e990f9900f7?auto=format&fit=crop&q=80&w=500';
+  if (c.includes('turmeric')) return 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&q=80&w=500';
+  if (c.includes('cotton')) return 'https://images.unsplash.com/photo-1606041008023-472dfb5e530f?auto=format&fit=crop&q=80&w=500';
+  return 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=500';
 }
 
 const DEFAULT_AVATARS = [
