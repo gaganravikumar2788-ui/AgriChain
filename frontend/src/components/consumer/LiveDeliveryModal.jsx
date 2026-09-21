@@ -14,23 +14,14 @@ import {
 } from 'lucide-react';
 
 const TRACKING_STAGES = [
-  { id: 1, title: 'Order Confirmed', subtitle: 'AgriChain dark store received order', icon: CheckCircle2, durationSec: 15 },
-  { id: 2, title: 'Packing Farm Produce', subtitle: 'Freshly packed & quality checked', icon: Package, durationSec: 20 },
-  { id: 3, title: 'Out for Delivery', subtitle: 'Rider Ramesh K. is on the way (EV Scooter)', icon: Bike, durationSec: 25 },
-  { id: 4, title: 'Arrived at Doorstep', subtitle: 'Please collect your order', icon: Home, durationSec: 0 }
+  { id: 1, title: 'Order Confirmed', subtitle: 'AgriChain hub received order', icon: CheckCircle2 },
+  { id: 2, title: 'Packing Farm Produce', subtitle: 'Freshly packed & quality checked', icon: Package },
+  { id: 3, title: 'Out for Delivery', subtitle: 'Rider Ramesh K. is on the way (EV Scooter)', icon: Bike },
+  { id: 4, title: 'Arrived at Doorstep', subtitle: 'Please collect your order', icon: Home }
 ];
 
 export default function LiveDeliveryModal({ order, onClose, onContinueShopping }) {
   const [currentStage, setCurrentStage] = useState(1);
-  const [secondsRemaining, setSecondsRemaining] = useState(600); // 10 minutes
-
-  // Countdown timer simulation
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setSecondsRemaining(prev => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
 
   // Stage progression simulation
   useEffect(() => {
@@ -43,10 +34,6 @@ export default function LiveDeliveryModal({ order, onClose, onContinueShopping }
   }, []);
 
   if (!order) return null;
-
-  const mins = Math.floor(secondsRemaining / 60);
-  const secs = secondsRemaining % 60;
-  const timerStr = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in">
@@ -62,22 +49,22 @@ export default function LiveDeliveryModal({ order, onClose, onContinueShopping }
 
           <div className="inline-flex items-center gap-1.5 bg-amber-400 text-slate-900 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider mb-2">
             <Sparkles className="w-3 h-3" />
-            <span>Live 10-Min Delivery Tracker</span>
+            <span>Live Delivery Tracker</span>
           </div>
 
           <div className="flex items-center justify-between gap-4">
             <div>
               <h2 className="text-xl sm:text-2xl font-black leading-tight">
-                Arriving in {timerStr} mins
+                Fresh Delivery In Progress
               </h2>
               <p className="text-xs text-emerald-100 font-semibold mt-0.5">
-                Order {order.id} • Assigned to nearby delivery hub
+                Order {order.id} • Direct from local farmer hub
               </p>
             </div>
 
             <div className="w-14 h-14 rounded-2xl bg-white/15 backdrop-blur-md border border-white/20 flex flex-col items-center justify-center shrink-0">
-              <Clock className="w-6 h-6 text-amber-300 animate-pulse" />
-              <span className="text-[10px] font-black mt-0.5">{mins} min</span>
+              <Bike className="w-6 h-6 text-amber-300 animate-bounce" />
+              <span className="text-[10px] font-black mt-0.5">En Route</span>
             </div>
           </div>
         </div>

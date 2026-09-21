@@ -6,10 +6,10 @@ export default function ProductCard({ product, cartQty = 0, onAdd, onRemove }) {
     <div className="bg-white rounded-3xl p-3 sm:p-4 border border-slate-200/90 shadow-2xs hover:shadow-md transition-all duration-200 flex flex-col justify-between group relative overflow-hidden">
       {/* Top Badges */}
       <div className="flex items-center justify-between gap-1 mb-2">
-        {/* Delivery Time Badge */}
-        <div className="inline-flex items-center gap-1 bg-amber-50 text-amber-900 border border-amber-200 px-2 py-0.5 rounded-full text-[10px] font-black">
-          <Clock className="w-3 h-3 text-amber-700" />
-          <span>{product.deliveryTime || '10 MINS'}</span>
+        {/* Freshness Badge */}
+        <div className="inline-flex items-center gap-1 bg-emerald-50 text-emerald-900 border border-emerald-200 px-2 py-0.5 rounded-full text-[10px] font-black">
+          <Sparkles className="w-3 h-3 text-emerald-700" />
+          <span>Farm Fresh</span>
         </div>
 
         {/* Discount Tag */}

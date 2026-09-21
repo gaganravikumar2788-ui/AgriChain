@@ -112,7 +112,7 @@ export default function CartDrawer({
                   <ShoppingBag className="w-8 h-8" />
                 </div>
                 <h3 className="font-extrabold text-base text-slate-800">Your cart is empty</h3>
-                <p className="text-xs text-slate-500 mt-1 mb-4">Add farm-fresh produce and daily groceries to get 10-minute delivery!</p>
+                <p className="text-xs text-slate-500 mt-1 mb-4">Add farm-fresh produce and daily groceries to your basket!</p>
                 <button
                   onClick={onClose}
                   className="px-5 py-2 rounded-xl bg-[#0c831f] text-white font-bold text-xs shadow-sm hover:shadow-md cursor-pointer transition-all"
@@ -291,7 +291,7 @@ export default function CartDrawer({
                 </div>
 
                 <div className="flex items-center gap-2">
-                  <span>{isPlacing ? "Confirming Order..." : "Place Order (10 Min)"}</span>
+                  <span>{isPlacing ? "Confirming Order..." : "Place Order"}</span>
                   <ArrowRight className="w-4 h-4 stroke-[2.5]" />
                 </div>
               </button>

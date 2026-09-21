@@ -114,7 +114,7 @@ export default function ConsumerDashboard() {
                   Farm-Gate Freshness at Wholesale Rates
                 </h2>
                 <p className="text-xs sm:text-sm text-emerald-100 font-medium leading-relaxed mb-4">
-                  100% direct produce from verified Karnataka farmers. Plucked at dawn, chilled at our local dark store, delivered in 10 mins.
+                  100% direct produce from verified Karnataka farmers. Plucked at dawn, chilled at our local hub, delivered farm-fresh to your door.
                 </p>
                 <button
                   onClick={() => setActiveCategory('vegetables')}
@@ -131,15 +131,15 @@ export default function ConsumerDashboard() {
               </div>
             </div>
 
-            {/* Promo Card 2: 10 Min Superfast Delivery */}
+            {/* Promo Card 2: Fresh Farm Fulfillment */}
             <div className="relative rounded-3xl overflow-hidden bg-gradient-to-r from-[#f8cb46] via-[#f7be16] to-[#f59e0b] text-slate-950 p-6 sm:p-7 shadow-md flex flex-col justify-between group">
               <div className="relative z-10 max-w-md">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950 text-white text-xs font-black mb-3">
-                  <Clock className="w-3.5 h-3.5 text-amber-300" />
-                  <span>Doorstep in 10-12 Mins</span>
+                  <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+                  <span>Direct Farm Delivery</span>
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-black tracking-tight leading-tight mb-2">
-                  Instant Dark Store Fulfillment
+                  Direct Hub & Farm Fulfillment
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-800 font-medium leading-relaxed mb-4">
                   No minimum order required. Free delivery on baskets above ₹199. Packaged with zero plastic touch and hygienic double-seal.
@@ -174,7 +174,7 @@ export default function ConsumerDashboard() {
               </span>
             </div>
             <p className="text-xs text-slate-500 font-medium mt-0.5">
-              Instant 10-minute dispatch from AgriChain Hub to {selectedArea?.name}
+              Fresh farm-gate delivery dispatched directly to {selectedArea?.name}
             </p>
           </div>
 
@@ -222,11 +222,11 @@ export default function ConsumerDashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-slate-200">
           <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-2xs flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center shrink-0">
-              <Clock className="w-5 h-5 text-amber-700" />
+              <Truck className="w-5 h-5 text-amber-700" />
             </div>
             <div>
-              <h4 className="font-extrabold text-xs text-slate-900">10-Minute Superfast</h4>
-              <p className="text-[11px] text-slate-500 font-medium">Hyperlocal network of dark stores</p>
+              <h4 className="font-extrabold text-xs text-slate-900">Direct Doorstep Delivery</h4>
+              <p className="text-[11px] text-slate-500 font-medium">Hyperlocal network of distribution hubs</p>
             </div>
           </div>
 
@@ -264,7 +264,7 @@ export default function ConsumerDashboard() {
         selectedArea={selectedArea}
       />
 
-      {/* ── 8. LIVE 10-MIN DELIVERY TRACKING MODAL ── */}
+      {/* ── 8. LIVE DELIVERY TRACKING MODAL ── */}
       {activeTrackingOrder && (
         <LiveDeliveryModal
           order={activeTrackingOrder}
@@ -295,7 +295,7 @@ export default function ConsumerDashboard() {
                 <div className="text-center py-10">
                   <Package className="w-12 h-12 text-slate-300 mx-auto mb-2" />
                   <p className="text-sm font-bold text-slate-700">No previous orders placed yet</p>
-                  <p className="text-xs text-slate-400 mt-0.5">Your 10-minute grocery delivery orders will appear here.</p>
+                  <p className="text-xs text-slate-400 mt-0.5">Your grocery delivery orders will appear here.</p>
                 </div>
               ) : (
                 consumerOrders.map(ord => (

@@ -58,14 +58,14 @@ export default function ConsumerHeader({
 
   return (
     <header className="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-xs">
-      {/* Top Banner (Blinkit 10-Minute Guarantee) */}
+      {/* Top Banner (Farm-Gate Guarantee) */}
       <div className="bg-[#f8cb46] text-slate-900 text-xs font-black py-1.5 px-4 text-center flex items-center justify-center gap-2 border-b border-amber-300">
         <span className="flex h-2 w-2 relative">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-700 opacity-75"></span>
           <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-800"></span>
         </span>
         <span className="tracking-wide">
-          ⚡ 10-MINUTE SUPERFAST DELIVERY • 100% FARM-GATE HARVEST DIRECT TO YOUR DOORSTEP
+          ⚡ 100% DIRECT FARM-GATE HARVEST • PURE & FRESH PRODUCE DELIVERED TO YOUR DOORSTEP
         </span>
       </div>
 
@@ -82,7 +82,7 @@ export default function ConsumerHeader({
                 AgriChain
               </span>
               <span className="bg-[#f8cb46] text-slate-900 text-[9px] sm:text-[10px] font-black px-1.5 py-0.5 rounded tracking-wider uppercase">
-                10 Min
+                Direct
               </span>
             </div>
             <p className="hidden sm:block text-[10px] text-slate-500 font-bold tracking-wide">
@@ -91,7 +91,7 @@ export default function ConsumerHeader({
           </div>
         </div>
 
-        {/* Delivery Location Pill (Blinkit Signature) */}
+        {/* Delivery Location Pill */}
         <div className="relative shrink-0 hidden md:block">
           <button
             onClick={() => setShowAreaDropdown(!showAreaDropdown)}
@@ -102,7 +102,7 @@ export default function ConsumerHeader({
             </div>
             <div>
               <div className="text-[11px] font-black text-slate-900 flex items-center gap-1">
-                <span>Delivery in 10-12 Mins</span>
+                <span>Direct Doorstep Delivery</span>
                 <ChevronDown className="w-3.5 h-3.5 text-slate-400 group-hover:text-slate-700" />
               </div>
               <p className="text-[11px] font-medium text-slate-500 truncate max-w-[160px]">

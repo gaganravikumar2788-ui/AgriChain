@@ -130,7 +130,6 @@ export async function placeConsumerOrder({ items, address, tip = 0, paymentMode 
     grandTotal,
     paymentMode,
     status: 'Order Confirmed',
-    etaMinutes: 10,
     // Backend Godown Link (Hidden from Consumer UI)
     backendFulfillment: {
       sourceGodown: 'Ravi Traders AgriChain Hub & Cold Storage',
@@ -163,7 +162,7 @@ export async function placeConsumerOrder({ items, address, tip = 0, paymentMode 
       quantity: `${consumerOrder.totalItems} Consumer Packs`,
       seller: `Customer: ${consumerName} (${consumerOrder.deliveryAddress})`,
       amount: `₹${grandTotal.toLocaleString('en-IN')}`,
-      status: 'Dispatched from Godown (10-Min Delivery)',
+      status: 'Dispatched from Godown (Direct Delivery)',
       date: new Date().toISOString().split('T')[0],
       source: 'AgriChain Quick Commerce',
       consumerOrderId: orderId

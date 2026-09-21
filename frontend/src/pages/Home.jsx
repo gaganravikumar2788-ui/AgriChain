@@ -48,10 +48,10 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-1.5 mb-1.5 sm:mb-2">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Consumer</h2>
-            <span className="bg-[#0c831f] text-white text-[10px] font-black px-2 py-0.5 rounded-full">10 MINS</span>
+            <span className="bg-[#0c831f] text-white text-[10px] font-black px-2 py-0.5 rounded-full">FARM DIRECT</span>
           </div>
           <p className="text-gray-600 text-center leading-relaxed text-xs sm:text-sm">
-            Order farm-fresh vegetables, fruits, dairy, and groceries with lightning-fast 10-minute doorstep delivery.
+            Order farm-fresh vegetables, fruits, dairy, and groceries with direct doorstep delivery.
           </p>
         </Link>
       </div>
