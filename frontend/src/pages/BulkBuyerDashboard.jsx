@@ -37,7 +37,8 @@ import {
   Phone,
   Star,
   Send,
-  Check
+  Check,
+  Menu
 } from 'lucide-react';
 import { 
   DEFAULT_BUYER_PROFILE, 
@@ -66,6 +67,7 @@ export default function BulkBuyerDashboard() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   // Dynamic registered farmers from Firebase Firestore & Local Synchronizer
   const [registeredFarmers, setRegisteredFarmers] = useState([]);
@@ -234,8 +236,90 @@ export default function BulkBuyerDashboard() {
   return (
     <div className="min-h-screen bg-[#f4f7f4] flex flex-col font-sans text-slate-800">
       <div className="flex flex-1 min-h-screen">
-        {/* ================= LEFT SIDEBAR ================= */}
-        <aside className="w-64 bg-white border-r border-slate-200/80 min-h-screen flex flex-col justify-between shrink-0 shadow-xs relative">
+        {/* Mobile Drawer Overlay */}
+        {mobileSidebarOpen && (
+          <div 
+            className="fixed inset-0 bg-black/50 backdrop-blur-xs z-40 lg:hidden transition-opacity"
+            onClick={() => setMobileSidebarOpen(false)}
+          />
+        )}
+
+        {/* Mobile Drawer Sidebar */}
+        <aside className={`fixed inset-y-0 left-0 z-50 w-72 bg-white flex flex-col justify-between shadow-2xl transition-transform duration-300 ease-in-out lg:hidden ${
+          mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}>
+          <div>
+            <div className="p-4 flex items-center justify-between border-b border-slate-100">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-emerald-50/80 border border-emerald-200 flex items-center justify-center p-1 shadow-xs shrink-0">
+                  <img src="/logo.png" alt="AgriChain Logo" className="w-full h-full object-contain" />
+                </div>
+                <div>
+                  <div className="font-extrabold text-lg leading-tight text-slate-900 tracking-tight">
+                    AgriChain
+                  </div>
+                  <div className="text-[10px] font-bold text-emerald-700 tracking-wide uppercase">
+                    Bulk Buyer Portal
+                  </div>
+                </div>
+              </div>
+              <button 
+                onClick={() => setMobileSidebarOpen(false)}
+                className="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <nav className="p-3.5 space-y-1.5">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = activeTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => {
+                      setActiveTab(item.id);
+                      setMobileSidebarOpen(false);
+                    }}
+                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-150 cursor-pointer ${
+                      isActive
+                        ? 'bg-[#dcfce7] text-[#15803d] shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <Icon className={`w-5 h-5 ${isActive ? 'text-[#15803d]' : 'text-slate-500'}`} />
+                      <span>{item.label}</span>
+                    </div>
+                    {item.badge ? (
+                      <span className={`text-white text-[10px] font-black px-2 py-0.5 shadow-xs ${
+                        item.badge === 'AI' ? 'bg-[#15803d] rounded-md' : 'bg-red-500 rounded-full text-[11px]'
+                      }`}>
+                        {item.badge}
+                      </span>
+                    ) : null}
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
+
+          <div className="p-4 pt-0 relative overflow-hidden">
+            <div className="p-3.5 rounded-2xl bg-gradient-to-br from-emerald-50/90 via-green-50/50 to-emerald-100/30 border border-emerald-100/80 relative">
+              <div className="flex items-center gap-2 mb-1.5 text-emerald-700">
+                <Sprout className="w-4 h-4 fill-emerald-600 stroke-emerald-700" />
+                <span className="text-xs font-bold uppercase tracking-wider text-emerald-800">Verified Direct</span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed font-medium">
+                Direct farmer sourcing with automated mandi price indexing.
+              </p>
+            </div>
+          </div>
+        </aside>
+
+        {/* ================= DESKTOP LEFT SIDEBAR ================= */}
+        <aside className="hidden lg:flex w-64 bg-white border-r border-slate-200/80 min-h-screen flex-col justify-between shrink-0 shadow-xs relative">
           <div>
             <div className="p-5 flex items-center gap-3 border-b border-slate-100">
               <div className="w-12 h-12 rounded-2xl bg-emerald-50/80 border border-emerald-200 flex items-center justify-center p-1 shadow-xs shrink-0">
@@ -303,25 +387,36 @@ export default function BulkBuyerDashboard() {
         {/* ================= CENTER + RIGHT AREA ================= */}
         <div className="flex-1 flex flex-col min-w-0">
           {/* Top Header */}
-          <header className="h-18 bg-white border-b border-slate-200/80 px-6 flex items-center justify-between sticky top-0 z-30 shadow-xs">
-            <div className="flex-1 max-w-xl relative">
-              <div className="relative flex items-center">
-                <Search className="w-5 h-5 text-slate-400 absolute left-3.5 pointer-events-none" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search for products (e.g., Rice, Wheat, Onion...)"
-                  className="w-full pl-11 pr-4 py-2.5 bg-slate-50/90 border border-slate-200 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery('')}
-                    className="absolute right-3 text-xs text-slate-400 hover:text-slate-600 bg-slate-200/60 rounded-full px-1.5 py-0.5 cursor-pointer"
-                  >
-                    ✕
-                  </button>
-                )}
+          <header className="h-16 sm:h-18 bg-white border-b border-slate-200/80 px-3.5 sm:px-6 flex items-center justify-between sticky top-0 z-30 shadow-xs">
+            <div className="flex items-center flex-1 max-w-xl">
+              {/* Mobile Sidebar Hamburger Toggle */}
+              <button
+                onClick={() => setMobileSidebarOpen(true)}
+                className="lg:hidden mr-2 p-1.5 sm:p-2 rounded-xl text-slate-700 hover:bg-slate-100 cursor-pointer flex-shrink-0"
+                title="Open Navigation Menu"
+              >
+                <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
+              </button>
+
+              <div className="flex-1 relative">
+                <div className="relative flex items-center">
+                  <Search className="w-4 h-4 sm:w-5 sm:h-5 text-slate-400 absolute left-3 pointer-events-none" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search products (Rice, Wheat...)"
+                    className="w-full pl-9 sm:pl-11 pr-7 sm:pr-4 py-2 sm:py-2.5 bg-slate-50/90 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={() => setSearchQuery('')}
+                      className="absolute right-2.5 text-xs text-slate-400 hover:text-slate-600 bg-slate-200/60 rounded-full px-1.5 py-0.5 cursor-pointer"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -436,7 +531,7 @@ export default function BulkBuyerDashboard() {
 
           {/* Main Workspace: Left content + Right sidebar */}
           <div className="flex-1 flex flex-col xl:flex-row min-w-0">
-            <main className={`flex-1 p-5 sm:p-7 overflow-y-auto space-y-6 ${activeTab === 'routes' ? 'w-full max-w-full' : 'max-w-6xl'}`}>
+            <main className={`flex-1 p-3.5 sm:p-6 overflow-y-auto space-y-5 sm:space-y-6 min-w-0 w-full`}>
               {/* ROUTE OPTIMIZATION TAB */}
               {activeTab === 'routes' && (
                 <RouteOptimizationView
@@ -640,7 +735,7 @@ export default function BulkBuyerDashboard() {
                           <p className="text-xs text-slate-500 font-medium">Explore essential services</p>
                         </div>
                       </div>
-                      <div className="grid grid-cols-5 gap-2.5 pt-1">
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2.5 pt-1">
                         {quickServices.map((svc) => {
                           const Icon = svc.icon;
                           return (
@@ -1192,7 +1287,7 @@ export default function BulkBuyerDashboard() {
 
             {/* Right Sidebar Panel: Nearby Farmers & AI Route */}
             {activeTab !== 'routes' && (
-              <aside className="w-full xl:w-96 bg-white border-l border-slate-200/80 p-5 flex flex-col gap-4.5 shrink-0 shadow-xs">
+              <aside className="w-full xl:w-80 2xl:w-96 bg-white border-t xl:border-t-0 xl:border-l border-slate-200/80 p-4 sm:p-5 flex flex-col gap-4.5 shrink-0 shadow-xs">
                 <div>
                   <div className="flex items-start gap-3">
                     <div className="w-10 h-10 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700 shrink-0">

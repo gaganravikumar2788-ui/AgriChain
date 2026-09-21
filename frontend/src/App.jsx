@@ -40,7 +40,7 @@ function AppWrapper() {
             </Link>
           </div>
         </nav>
-        <main className="flex-1 p-4 flex items-center justify-center">
+        <main className="flex-1 p-2 sm:p-4 flex items-center justify-center w-full max-w-full overflow-x-hidden">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/register/farmer" element={<FarmerRegistration />} />

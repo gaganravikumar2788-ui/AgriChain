@@ -71,37 +71,37 @@ export default function FarmerCropRecommendation() {
         </div>
 
         {/* Center Nav Pill Links */}
-        <div className="hidden md:flex items-center gap-2 bg-gray-50/90 p-1.5 rounded-full border border-gray-200/70 shadow-inner">
+        <div className="hidden lg:flex items-center gap-1 xl:gap-2 bg-gray-50/90 p-1 xl:p-1.5 rounded-full border border-gray-200/70 shadow-inner">
           {navLinks.map(({ icon: Icon, label, active, action }) => (
             <button
               key={label}
               onClick={action}
-              className={`flex items-center gap-2.5 px-5 sm:px-6 py-2.5 rounded-full text-sm sm:text-base font-bold transition-all duration-200 ${
+              className={`flex items-center gap-1.5 xl:gap-2 px-3 xl:px-5 py-1.5 xl:py-2 rounded-full text-xs xl:text-sm font-bold transition-all duration-200 whitespace-nowrap cursor-pointer ${
                 active
                   ? 'bg-purple-700 text-white shadow-md shadow-purple-700/20'
                   : 'text-gray-700 hover:text-green-800 hover:bg-white'
               }`}
             >
-              <Icon size={18} />
+              <Icon size={16} />
               <span>{label}</span>
             </button>
           ))}
         </div>
 
         {/* Right Controls: Farmer Profile & Logout */}
-        <div className="flex items-center gap-2.5 sm:gap-3.5">
+        <div className="flex items-center gap-2 sm:gap-3.5">
           {/* Farmer Profile Pill */}
           <div
             onClick={() => navigate('/farmer-dashboard')}
-            className="flex items-center gap-2 bg-emerald-50 hover:bg-emerald-100 border-2 border-emerald-300/80 px-3 py-1.5 rounded-full cursor-pointer transition shadow-xs group"
+            className="flex items-center gap-2 bg-emerald-50 hover:bg-emerald-100 border-2 border-emerald-300/80 px-2.5 sm:px-3 py-1.5 rounded-full cursor-pointer transition shadow-xs group"
             title="Farmer Dashboard"
           >
-            <div className="w-8 h-8 rounded-full bg-emerald-800 text-white flex items-center justify-center font-bold text-xs shadow-xs group-hover:bg-emerald-900">
-              <User size={16} />
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-800 text-white flex items-center justify-center font-bold text-xs shadow-xs group-hover:bg-emerald-900">
+              <User size={15} />
             </div>
             <div className="text-left leading-tight pr-1">
-              <div className="text-[10px] font-black uppercase text-emerald-800 tracking-wider">Farmer</div>
-              <div className="text-xs sm:text-sm font-black text-gray-900 truncate max-w-[100px] sm:max-w-[130px]">
+              <div className="text-[9px] sm:text-[10px] font-black uppercase text-emerald-800 tracking-wider">Farmer</div>
+              <div className="text-xs sm:text-sm font-black text-gray-900 truncate max-w-[85px] sm:max-w-[130px]">
                 {farmerName}
               </div>
             </div>
@@ -110,25 +110,26 @@ export default function FarmerCropRecommendation() {
           {/* Logout button right next to Farmer */}
           <button
             onClick={handleLogout}
-            className="flex items-center gap-1.5 bg-rose-50 hover:bg-rose-100 active:bg-rose-200 border-2 border-rose-300 text-rose-700 hover:text-rose-900 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-2xl text-xs sm:text-sm font-black transition-all shadow-xs active:scale-95 cursor-pointer"
+            className="flex items-center gap-1.5 bg-rose-50 hover:bg-rose-100 active:bg-rose-200 border-2 border-rose-300 text-rose-700 hover:text-rose-900 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-2xl text-xs sm:text-sm font-black transition-all shadow-xs active:scale-95 cursor-pointer"
             title="Logout from Farmer Account"
           >
-            <LogOut size={16} className="text-rose-600 flex-shrink-0" />
-            <span className="font-black">Logout</span>
+            <LogOut size={15} className="text-rose-600 flex-shrink-0" />
+            <span className="font-black hidden sm:inline">Logout</span>
           </button>
 
           <button
             onClick={() => setMenuOpen(o => !o)}
-            className="md:hidden text-gray-700 hover:text-green-800 p-1"
+            className="lg:hidden text-gray-700 hover:text-green-800 p-1.5 rounded-xl hover:bg-gray-100 cursor-pointer"
+            title="Toggle Menu"
           >
-            {menuOpen ? <X size={28} /> : <Menu size={28} />}
+            {menuOpen ? <X size={26} /> : <Menu size={26} />}
           </button>
         </div>
       </nav>
 
       {/* Mobile Drawer Menu */}
       {menuOpen && (
-        <div className="md:hidden bg-white border-b border-gray-100 shadow-xl px-4 py-3 flex flex-col gap-1 z-40">
+        <div className="lg:hidden bg-white border-b border-gray-100 shadow-xl px-4 py-3 flex flex-col gap-1 z-40">
           {navLinks.map(({ icon: Icon, label, active, action }) => (
             <button
               key={label}
@@ -141,6 +142,7 @@ export default function FarmerCropRecommendation() {
               <span>{label}</span>
             </button>
           ))}
+          <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-black text-rose-700 hover:bg-rose-50 border-t border-gray-100 mt-1"><LogOut size={16} /><span>Logout ({farmerName || 'Farmer'})</span></button>
         </div>
       )}
 

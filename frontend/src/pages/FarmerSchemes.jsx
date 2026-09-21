@@ -180,7 +180,7 @@ export default function FarmerSchemes() {
             <div className="text-xs sm:text-sm text-gray-500 font-semibold tracking-wide mt-0.5">Field to Fork Freshness</div>
           </div>
         </div>
-        <div className="hidden md:flex items-center gap-2 bg-gray-50/90 p-1.5 rounded-full border border-gray-200/70 shadow-inner">
+        <div className="hidden lg:flex items-center gap-1 xl:gap-2 bg-gray-50/90 p-1 xl:p-1.5 rounded-full border border-gray-200/70 shadow-inner">
           {NAV_LINKS.map(({ icon: Icon, label, active }) => (
             <button key={label} onClick={() => {
               if (label === 'Home') navigate('/farmer-dashboard');
@@ -188,26 +188,30 @@ export default function FarmerSchemes() {
               if (label === 'Weather') navigate('/farmer/weather');
               if (label === 'Crop Recommendation') navigate('/farmer/crops');
             }}
-              className={`flex items-center gap-2.5 px-5 sm:px-6 py-2.5 rounded-full text-sm sm:text-base font-bold transition-all duration-200 ${active ? 'bg-green-700 text-white shadow-md shadow-green-700/20' : 'text-gray-700 hover:text-green-800 hover:bg-white'}`}>
-              <Icon size={18} /><span>{label}</span>
+              className={`flex items-center gap-1.5 xl:gap-2 px-3 xl:px-5 py-1.5 xl:py-2 rounded-full text-xs xl:text-sm font-bold transition-all duration-200 whitespace-nowrap cursor-pointer ${active ? 'bg-green-700 text-white shadow-md shadow-green-700/20' : 'text-gray-700 hover:text-green-800 hover:bg-white'}`}>
+              <Icon size={16} /><span>{label}</span>
             </button>
           ))}
         </div>
-        <div className="flex items-center gap-3.5 sm:gap-4">
-          <button className="relative p-2.5 text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-full transition-all">
-            <Bell size={22} /><span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-red-500 rounded-full" />
+        <div className="flex items-center gap-2 sm:gap-3.5">
+          <button className="relative p-2 text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-full transition-all">
+            <Bell size={20} /><span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
           </button>
-          <div className="w-11 h-11 sm:w-12 sm:h-12 bg-green-800 rounded-full flex items-center justify-center text-white shadow cursor-pointer hover:bg-green-900 active:scale-95 transition-all">
-            <User size={22} />
+          <div 
+            onClick={() => navigate('/farmer-dashboard')}
+            className="w-8 h-8 sm:w-10 sm:h-10 bg-green-800 rounded-full flex items-center justify-center text-white shadow cursor-pointer hover:bg-green-900 active:scale-95 transition-all"
+            title="Farmer Account"
+          >
+            <User size={18} />
           </div>
-          <button onClick={() => setMenuOpen(o => !o)} className="text-gray-700 md:hidden p-1">
-            {menuOpen ? <X size={28} /> : <Menu size={28} />}
+          <button onClick={() => setMenuOpen(o => !o)} className="text-gray-700 lg:hidden p-1.5 rounded-xl hover:bg-gray-100 cursor-pointer">
+            {menuOpen ? <X size={26} /> : <Menu size={26} />}
           </button>
         </div>
       </nav>
 
       {menuOpen && (
-        <div className="md:hidden bg-white border-b px-4 py-3 flex flex-col gap-1 shadow-lg z-40">
+        <div className="lg:hidden bg-white border-b px-4 py-3 flex flex-col gap-1 shadow-lg z-40">
           {NAV_LINKS.map(({ icon: Icon, label, active }) => (
             <button key={label} onClick={() => {
               setMenuOpen(false);

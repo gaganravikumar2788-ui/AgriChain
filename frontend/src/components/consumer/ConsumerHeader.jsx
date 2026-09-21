@@ -70,22 +70,22 @@ export default function ConsumerHeader({
       </div>
 
       {/* Main Header Container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between gap-3 sm:gap-6">
+      <div className="max-w-7xl mx-auto px-2.5 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-6">
         {/* Brand Logo & Name */}
-        <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
-          <div className="w-11 h-11 rounded-2xl bg-white border-2 border-emerald-600 p-1 flex items-center justify-center shadow-xs">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-2xl bg-white border-2 border-emerald-600 p-0.5 sm:p-1 flex items-center justify-center shadow-xs">
             <img src="/logo.png" alt="AgriChain Logo" className="w-full h-full object-contain" />
           </div>
           <div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-xl sm:text-2xl font-black tracking-tight text-[#0c831f]">
+            <div className="flex items-center gap-1 sm:gap-1.5">
+              <span className="text-lg sm:text-2xl font-black tracking-tight text-[#0c831f]">
                 AgriChain
               </span>
-              <span className="bg-[#f8cb46] text-slate-900 text-[10px] font-black px-1.5 py-0.5 rounded tracking-wider uppercase">
+              <span className="bg-[#f8cb46] text-slate-900 text-[9px] sm:text-[10px] font-black px-1.5 py-0.5 rounded tracking-wider uppercase">
                 10 Min
               </span>
             </div>
-            <p className="text-[10px] text-slate-500 font-bold tracking-wide">
+            <p className="hidden sm:block text-[10px] text-slate-500 font-bold tracking-wide">
               Field to Fork Direct
             </p>
           </div>
@@ -145,20 +145,20 @@ export default function ConsumerHeader({
         </div>
 
         {/* Search Bar (Centered, with rotating hint) */}
-        <div className="flex-1 max-w-xl relative">
+        <div className="flex-1 max-w-xl relative min-w-0">
           <div className="relative flex items-center">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 pointer-events-none" />
+            <Search className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 absolute left-3 pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={ROTATING_SEARCH_HINTS[hintIndex]}
-              className="w-full pl-10 pr-9 py-2.5 bg-slate-100/80 hover:bg-slate-100 focus:bg-white border border-transparent focus:border-emerald-600 rounded-2xl text-xs sm:text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none transition-all shadow-inner"
+              className="w-full pl-8 sm:pl-10 pr-7 sm:pr-9 py-1.5 sm:py-2.5 bg-slate-100/80 hover:bg-slate-100 focus:bg-white border border-transparent focus:border-emerald-600 rounded-2xl text-[11px] sm:text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:outline-none transition-all shadow-inner"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 w-4 h-4 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-600 flex items-center justify-center text-[10px] cursor-pointer"
+                className="absolute right-2.5 w-4 h-4 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-600 flex items-center justify-center text-[10px] cursor-pointer"
               >
                 ✕
               </button>
@@ -167,7 +167,7 @@ export default function ConsumerHeader({
         </div>
 
         {/* Right Section: My Orders / Profile / Blinkit Green Cart Pill */}
-        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
           {/* My Orders Button */}
           <button
             onClick={onOpenOrders}
@@ -182,7 +182,7 @@ export default function ConsumerHeader({
           <div className="relative">
             <button
               onClick={() => setShowProfileMenu(!showProfileMenu)}
-              className="flex items-center gap-2 p-1.5 sm:px-3 sm:py-2 rounded-2xl hover:bg-slate-50 border border-slate-200 transition-all cursor-pointer"
+              className="flex items-center gap-1.5 p-1 sm:px-3 sm:py-2 rounded-2xl hover:bg-slate-50 border border-slate-200 transition-all cursor-pointer"
             >
               <div className="w-7 h-7 rounded-xl bg-emerald-100 text-emerald-800 font-black text-xs flex items-center justify-center">
                 {userName.charAt(0).toUpperCase()}
@@ -228,17 +228,17 @@ export default function ConsumerHeader({
           {/* Blinkit-Signature Green Floating Cart Button */}
           <button
             onClick={onOpenCart}
-            className="flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-[#0c831f] hover:bg-[#0b741b] text-white font-extrabold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0 shrink-0"
+            className="flex items-center gap-1.5 sm:gap-2.5 px-2.5 sm:px-4 py-2 sm:py-2.5 rounded-2xl bg-[#0c831f] hover:bg-[#0b741b] text-white font-extrabold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0 shrink-0"
           >
-            <ShoppingCart className="w-4 h-4 text-white stroke-[2.5]" />
+            <ShoppingCart className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white stroke-[2.5]" />
             {totalCartCount > 0 ? (
-              <div className="text-left flex items-center gap-2">
-                <span>{totalCartCount} {totalCartCount === 1 ? 'item' : 'items'}</span>
+              <div className="text-left flex items-center gap-1.5 sm:gap-2">
+                <span>{totalCartCount}</span>
                 <span className="w-1 h-1 rounded-full bg-white/60"></span>
                 <span>₹{totalCartAmount}</span>
               </div>
             ) : (
-              <span>My Cart</span>
+              <span className="hidden sm:inline">My Cart</span>
             )}
           </button>
         </div>
