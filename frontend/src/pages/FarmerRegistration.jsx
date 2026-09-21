@@ -297,22 +297,43 @@ export default function FarmerRegistration() {
           }
         }
 
+        // Sync to serverless API bridge
+        try {
+          const endpoints = ['/api/farmers', 'http://localhost:5173/api/farmers', 'http://localhost:5174/api/farmers'];
+          for (const ep of endpoints) {
+            fetch(ep, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(farmerRecord)
+            }).catch(() => {});
+          }
+        } catch (e) {}
+
         if (db) {
-          await setDoc(doc(db, 'users', userId), {
+          const farmerData = {
+            id: userId,
             role: 'FARMER',
             name: farmerName,
             mobile: formattedMobile,
+            phone: formattedMobile,
             crop: formData.crop || 'Paddy & Ragi',
+            crops: formData.crop || 'Paddy & Ragi',
             quantity: formData.quantity || '10 Tons',
             district: formData.district || 'Mysuru',
+            location: `${formData.district || 'Mysuru'} Agricultural Belt, Karnataka`,
             aadhaar: formData.aadhaar ? aadhaarVerification.formatted : null,
             landPhotoURL: photoURL,
+            avatar: photoURL || null,
+            vegetableImage: photoURL || null,
             landPhotoVerified: true,
             greenCoveragePct: photoState.result?.greenCoverage || 78,
             nationality: 'Indian',
             verifiedIndian: true,
             createdAt: serverTimestamp()
-          });
+          };
+
+          await setDoc(doc(db, 'users', userId), farmerData);
+          await setDoc(doc(db, 'farmers', userId), farmerData);
         }
       } catch (dbErr) {
         console.warn("Firestore optional sync fallback:", dbErr.message);
