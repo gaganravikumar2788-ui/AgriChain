@@ -70,8 +70,8 @@ export const CATEGORIES = [
     subtext: "Toor, Moong, Urad, Chana, Masoor...",
     image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&q=80&w=400",
     crops: [
-      { name: "Desi Toor Dal (Pigeon Pea)", price: "₹ 8,900 / Qtl", available: "18 MT", grade: "Unpolished A+", farmer: "Lakshmi Devi", image: "https://images.unsplash.com/photo-1585994192701-f1a505c817ea?auto=format&fit=crop&q=80&w=400" },
-      { name: "Green Gram (Moong Dal)", price: "₹ 7,600 / Qtl", available: "12 MT", grade: "Grade A Premium", farmer: "Ramesh Kumar", image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&q=80&w=400" },
+      { name: "Desi Toor Dal (Pigeon Pea)", price: "₹ 8,900 / Qtl", available: "18 MT", grade: "Unpolished A+", farmer: "Lakshmi Devi", image: "/pulses/toor-dal.jpg" },
+      { name: "Green Gram (Moong Dal)", price: "₹ 7,600 / Qtl", available: "12 MT", grade: "Grade A Premium", farmer: "Ramesh Kumar", image: "/pulses/moong-dal.jpg" },
       { name: "Black Matpe (Urad Dal)", price: "₹ 7,950 / Qtl", available: "15 MT", grade: "Machine Cleaned", farmer: "Suresh Patel", image: "https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&q=80&w=400" },
       { name: "Desi Chana (Bengal Gram)", price: "₹ 5,950 / Qtl", available: "24 MT", grade: "FAQ Export Grade", farmer: "Gagan Gowda", image: "https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&q=80&w=400" },
       { name: "Red Lentil (Masoor Dal)", price: "₹ 6,420 / Qtl", available: "16 MT", grade: "Polished Bold", farmer: "Murugan", image: "https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&q=80&w=400" },
@@ -94,7 +94,7 @@ export const CATEGORIES = [
     subtext: "Chilli, Turmeric, Pepper...",
     image: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&q=80&w=400",
     crops: [
-      { name: "Byadagi Red Chilli", price: "₹ 18,200 / Qtl", available: "10 MT", grade: "Deep Red, Low Heat", farmer: "Suresh Patel", image: "https://images.unsplash.com/photo-1525607551316-4a8e16d1f9ba?auto=format&fit=crop&q=80&w=400" },
+      { name: "Byadagi Red Chilli", price: "₹ 18,200 / Qtl", available: "10 MT", grade: "Deep Red, Low Heat", farmer: "Suresh Patel", image: "/vegetables/green-chilli.webp" },
       { name: "Salem Turmeric Fingers", price: "₹ 12,400 / Qtl", available: "14 MT", grade: "Curcumin 3.8%+", farmer: "Lakshmi Devi", image: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&q=80&w=400" },
       { name: "Malabar Black Pepper", price: "₹ 52,000 / Qtl", available: "4 MT", grade: "TGSEB Extra Bold", farmer: "Murugan", image: "https://images.unsplash.com/photo-1509358271058-acd22cc93898?auto=format&fit=crop&q=80&w=400" },
     ],
@@ -105,7 +105,7 @@ export const CATEGORIES = [
     subtext: "Okra, Lauki, Karela, Tomato, Palak, Onion...",
     image: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=400",
     crops: [
-      { name: "Lady's Finger (Okra / Bhindi)", price: "₹ 3,200 / Qtl", available: "20 MT", grade: "Tender Green Grade A", farmer: "Gagan Gowda", image: "https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?auto=format&fit=crop&q=80&w=400" },
+      { name: "Lady's Finger (Okra / Bhindi)", price: "₹ 3,200 / Qtl", available: "20 MT", grade: "Tender Green Grade A", farmer: "Gagan Gowda", image: "/vegetables/okra-bhindi.webp" },
       { name: "Bitter Gourd (Karela)", price: "₹ 2,850 / Qtl", available: "14 MT", grade: "Fresh Desi Green", farmer: "Suresh Patel", image: "/vegetables/bitter-gourd-karela.webp" },
       { name: "Bottle Gourd (Lauki / Sorekayi)", price: "₹ 1,500 / Qtl", available: "30 MT", grade: "Smooth Long Grade A", farmer: "Lakshmi Devi", image: "/vegetables/bottle-gourd-lauki.webp" },
       { name: "Spinach (Palak Leaves)", price: "₹ 1,950 / Qtl", available: "12 MT", grade: "Crisp Organic Farm", farmer: "Anitha", image: "https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&q=80&w=400" },

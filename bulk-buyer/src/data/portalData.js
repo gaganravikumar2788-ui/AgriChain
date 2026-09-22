@@ -77,8 +77,8 @@ export const CATEGORIES = [
     subtext: "Toor, Moong, Urad...",
     image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&q=80&w=400",
     crops: [
-      { name: "Desi Toor Dal (Pigeon Pea)", price: getMandiPrice("tur-red-gram", "₹ 10,150 / Qtl"), available: "18 MT", grade: "Unpolished A+", farmer: "Lakshmi Devi", image: "https://www.languageguide.org/vocabulary/veg/images/beans.webp" },
-      { name: "Green Gram (Moong)", price: getMandiPrice("moong-green-gram", "₹ 8,250 / Qtl"), available: "12 MT", grade: "Grade A Premium", farmer: "Ramesh Kumar", image: "https://www.languageguide.org/vocabulary/veg/images/peas.webp" },
+      { name: "Desi Toor Dal (Pigeon Pea)", price: getMandiPrice("tur-red-gram", "₹ 10,150 / Qtl"), available: "18 MT", grade: "Unpolished A+", farmer: "Lakshmi Devi", image: "/pulses/toor-dal.jpg" },
+      { name: "Green Gram (Moong)", price: getMandiPrice("moong-green-gram", "₹ 8,250 / Qtl"), available: "12 MT", grade: "Grade A Premium", farmer: "Ramesh Kumar", image: "/pulses/moong-dal.jpg" },
       { name: "Black Matpe (Urad)", price: getMandiPrice("urad-black-matpe", "₹ 7,850 / Qtl"), available: "15 MT", grade: "Machine Cleaned", farmer: "Suresh Patel", image: "https://www.languageguide.org/vocabulary/veg/images/beans.webp" },
     ],
   },
@@ -99,7 +99,7 @@ export const CATEGORIES = [
     subtext: "Chilli, Turmeric, Pepper...",
     image: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&q=80&w=400",
     crops: [
-      { name: "Byadagi Red Chilli", price: getMandiPrice("green-chilli", "₹ 3,650 / Qtl"), available: "10 MT", grade: "Deep Red, Low Heat", farmer: "Suresh Patel", image: "https://www.languageguide.org/vocabulary/veg/images/chili.webp" },
+      { name: "Byadagi Red Chilli", price: getMandiPrice("green-chilli", "₹ 3,650 / Qtl"), available: "10 MT", grade: "Deep Red, Low Heat", farmer: "Suresh Patel", image: "/vegetables/green-chilli.webp" },
       { name: "Salem Turmeric Fingers", price: getMandiPrice("turmeric-raw", "₹ 13,900 / Qtl"), available: "14 MT", grade: "Curcumin 3.8%+", farmer: "Lakshmi Devi", image: "https://www.languageguide.org/vocabulary/veg/images/sweet-potato.webp" },
       { name: "Malabar Black Pepper", price: getMandiPrice("black-pepper", "₹ 61,500 / Qtl"), available: "4 MT", grade: "TGSEB Extra Bold", farmer: "Murugan", image: "https://www.languageguide.org/vocabulary/food_new/small/grains.png" },
     ],

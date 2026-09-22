@@ -43,7 +43,7 @@ export const COMMODITY_IMAGES = {
   'onion-hubballi': 'https://www.languageguide.org/vocabulary/veg/images/onion.webp',
   'potato-jyoti': 'https://www.languageguide.org/vocabulary/veg/images/potato.webp',
   'potato-hassan': 'https://www.languageguide.org/vocabulary/veg/images/potato.webp',
-  'green-chilli': 'https://www.languageguide.org/vocabulary/veg/images/chili.webp',
+  'green-chilli': '/vegetables/green-chilli.webp',
   'garlic': 'https://www.languageguide.org/vocabulary/veg/images/garlic.webp',
   'ginger-fresh': 'https://www.languageguide.org/vocabulary/veg/images/sweet-potato.webp',
   'brinjal': 'https://www.languageguide.org/vocabulary/veg/images/eggplant.webp',
@@ -74,12 +74,12 @@ export const COMMODITY_IMAGES = {
   'maize-yellow': 'https://www.languageguide.org/vocabulary/veg/images/corn.webp',
   'jowar-hybrid': 'https://www.languageguide.org/vocabulary/food_new/small/grains.png',
   'bajra': 'https://www.languageguide.org/vocabulary/food_new/small/grains.png',
-  'ragi-finger-millet': 'https://www.languageguide.org/vocabulary/food_new/small/grains.png',
+  'ragi-finger-millet': '/grains/ragi-flour.jpg',
 
   // Pulses
   'chana-bengal-gram': 'https://www.languageguide.org/vocabulary/veg/images/peas.webp',
-  'tur-red-gram': 'https://www.languageguide.org/vocabulary/veg/images/beans.webp',
-  'moong-green-gram': 'https://www.languageguide.org/vocabulary/veg/images/peas.webp',
+  'tur-red-gram': '/pulses/toor-dal.jpg',
+  'moong-green-gram': '/pulses/moong-dal.jpg',
   'urad-black-matpe': 'https://www.languageguide.org/vocabulary/veg/images/beans.webp',
   'masoor-lentil': 'https://www.languageguide.org/vocabulary/veg/images/beans.webp',
 
@@ -97,7 +97,7 @@ export const COMMODITY_IMAGES = {
   'mango-alphonso': 'https://www.languageguide.org/vocabulary/fruits/small/mango.png',
   'mango-badami': 'https://www.languageguide.org/vocabulary/fruits/small/mango.png',
   'apple-kinnaur': 'https://www.languageguide.org/vocabulary/fruits/small/apple.png',
-  'pomegranate': 'https://www.languageguide.org/vocabulary/fruits/small/strawberry.png',
+  'pomegranate': '/fruits/pomegranate.png',
   'sweet-orange': 'https://www.languageguide.org/vocabulary/fruits/small/orange.png',
   'grapes': 'https://www.languageguide.org/vocabulary/fruits/small/grapes.png',
   'watermelon': 'https://www.languageguide.org/vocabulary/fruits/small/watermelon.png',

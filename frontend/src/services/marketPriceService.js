@@ -43,7 +43,7 @@ export const COMMODITY_IMAGES = {
   'onion-hubballi': 'https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?auto=format&fit=crop&q=80&w=500',
   'potato-jyoti': 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&q=80&w=500',
   'potato-hassan': 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&q=80&w=500',
-  'green-chilli': 'https://images.unsplash.com/photo-1525607551316-4a8e16d1f9ba?auto=format&fit=crop&q=80&w=500',
+  'green-chilli': '/vegetables/green-chilli.webp',
   'garlic': 'https://images.unsplash.com/photo-1540148426945-6cf22a6b2383?auto=format&fit=crop&q=80&w=500',
   'ginger-fresh': 'https://images.unsplash.com/photo-1615485500704-8e990f9900f7?auto=format&fit=crop&q=80&w=500',
   'brinjal': 'https://images.unsplash.com/photo-1528825871115-3581a5387919?auto=format&fit=crop&q=80&w=500',
@@ -54,7 +54,7 @@ export const COMMODITY_IMAGES = {
   'cauliflower': 'https://images.unsplash.com/photo-1568584711075-3d021a7c3ca3?auto=format&fit=crop&q=80&w=500',
   
   // Real Vegetables
-  'okra-bhindi': 'https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?auto=format&fit=crop&q=80&w=500',
+  'okra-bhindi': '/vegetables/okra-bhindi.webp',
   'bitter-gourd': '/vegetables/bitter-gourd-karela.webp',
   'bottle-gourd': '/vegetables/bottle-gourd-lauki.webp',
   'spinach': 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&q=80&w=500',
@@ -74,12 +74,12 @@ export const COMMODITY_IMAGES = {
   'maize-yellow': 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&q=80&w=500',
   'jowar-hybrid': 'https://images.unsplash.com/photo-1508061253366-f7da158b6d46?auto=format&fit=crop&q=80&w=500',
   'bajra': 'https://images.unsplash.com/photo-1508061253366-f7da158b6d46?auto=format&fit=crop&q=80&w=500',
-  'ragi-finger-millet': 'https://images.unsplash.com/photo-1607672632458-9eb56696346b?auto=format&fit=crop&q=80&w=500',
+  'ragi-finger-millet': '/grains/ragi-flour.jpg',
 
   // Pulses (Authentic pulses & lentils)
   'chana-bengal-gram': 'https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&q=80&w=500',
-  'tur-red-gram': 'https://images.unsplash.com/photo-1585994192701-f1a505c817ea?auto=format&fit=crop&q=80&w=500',
-  'moong-green-gram': 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&q=80&w=500',
+  'tur-red-gram': '/pulses/toor-dal.jpg',
+  'moong-green-gram': '/pulses/moong-dal.jpg',
   'urad-black-matpe': 'https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&q=80&w=500',
   'masoor-lentil': 'https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&q=80&w=500',
 
@@ -97,7 +97,7 @@ export const COMMODITY_IMAGES = {
   'mango-alphonso': 'https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&q=80&w=500',
   'mango-badami': 'https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&q=80&w=500',
   'apple-kinnaur': 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&q=80&w=500',
-  'pomegranate': 'https://images.unsplash.com/photo-1557800636-894a64c1696f?auto=format&fit=crop&q=80&w=500',
+  'pomegranate': '/fruits/pomegranate.png',
   'sweet-orange': 'https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?auto=format&fit=crop&q=80&w=500',
   'grapes': 'https://images.unsplash.com/photo-1537640538966-79f369143f8f?auto=format&fit=crop&q=80&w=500',
   'watermelon': 'https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&q=80&w=500',

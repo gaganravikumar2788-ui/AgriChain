@@ -29,11 +29,7 @@ export default function ProductCard({ product, cartQty = 0, onAdd, onRemove }) {
           loading="lazy"
           onError={(e) => {
             e.currentTarget.onerror = null;
-            if (product.category === 'dairy' || product.name?.toLowerCase().includes('nandini') || product.name?.toLowerCase().includes('ghee')) {
-              e.currentTarget.src = 'https://kmf-website.s3.ap-south-1.amazonaws.com/1_milk_e6b56b2233.png';
-            } else {
-              e.currentTarget.src = 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=500';
-            }
+            e.currentTarget.src = 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=500';
           }}
         />
         {product.tag && (

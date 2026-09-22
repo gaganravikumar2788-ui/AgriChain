@@ -9,6 +9,7 @@ import {
 import CropSeasonModal from '../components/CropSeasonModal';
 import LanguageSelector from '../components/LanguageSelector';
 import { useLanguage } from '../context/LanguageContext';
+import { translateWeatherCondition } from '../utils/translations';
 import {
   Home, FileText, BarChart2, Cloud, User, Menu, X,
   Zap, Leaf, MapPin, Droplets, Wind, Umbrella, ArrowRight,
@@ -17,7 +18,7 @@ import {
 
 export default function FarmerDashboard() {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
   const [slideIndex, setSlideIndex] = useState(0);
   const [weather, setWeather] = useState({
@@ -516,23 +517,23 @@ export default function FarmerDashboard() {
                     {weather.emoji}
                   </div>
                   <div>
-                    <h3 className="text-base font-bold text-gray-900">Weather Update</h3>
+                    <h3 className="text-base font-bold text-gray-900">{t('weatherUpdate', 'Weather Update')}</h3>
                     <div className="flex items-center gap-1.5 text-[11px] font-semibold text-emerald-600">
                       <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                      <span>AccuWeather Live Sync</span>
+                      <span>{t('liveSync', 'AccuWeather Live Sync')}</span>
                     </div>
                   </div>
                 </div>
 
                 <span className="text-[10px] font-mono font-bold bg-sky-50 text-sky-700 border border-sky-200 px-2 py-0.5 rounded-full">
-                  Day-to-day Real-Time
+                  {t('dayToDayRealTime', 'Day-to-day Real-Time')}
                 </span>
               </div>
 
               {/* District Dropdown for Karnataka */}
               <div className="mt-3">
                 <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1">
-                  Select Karnataka District:
+                  {t('selectDistrictLabel', 'Select Karnataka District:')}
                 </label>
                 <div className="relative">
                   <select
@@ -542,7 +543,7 @@ export default function FarmerDashboard() {
                   >
                     {KARNATAKA_DISTRICTS.map((d) => (
                       <option key={d.id} value={d.id}>
-                        {d.name} ({d.kannadaName}) • {d.region}
+                        {d.name} ({d.kannadaName}) • {language === 'kn' ? (d.region === 'South Interior' ? 'ದಕ್ಷಿಣ ಒಳನಾಡು' : d.region === 'Coastal & Malenadu' ? 'ಕರಾವಳಿ ಮತ್ತು ಮಲೆನಾಡು' : 'ಉತ್ತರ ಕರ್ನಾಟಕ') : language === 'hi' ? (d.region === 'South Interior' ? 'दक्षिण आंतरिक' : d.region === 'Coastal & Malenadu' ? 'तटीय और मलेनाडु' : 'उत्तर कर्नाटक') : d.region}
                       </option>
                     ))}
                   </select>
@@ -556,10 +557,10 @@ export default function FarmerDashboard() {
                     {weather.temp}°<span className="text-xl text-sky-600 font-bold">C</span>
                   </div>
                   <div className="text-xs sm:text-sm font-bold text-sky-800 mt-1 flex items-center gap-1">
-                    <span>{weather.condition}</span>
+                    <span>{translateWeatherCondition(weather.condition, language)}</span>
                   </div>
                   <div className="text-[11px] text-gray-500 mt-0.5">
-                    {districtWeather ? `Feels like ${districtWeather.apparentTemperature}°C` : 'RealFeel Shade'}
+                    {t('feelsLike', 'Feels like')} {districtWeather ? districtWeather.apparentTemperature : weather.temp}°C • {t('realFeelShade', 'RealFeel Shade')}
                   </div>
                 </div>
                 <div className="text-5xl animate-bounce drop-shadow">
@@ -572,7 +573,7 @@ export default function FarmerDashboard() {
                 <div className="flex items-center justify-between p-2.5 rounded-xl bg-gray-50/90 border border-gray-200/80 hover:bg-sky-50/60 transition-colors">
                   <div className="flex items-center gap-2 text-xs font-semibold text-gray-700">
                     <Droplets size={15} className="text-sky-500" />
-                    <span>Humidity</span>
+                    <span>{t('humidity', 'Humidity')}</span>
                   </div>
                   <span className="text-xs font-bold text-gray-900">{weather.humidity}%</span>
                 </div>
@@ -580,7 +581,7 @@ export default function FarmerDashboard() {
                 <div className="flex items-center justify-between p-2.5 rounded-xl bg-gray-50/90 border border-gray-200/80 hover:bg-sky-50/60 transition-colors">
                   <div className="flex items-center gap-2 text-xs font-semibold text-gray-700">
                     <Wind size={15} className="text-teal-500" />
-                    <span>Wind Speed</span>
+                    <span>{t('windSpeed', 'Wind Speed')}</span>
                   </div>
                   <span className="text-xs font-bold text-gray-900">{weather.windSpeed} km/h</span>
                 </div>
@@ -588,7 +589,7 @@ export default function FarmerDashboard() {
                 <div className="flex items-center justify-between p-2.5 rounded-xl bg-gray-50/90 border border-gray-200/80 hover:bg-sky-50/60 transition-colors">
                   <div className="flex items-center gap-2 text-xs font-semibold text-gray-700">
                     <Umbrella size={15} className="text-indigo-500" />
-                    <span>Chance of Rain</span>
+                    <span>{t('rainChance', 'Chance of Rain')}</span>
                   </div>
                   <span className="text-xs font-bold text-emerald-700">{weather.rainChance}%</span>
                 </div>
@@ -601,7 +602,7 @@ export default function FarmerDashboard() {
                 onClick={() => navigate('/farmer/weather')}
                 className="w-full bg-sky-600 hover:bg-sky-700 active:scale-98 text-white py-3 rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-md shadow-sky-600/25 transition-all"
               >
-                <span>Full Karnataka Weather Hub (31 Districts)</span>
+                <span>{t('viewFullWeatherHub', 'Full Karnataka Weather Hub (31 Districts)')}</span>
                 <ArrowRight size={15} />
               </button>
               <a
@@ -610,7 +611,7 @@ export default function FarmerDashboard() {
                 rel="noreferrer"
                 className="block text-center text-[11px] font-semibold text-sky-700 hover:text-sky-900 hover:underline pt-0.5"
               >
-                View Live on AccuWeather ↗
+                {t('accuWeatherOfficial', 'AccuWeather Official')} ↗
               </a>
             </div>
           </div>

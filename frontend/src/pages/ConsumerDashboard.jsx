@@ -145,10 +145,10 @@ export default function ConsumerDashboard() {
                   No minimum order required. Free delivery on baskets above ₹199. Packaged with zero plastic touch and hygienic double-seal.
                 </p>
                 <button
-                  onClick={() => setActiveCategory('dairy')}
+                  onClick={() => setActiveCategory('fruits')}
                   className="px-5 py-2.5 rounded-2xl bg-slate-950 hover:bg-slate-900 text-white font-black text-xs shadow-sm hover:shadow-md transition-all cursor-pointer inline-flex items-center gap-2"
                 >
-                  <span>Dairy, Milk & Eggs</span>
+                  <span>Fresh Fruits & Farm Harvest</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
@@ -196,7 +196,7 @@ export default function ConsumerDashboard() {
               <Package className="w-8 h-8" />
             </div>
             <h3 className="font-extrabold text-base text-slate-800">No items match your query</h3>
-            <p className="text-xs text-slate-500 mt-1 mb-4">Try searching for tomatoes, potatoes, onions, milk, or ragi.</p>
+            <p className="text-xs text-slate-500 mt-1 mb-4">Try searching for tomatoes, potatoes, onions, apples, or ragi.</p>
             <button
               onClick={() => { setActiveCategory('all'); setSearchQuery(''); }}
               className="px-5 py-2.5 rounded-xl bg-[#0c831f] text-white font-black text-xs shadow-sm hover:shadow-md cursor-pointer transition-all"

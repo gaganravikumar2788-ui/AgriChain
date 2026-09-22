@@ -14,10 +14,15 @@ import {
 
 import LanguageSelector from '../components/LanguageSelector';
 import { useLanguage } from '../context/LanguageContext';
+import {
+  translateWeatherCondition,
+  translateDay,
+  getLocalizedAgrometAdvisory
+} from '../utils/translations';
 
 export default function FarmerWeather() {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedDistrictId, setSelectedDistrictId] = useState('mysuru');
   const [selectedWeather, setSelectedWeather] = useState(null);
@@ -30,6 +35,13 @@ export default function FarmerWeather() {
   const [farmerName, setFarmerName] = useState(() => {
     return localStorage.getItem('farmerName') || 'Ramesh Gowda';
   });
+
+  const regionLabels = {
+    All: t('regionAll', 'All'),
+    'South Interior': t('regionSouth', 'South Interior'),
+    'Coastal & Malenadu': t('regionCoastal', 'Coastal & Malenadu'),
+    'North Karnataka': t('regionNorth', 'North Karnataka')
+  };
 
   // Standard navbar links matching FarmerDashboard, FarmerMarket, and FarmerSchemes
   const handleLogout = () => {
@@ -94,64 +106,7 @@ export default function FarmerWeather() {
 
   const regions = ['All', 'South Interior', 'Coastal & Malenadu', 'North Karnataka'];
 
-  // Agromet farming advisory generator based on real-time weather
-  const getAgrometAdvisory = (w) => {
-    if (!w) return null;
-    const condition = (w.condition || '').toLowerCase();
-    const temp = w.temperature;
-
-    if (condition.includes('rain') || condition.includes('drizzle') || condition.includes('thunder') || w.precipitationProb > 45) {
-      return {
-        type: 'Precipitation Alert',
-        badgeColor: 'bg-blue-100 text-blue-800 border-blue-300',
-        cardBg: 'bg-blue-50/70 border-blue-200',
-        icon: '🌧️',
-        title: 'Rain Expected - Postpone Chemical Spraying & Harvesting',
-        advice: 'Delay foliar pesticide and nutrient spraying. Ensure clearing of drainage furrows in paddy, sugarcane, and vegetable fields to prevent waterlogging.',
-        irrigation: 'Hold borewell/canal irrigation for 24-48 hours.',
-        spray: 'Strictly avoid spraying until sunny weather resumes.',
-        harvest: 'Cover harvested grain heaps with tarpaulins.'
-      };
-    } else if (temp >= 33) {
-      return {
-        type: 'Heat Stress Advisory',
-        badgeColor: 'bg-amber-100 text-amber-800 border-amber-300',
-        cardBg: 'bg-amber-50/70 border-amber-200',
-        icon: '☀️',
-        title: 'Elevated Temperature - Evening Irrigation Recommended',
-        advice: 'High daytime evapotranspiration. Apply light irrigation during late evening or early morning to prevent flower drop in pulses, vegetables, and cotton.',
-        irrigation: 'Provide light irrigation during cooler evening hours.',
-        spray: 'Spray bio-stimulants early in the morning (6:30 AM - 9:00 AM).',
-        harvest: 'Ideal conditions for threshing and sun drying.'
-      };
-    } else if (w.humidity >= 75) {
-      return {
-        type: 'Humidity & Fungal Watch',
-        badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-300',
-        cardBg: 'bg-emerald-50/70 border-emerald-200',
-        icon: '🌱',
-        title: 'High Relative Humidity - Monitor for Leaf Spot & Rust',
-        advice: 'Favorable conditions for fungal pathogen proliferation. Inspect crop undersides in groundnut, ragi, and horticulture plantations.',
-        irrigation: 'Normal scheduled irrigation.',
-        spray: 'Preventative bio-fungicide spray recommended after dew dries.',
-        harvest: 'Maintain good aeration in storage sheds.'
-      };
-    } else {
-      return {
-        type: 'Favorable Weather',
-        badgeColor: 'bg-green-100 text-green-800 border-green-300',
-        cardBg: 'bg-green-50/70 border-green-200',
-        icon: '🌾',
-        title: 'Optimal Agronomic Conditions for Field Operations',
-        advice: 'Weather conditions are optimal for inter-cultivation, weeding, fertilizer top-dressing, and general agronomic operations across the district.',
-        irrigation: 'Maintain standard watering cycle.',
-        spray: 'Excellent conditions for foliar nutrient sprays.',
-        harvest: 'Safe for harvesting and grain movement.'
-      };
-    }
-  };
-
-  const advisory = getAgrometAdvisory(selectedWeather);
+  const advisory = getLocalizedAgrometAdvisory(selectedWeather, language);
 
   return (
     <div className="min-h-screen bg-[#f8fafc] text-gray-800 flex flex-col justify-between" style={{ fontFamily: "'Inter', 'Segoe UI', sans-serif" }}>
@@ -254,7 +209,7 @@ export default function FarmerWeather() {
               <span>{label}</span>
             </button>
           ))}
-          <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-black text-rose-700 hover:bg-rose-50 border-t border-gray-100 mt-1"><LogOut size={16} /><span>Logout ({farmerName || 'Farmer'})</span></button>
+          <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-black text-rose-700 hover:bg-rose-50 border-t border-gray-100 mt-1"><LogOut size={16} /><span>{t('logout', 'Logout')} ({farmerName || 'Farmer'})</span></button>
         </div>
       )}
 
@@ -267,22 +222,22 @@ export default function FarmerWeather() {
             <div className="flex flex-wrap items-center gap-2 mb-2">
               <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-white text-sky-900 border border-sky-300 shadow-sm">
                 <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse mr-2" />
-                ACCUWEATHER LIVE KARNATAKA FEED
+                {t('accuWeatherKarnatakaFeed', 'ACCUWEATHER LIVE KARNATAKA FEED')}
               </span>
               <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-300">
-                Automated Day-to-Day Real-Time Sync
+                {t('automatedRealTimeSync', 'Automated Day-to-Day Real-Time Sync')}
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-950 tracking-tight">
-              Real-Time Karnataka Place-by-Place Weather
+              {t('realTimePlaceWeather', 'Real-Time Karnataka Place-by-Place Weather')}
             </h1>
             <p className="text-sm sm:text-base text-gray-700 mt-1 font-medium leading-relaxed">
-              District-by-district meteorological observations across all 31 Karnataka districts for precision agriculture, crop protection, and daily farm operations.
+              {t('weatherHeroDesc', 'District-by-district meteorological observations across all 31 Karnataka districts for precision agriculture, crop protection, and daily farm operations.')}
             </p>
             <div className="mt-3 text-xs text-gray-600 flex flex-wrap items-center gap-3">
-              <span>Automatic day-to-day sync: <strong className="text-emerald-700">Active & Running</strong></span>
+              <span>{t('autoSyncStatus', 'Automatic day-to-day sync: Active & Running')}</span>
               <span>•</span>
-              <span>Last updated: <strong className="text-sky-800 font-mono">{lastUpdated.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</strong></span>
+              <span>{t('lastUpdated', 'Last updated:')} <strong className="text-sky-800 font-mono">{lastUpdated.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</strong></span>
             </div>
           </div>
 
@@ -293,7 +248,7 @@ export default function FarmerWeather() {
               rel="noreferrer"
               className="inline-flex items-center gap-2 px-5 py-3 rounded-full text-xs sm:text-sm font-bold bg-amber-600 hover:bg-amber-700 text-white shadow-md hover:shadow-lg transition active:scale-95"
             >
-              <span>AccuWeather Karnataka Official Feed</span>
+              <span>{t('accuWeatherFeedBtn', 'AccuWeather Karnataka Official Feed')}</span>
               <ExternalLink size={15} />
             </a>
             <button
@@ -304,7 +259,7 @@ export default function FarmerWeather() {
               className="inline-flex items-center gap-2 px-4 py-3 rounded-full text-xs sm:text-sm font-bold bg-white hover:bg-sky-50 text-sky-800 border-2 border-sky-300 shadow-sm transition active:scale-95"
             >
               <RefreshCw size={15} />
-              <span>Refresh Now</span>
+              <span>{t('refreshNow', 'Refresh Now')}</span>
             </button>
           </div>
         </div>
@@ -313,7 +268,7 @@ export default function FarmerWeather() {
         {loadingSelected && !selectedWeather ? (
           <div className="bg-white rounded-3xl p-12 text-center border-2 border-slate-200 shadow-md">
             <div className="inline-block w-9 h-9 border-4 border-sky-600 border-t-transparent rounded-full animate-spin mb-3"></div>
-            <p className="text-gray-600 font-semibold">Fetching live satellite and station data for district...</p>
+            <p className="text-gray-600 font-semibold">{t('loadingWeather', 'Fetching live satellite and station data for district...')}</p>
           </div>
         ) : selectedWeather ? (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6 items-stretch">
@@ -326,23 +281,23 @@ export default function FarmerWeather() {
                   <div>
                     <div className="flex items-center gap-2.5">
                       <h2 className="text-2xl sm:text-3xl font-black text-gray-900">
-                        {selectedWeather.districtName}
+                        {language === 'kn' ? selectedWeather.kannadaName : selectedWeather.districtName}
                       </h2>
                       <span className="text-base text-gray-500 font-medium">
-                        ({selectedWeather.kannadaName})
+                        ({language === 'kn' ? selectedWeather.districtName : selectedWeather.kannadaName})
                       </span>
                       <span className="text-xs px-3 py-1 rounded-full bg-sky-50 text-sky-800 border border-sky-200 font-bold">
-                        {selectedWeather.region}
+                        {regionLabels[selectedWeather.region] || selectedWeather.region}
                       </span>
                     </div>
                     <div className="flex items-center gap-2 text-xs text-gray-500 font-medium mt-1">
                       <MapPin size={13} className="text-red-500" />
-                      <span>Geo Coordinates: {selectedWeather.lat.toFixed(2)}°N, {selectedWeather.lon.toFixed(2)}°E • Station: Live Agromet Radar</span>
+                      <span>{t('geoCoordinates', 'Geo Coordinates:')} {selectedWeather.lat.toFixed(2)}°N, {selectedWeather.lon.toFixed(2)}°E • {t('stationRadar', 'Station: Live Agromet Radar')}</span>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <label className="text-xs font-bold text-gray-600 hidden sm:inline">District:</label>
+                    <label className="text-xs font-bold text-gray-600 hidden sm:inline">{t('district', 'District:')}</label>
                     <select
                       value={selectedDistrictId}
                       onChange={(e) => setSelectedDistrictId(e.target.value)}
@@ -350,7 +305,7 @@ export default function FarmerWeather() {
                     >
                       {KARNATAKA_DISTRICTS.map((d) => (
                         <option key={d.id} value={d.id}>
-                          {d.name} ({d.kannadaName}) • {d.region}
+                          {language === 'kn' ? `${d.kannadaName} (${d.name})` : `${d.name} (${d.kannadaName})`} • {regionLabels[d.region] || d.region}
                         </option>
                       ))}
                     </select>
@@ -368,10 +323,10 @@ export default function FarmerWeather() {
                         {selectedWeather.temperature}°<span className="text-2xl text-sky-600 font-bold">C</span>
                       </div>
                       <div className="text-base sm:text-lg font-bold text-sky-900 mt-0.5">
-                        {selectedWeather.condition}
+                        {translateWeatherCondition(selectedWeather.condition, language)}
                       </div>
                       <div className="text-xs text-gray-600 font-medium">
-                        Feels like {selectedWeather.apparentTemperature}°C • RealFeel Shade
+                        {t('feelsLike', 'Feels like')} {selectedWeather.apparentTemperature}°C • {t('realFeelShade', 'RealFeel Shade')}
                       </div>
                     </div>
                   </div>
@@ -381,37 +336,37 @@ export default function FarmerWeather() {
                     <div className="bg-white border-2 border-sky-200 rounded-2xl p-3 text-center min-w-[95px] shadow-sm">
                       <div className="flex items-center justify-center gap-1 text-xs text-sky-700 font-bold">
                         <Droplets size={13} />
-                        <span>Humidity</span>
+                        <span>{t('humidity', 'Humidity')}</span>
                       </div>
                       <span className="text-xl font-black text-gray-900 block mt-1">{selectedWeather.humidity}%</span>
-                      <span className="text-[10px] text-gray-500 block">Atmospheric</span>
+                      <span className="text-[10px] text-gray-500 block">{t('atmospheric', 'Atmospheric')}</span>
                     </div>
 
                     <div className="bg-white border-2 border-teal-200 rounded-2xl p-3 text-center min-w-[95px] shadow-sm">
                       <div className="flex items-center justify-center gap-1 text-xs text-teal-700 font-bold">
                         <Wind size={13} />
-                        <span>Wind</span>
+                        <span>{t('wind', 'Wind')}</span>
                       </div>
                       <span className="text-xl font-black text-gray-900 block mt-1">{selectedWeather.windSpeed}</span>
-                      <span className="text-[10px] text-gray-500 block">km/h Speed</span>
+                      <span className="text-[10px] text-gray-500 block">{t('windSpeedUnit', 'km/h Speed')}</span>
                     </div>
 
                     <div className="bg-white border-2 border-emerald-200 rounded-2xl p-3 text-center min-w-[95px] shadow-sm">
                       <div className="flex items-center justify-center gap-1 text-xs text-emerald-700 font-bold">
                         <Umbrella size={13} />
-                        <span>Rain Prob</span>
+                        <span>{t('rainProb', 'Rain Prob')}</span>
                       </div>
                       <span className="text-xl font-black text-emerald-700 block mt-1">{selectedWeather.precipitationProb}%</span>
-                      <span className="text-[10px] text-gray-500 block">Precipitation</span>
+                      <span className="text-[10px] text-gray-500 block">{t('precipitation', 'Precipitation')}</span>
                     </div>
 
                     <div className="bg-white border-2 border-amber-200 rounded-2xl p-3 text-center min-w-[95px] shadow-sm">
                       <div className="flex items-center justify-center gap-1 text-xs text-amber-700 font-bold">
                         <Sun size={13} />
-                        <span>UV Index</span>
+                        <span>{t('uvIndex', 'UV Index')}</span>
                       </div>
                       <span className="text-xl font-black text-amber-700 block mt-1">{selectedWeather.uvIndex}</span>
-                      <span className="text-[10px] text-gray-500 block">Solar Radiation</span>
+                      <span className="text-[10px] text-gray-500 block">{t('solarRadiation', 'Solar Radiation')}</span>
                     </div>
                   </div>
                 </div>
@@ -419,7 +374,7 @@ export default function FarmerWeather() {
                 {/* 7-Day Day-to-Day Outlook */}
                 <div>
                   <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">
-                    Automated 7-Day Weather Forecast
+                    {t('sevenDayForecast', 'Automated 7-Day Weather Forecast')}
                   </h3>
                   <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
                     {selectedWeather.dailyForecast?.map((day, idx) => (
@@ -431,13 +386,13 @@ export default function FarmerWeather() {
                             : 'bg-white border-gray-200 hover:border-sky-300 hover:bg-sky-50/40'
                         }`}
                       >
-                        <span className="text-xs font-bold text-gray-700 block">{day.day}</span>
+                        <span className="text-xs font-bold text-gray-700 block">{translateDay(day.day, language)}</span>
                         <span className="text-2xl my-1 block">{day.icon}</span>
                         <div className="text-xs font-black text-gray-900">
                           {day.maxTemp}°<span className="text-[10px] text-gray-500 font-normal"> / {day.minTemp}°</span>
                         </div>
                         <span className="text-[10px] text-sky-700 font-bold block truncate mt-0.5">
-                          {day.condition}
+                          {translateWeatherCondition(day.condition, language)}
                         </span>
                       </div>
                     ))}
@@ -452,7 +407,7 @@ export default function FarmerWeather() {
                 <div className="flex items-center justify-between mb-4 border-b border-emerald-200/80 pb-3">
                   <h3 className="text-lg font-black text-gray-900 flex items-center gap-2">
                     <span>🌾</span>
-                    <span>Agromet Farmer Advisory</span>
+                    <span>{t('agrometAdvisory', 'Agromet Farmer Advisory')}</span>
                   </h3>
                   {advisory && (
                     <span className={`text-[11px] font-black px-2.5 py-1 rounded-full border ${advisory.badgeColor}`}>
@@ -479,14 +434,14 @@ export default function FarmerWeather() {
 
                     <div className="space-y-2.5 pt-1">
                       <h4 className="text-xs font-bold text-gray-600 uppercase tracking-wider">
-                        Operational Farm Advice for Today
+                        {t('farmAdviceToday', 'Operational Farm Advice for Today')}
                       </h4>
 
                       <div className="space-y-2 text-xs">
                         <div className="flex items-start gap-2 bg-white/90 p-2.5 rounded-xl border border-gray-200 shadow-sm">
                           <CheckCircle2 size={16} className="text-emerald-600 flex-shrink-0 mt-0.5" />
                           <div>
-                            <strong className="text-gray-900">Irrigation: </strong>
+                            <strong className="text-gray-900">{t('irrigation', 'Irrigation:')} </strong>
                             <span className="text-gray-700">{advisory.irrigation}</span>
                           </div>
                         </div>
@@ -494,7 +449,7 @@ export default function FarmerWeather() {
                         <div className="flex items-start gap-2 bg-white/90 p-2.5 rounded-xl border border-gray-200 shadow-sm">
                           <CheckCircle2 size={16} className="text-teal-600 flex-shrink-0 mt-0.5" />
                           <div>
-                            <strong className="text-gray-900">Spraying: </strong>
+                            <strong className="text-gray-900">{t('spraying', 'Spraying:')} </strong>
                             <span className="text-gray-700">{advisory.spray}</span>
                           </div>
                         </div>
@@ -502,7 +457,7 @@ export default function FarmerWeather() {
                         <div className="flex items-start gap-2 bg-white/90 p-2.5 rounded-xl border border-gray-200 shadow-sm">
                           <CheckCircle2 size={16} className="text-amber-600 flex-shrink-0 mt-0.5" />
                           <div>
-                            <strong className="text-gray-900">Harvesting: </strong>
+                            <strong className="text-gray-900">{t('harvesting', 'Harvesting:')} </strong>
                             <span className="text-gray-700">{advisory.harvest}</span>
                           </div>
                         </div>
@@ -519,7 +474,7 @@ export default function FarmerWeather() {
                   rel="noreferrer"
                   className="w-full inline-flex items-center justify-center gap-2 py-3 px-4 rounded-2xl text-xs sm:text-sm font-bold bg-white hover:bg-sky-50 text-sky-800 border-2 border-sky-300 shadow-sm transition active:scale-95"
                 >
-                  <span>Open {selectedWeather.districtName} on AccuWeather</span>
+                  <span>{t('openOnAccuWeather', 'Open on AccuWeather')} ({language === 'kn' ? selectedWeather.kannadaName : selectedWeather.districtName})</span>
                   <ExternalLink size={14} />
                 </a>
               </div>
@@ -534,10 +489,10 @@ export default function FarmerWeather() {
             <div>
               <h2 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight flex items-center gap-2">
                 <span>📍</span>
-                <span>Place-by-Place Karnataka Weather Directory (31 Districts)</span>
+                <span>{t('directoryTitle', 'Place-by-Place Karnataka Weather Directory (31 Districts)')}</span>
               </h2>
               <p className="text-xs sm:text-sm text-gray-600 font-medium">
-                Click any district card to immediately inspect its local weather metrics and farm advisory.
+                {t('directoryDesc', 'Click any district card to immediately inspect its local weather metrics and farm advisory.')}
               </p>
             </div>
 
@@ -553,7 +508,7 @@ export default function FarmerWeather() {
                       : 'bg-white text-gray-700 hover:bg-gray-100 border border-gray-300'
                   }`}
                 >
-                  {region}
+                  {regionLabels[region] || region}
                 </button>
               ))}
             </div>
@@ -565,7 +520,7 @@ export default function FarmerWeather() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search district name in English or Kannada (e.g., Hassan, Mysuru, Belagavi, ಬೆಳಗಾವಿ)..."
+              placeholder={t('searchDistrictPlaceholder', 'Search district name in English or Kannada (e.g., Hassan, Mysuru, Belagavi, ಬೆಳಗಾವಿ)...')}
               className="w-full bg-white border-2 border-gray-300 hover:border-sky-400 focus:border-sky-600 rounded-2xl px-5 py-3 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-500/30 transition shadow-sm"
             />
             <span className="absolute right-5 top-3.5 text-gray-400 text-base">🔍</span>
@@ -600,10 +555,10 @@ export default function FarmerWeather() {
                     <div className="flex items-start justify-between">
                       <div>
                         <h3 className="text-base font-black text-gray-900 leading-tight">
-                          {district.name}
+                          {language === 'kn' ? district.kannadaName : district.name}
                         </h3>
                         <span className="text-xs text-gray-500 font-medium">
-                          {district.kannadaName} • {district.region}
+                          {language === 'kn' ? district.name : district.kannadaName} • {regionLabels[district.region] || district.region}
                         </span>
                       </div>
                       <span className="text-3xl">
@@ -617,7 +572,7 @@ export default function FarmerWeather() {
                           {w ? `${w.temperature}°C` : '--°C'}
                         </div>
                         <div className="text-xs font-bold text-sky-800">
-                          {w ? w.condition : 'Loading...'}
+                          {w ? translateWeatherCondition(w.condition, language) : t('loading', 'Loading...')}
                         </div>
                       </div>
 
@@ -629,10 +584,10 @@ export default function FarmerWeather() {
 
                     <div className="mt-3 pt-2.5 border-t border-gray-100 flex items-center justify-between text-xs font-bold">
                       <span className="text-emerald-700">
-                        Rain: {w ? `${w.precipitationProb}%` : '--'}
+                        {t('rainShort', 'Rain:')} {w ? `${w.precipitationProb}%` : '--'}
                       </span>
                       <span className="text-sky-700 hover:underline flex items-center gap-1">
-                        <span>Select</span>
+                        <span>{t('selectBtn', 'Select')}</span>
                         <ArrowRight size={12} />
                       </span>
                     </div>

@@ -17,7 +17,7 @@ import { DELIVERY_AREAS } from '../../data/consumerData';
 
 const ROTATING_SEARCH_HINTS = [
   "Search 'fresh farm tomatoes'",
-  "Search 'pure cow milk'",
+  "Search 'cold-pressed virgin coconut oil'",
   "Search 'sharbati atta'",
   "Search 'organic ragi flour'",
   "Search 'cold-pressed oils'",

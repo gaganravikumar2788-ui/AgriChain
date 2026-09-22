@@ -10,18 +10,22 @@ export function getProduceImageForCrop(cropName = '') {
   if (c.includes('tomato')) return 'https://www.languageguide.org/vocabulary/veg/images/tomato.webp';
   if (c.includes('potato')) return 'https://www.languageguide.org/vocabulary/veg/images/potato.webp';
   if (c.includes('onion')) return 'https://www.languageguide.org/vocabulary/veg/images/onion.webp';
-  if (c.includes('chilli') || c.includes('chili')) return 'https://www.languageguide.org/vocabulary/veg/images/chili.webp';
+  if (c.includes('chilli') || c.includes('chili')) return '/vegetables/green-chilli.webp';
   if (c.includes('brinjal') || c.includes('eggplant')) return 'https://www.languageguide.org/vocabulary/veg/images/eggplant.webp';
   if (c.includes('cabbage')) return 'https://www.languageguide.org/vocabulary/veg/images/cabbage.webp';
   if (c.includes('carrot')) return 'https://www.languageguide.org/vocabulary/veg/images/carrot.webp';
   if (c.includes('cucumber')) return 'https://www.languageguide.org/vocabulary/veg/images/cucumber.webp';
   if (c.includes('capsicum') || c.includes('pepper')) return 'https://www.languageguide.org/vocabulary/veg/images/bell-pepper.webp';
+  if (c.includes('moong') || c.includes('mung') || c.includes('green gram')) return '/pulses/moong-dal.jpg';
+  if (c.includes('toor') || c.includes('arhar') || c.includes('tur') || c.includes('pigeon pea')) return '/pulses/toor-dal.jpg';
   if (c.includes('bean') || c.includes('gram') || c.includes('dal') || c.includes('pulse')) return 'https://www.languageguide.org/vocabulary/veg/images/beans.webp';
   if (c.includes('rice') || c.includes('paddy')) return 'https://www.languageguide.org/vocabulary/food_new/small/rice.png';
   if (c.includes('wheat')) return 'https://www.languageguide.org/vocabulary/food_new/small/wheat.png';
+  if (c.includes('ragi') || c.includes('finger millet')) return '/grains/ragi-flour.jpg';
   if (c.includes('peanut') || c.includes('groundnut')) return 'https://www.languageguide.org/vocabulary/food_new/small/peanut.png';
   if (c.includes('banana')) return 'https://www.languageguide.org/vocabulary/fruits/small/banana.png';
   if (c.includes('mango')) return 'https://www.languageguide.org/vocabulary/fruits/small/mango.png';
+  if (c.includes('pomegranate') || c.includes('anaar') || c.includes('anar')) return '/fruits/pomegranate.png';
   return 'https://www.languageguide.org/vocabulary/veg/images/tomato.webp';
 }
 

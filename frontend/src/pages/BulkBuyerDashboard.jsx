@@ -1157,7 +1157,7 @@ export default function BulkBuyerDashboard() {
                         { name: "Bottle Gourd", img: "/vegetables/bottle-gourd-lauki.webp", price: "₹1,450/Qtl", stock: "22 MT" },
                         { name: "Spinach", img: "/vegetables/spinach-palak.webp", price: "₹1,800/Qtl", stock: "8 MT" },
                         { name: "French Beans", img: "/vegetables/french-beans.webp", price: "₹3,400/Qtl", stock: "12 MT" },
-                        { name: "Toor Dal Bold", img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&q=80&w=300", price: "₹10,400/Qtl", stock: "45 MT" }
+                        { name: "Toor Dal Bold", img: "/pulses/toor-dal.jpg", price: "₹10,400/Qtl", stock: "45 MT" }
                       ].map((item, i) => (
                         <div key={i} className="p-2.5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-emerald-600 transition-all text-center flex flex-col items-center">
                           <div className="w-14 h-14 rounded-xl overflow-hidden mb-2 bg-white border border-slate-200 p-1 flex items-center justify-center">
