@@ -26,6 +26,7 @@ export function getProduceImageForCrop(cropName = '') {
   if (c.includes('banana')) return 'https://www.languageguide.org/vocabulary/fruits/small/banana.png';
   if (c.includes('mango')) return 'https://www.languageguide.org/vocabulary/fruits/small/mango.png';
   if (c.includes('pomegranate') || c.includes('anaar') || c.includes('anar')) return '/fruits/pomegranate.png';
+  if (c.includes('ginger') || c.includes('adrak')) return '/vegetables/ginger-fresh.jpg';
   return 'https://www.languageguide.org/vocabulary/veg/images/tomato.webp';
 }
 

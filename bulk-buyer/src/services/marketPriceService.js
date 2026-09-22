@@ -45,7 +45,7 @@ export const COMMODITY_IMAGES = {
   'potato-hassan': 'https://www.languageguide.org/vocabulary/veg/images/potato.webp',
   'green-chilli': '/vegetables/green-chilli.webp',
   'garlic': 'https://www.languageguide.org/vocabulary/veg/images/garlic.webp',
-  'ginger-fresh': 'https://www.languageguide.org/vocabulary/veg/images/sweet-potato.webp',
+  'ginger-fresh': '/vegetables/ginger-fresh.jpg',
   'brinjal': 'https://www.languageguide.org/vocabulary/veg/images/eggplant.webp',
   'cucumber': 'https://www.languageguide.org/vocabulary/veg/images/cucumber.webp',
   'bell-pepper': 'https://www.languageguide.org/vocabulary/veg/images/bell-pepper.webp',

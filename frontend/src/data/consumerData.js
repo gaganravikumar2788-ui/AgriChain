@@ -168,7 +168,7 @@ export const CONSUMER_PRODUCTS = [
     price: 35,
     mrp: 48,
     discount: '27% OFF',
-    image: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&q=80&w=500',
+    image: '/vegetables/ginger-fresh.jpg',
     tag: 'Aromatic & Juicy',
     rating: 4.9,
     reviews: 1620,

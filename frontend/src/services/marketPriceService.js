@@ -45,7 +45,7 @@ export const COMMODITY_IMAGES = {
   'potato-hassan': 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&q=80&w=500',
   'green-chilli': '/vegetables/green-chilli.webp',
   'garlic': 'https://images.unsplash.com/photo-1540148426945-6cf22a6b2383?auto=format&fit=crop&q=80&w=500',
-  'ginger-fresh': 'https://images.unsplash.com/photo-1615485500704-8e990f9900f7?auto=format&fit=crop&q=80&w=500',
+  'ginger-fresh': '/vegetables/ginger-fresh.jpg',
   'brinjal': 'https://images.unsplash.com/photo-1528825871115-3581a5387919?auto=format&fit=crop&q=80&w=500',
   'cucumber': 'https://images.unsplash.com/photo-1449300079323-02e209d9d3a6?auto=format&fit=crop&q=80&w=500',
   'bell-pepper': 'https://images.unsplash.com/photo-1563565375-f3fdfdbefa83?auto=format&fit=crop&q=80&w=500',
