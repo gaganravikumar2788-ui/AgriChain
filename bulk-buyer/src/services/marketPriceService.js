@@ -77,7 +77,7 @@ export const COMMODITY_IMAGES = {
   'ragi-finger-millet': '/grains/ragi-flour.jpg',
 
   // Pulses
-  'chana-bengal-gram': 'https://www.languageguide.org/vocabulary/veg/images/peas.webp',
+  'chana-bengal-gram': '/pulses/desi-brown-chana.jpg',
   'tur-red-gram': '/pulses/toor-dal.jpg',
   'moong-green-gram': '/pulses/moong-dal.jpg',
   'urad-black-matpe': 'https://www.languageguide.org/vocabulary/veg/images/beans.webp',

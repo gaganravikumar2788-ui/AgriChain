@@ -19,7 +19,7 @@ export function getProduceImageForCrop(cropName = '') {
   if (c.includes('okra') || c.includes('bhindi') || c.includes('lady finger')) return '/vegetables/okra-bhindi.webp';
   if (c.includes('moong') || c.includes('mung') || c.includes('green gram')) return '/pulses/moong-dal.jpg';
   if (c.includes('toor') || c.includes('arhar') || c.includes('tur') || c.includes('dal') || c.includes('pulse')) return '/pulses/toor-dal.jpg';
-  if (c.includes('chana') || c.includes('gram') || c.includes('chickpea')) return 'https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&q=80&w=500';
+  if (c.includes('chana') || c.includes('gram') || c.includes('chickpea')) return '/pulses/desi-brown-chana.jpg';
   if (c.includes('rice') || c.includes('paddy')) return 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&q=80&w=500';
   if (c.includes('wheat')) return 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&q=80&w=500';
   if (c.includes('ragi') || c.includes('finger millet')) return '/grains/ragi-flour.jpg';

@@ -73,7 +73,7 @@ export const CATEGORIES = [
       { name: "Desi Toor Dal (Pigeon Pea)", price: "₹ 8,900 / Qtl", available: "18 MT", grade: "Unpolished A+", farmer: "Lakshmi Devi", image: "/pulses/toor-dal.jpg" },
       { name: "Green Gram (Moong Dal)", price: "₹ 7,600 / Qtl", available: "12 MT", grade: "Grade A Premium", farmer: "Ramesh Kumar", image: "/pulses/moong-dal.jpg" },
       { name: "Black Matpe (Urad Dal)", price: "₹ 7,950 / Qtl", available: "15 MT", grade: "Machine Cleaned", farmer: "Suresh Patel", image: "https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&q=80&w=400" },
-      { name: "Desi Chana (Bengal Gram)", price: "₹ 5,950 / Qtl", available: "24 MT", grade: "FAQ Export Grade", farmer: "Gagan Gowda", image: "https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&q=80&w=400" },
+      { name: "Desi Chana (Bengal Gram)", price: "₹ 5,950 / Qtl", available: "24 MT", grade: "FAQ Export Grade", farmer: "Gagan Gowda", image: "/pulses/desi-brown-chana.jpg" },
       { name: "Red Lentil (Masoor Dal)", price: "₹ 6,420 / Qtl", available: "16 MT", grade: "Polished Bold", farmer: "Murugan", image: "https://images.unsplash.com/photo-1596797038530-2c107229654b?auto=format&fit=crop&q=80&w=400" },
     ],
   },

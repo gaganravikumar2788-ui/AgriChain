@@ -352,7 +352,7 @@ export const CONSUMER_PRODUCTS = [
     price: 92,
     mrp: 115,
     discount: '20% OFF',
-    image: 'https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&q=80&w=500',
+    image: '/pulses/desi-brown-chana.jpg',
     tag: 'Sprout Quality',
     rating: 4.8,
     reviews: 1220,

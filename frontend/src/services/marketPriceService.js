@@ -77,7 +77,7 @@ export const COMMODITY_IMAGES = {
   'ragi-finger-millet': '/grains/ragi-flour.jpg',
 
   // Pulses (Authentic pulses & lentils)
-  'chana-bengal-gram': 'https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&q=80&w=500',
+  'chana-bengal-gram': '/pulses/desi-brown-chana.jpg',
   'tur-red-gram': '/pulses/toor-dal.jpg',
   'moong-green-gram': '/pulses/moong-dal.jpg',
   'urad-black-matpe': 'https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&q=80&w=500',
