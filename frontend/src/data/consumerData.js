@@ -1,11 +1,11 @@
 // AgriChain Quick-Commerce Product Catalog (Blinkit-style Farm-Fresh & Grocery)
 
 export const CONSUMER_CATEGORIES = [
-  { id: 'all', name: 'All Products', icon: '🛒', count: 27 },
+  { id: 'all', name: 'All Products', icon: '🛒', count: 26 },
   { id: 'vegetables', name: 'Vegetables & Herbs', icon: '🥦', count: 11 },
   { id: 'fruits', name: 'Fresh Fruits', icon: '🍎', count: 6 },
   { id: 'atta-rice-dal', name: 'Atta, Rice & Dal', icon: '🌾', count: 6 },
-  { id: 'masalas-oils', name: 'Oils & Spices', icon: '🌿', count: 4 }
+  { id: 'masalas-oils', name: 'Oils & Spices', icon: '🌿', count: 3 }
 ];
 
 export const CONSUMER_PRODUCTS = [
@@ -375,21 +375,6 @@ export const CONSUMER_PRODUCTS = [
     reviews: 3100,
     godownSku: 'SKU-OIL-GNT-29',
     description: 'Traditional wood-pressed peanut oil with natural nutty aroma and zero trans fats.'
-  },
-  {
-    id: 'prod_oil_2',
-    name: 'Pure Cold-Pressed Virgin Coconut Oil',
-    category: 'masalas-oils',
-    unit: '500 ml bottle',
-    price: 185,
-    mrp: 220,
-    discount: '16% OFF',
-    image: 'https://images.unsplash.com/photo-1526947425960-945c6e72858f?auto=format&fit=crop&q=80&w=500',
-    tag: 'Farm Wood-Pressed',
-    rating: 4.9,
-    reviews: 2450,
-    godownSku: 'SKU-OIL-COC-30',
-    description: '100% natural cold-pressed virgin coconut oil extracted from fresh sun-dried coastal Karnataka coconuts.'
   },
   {
     id: 'prod_oil_3',
