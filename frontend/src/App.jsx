@@ -15,6 +15,7 @@ import FarmerCropRecommendation from './pages/FarmerCropRecommendation';
 import BulkBuyerDashboard from './pages/BulkBuyerDashboard';
 import RouteOptimizationView from './components/RouteOptimizationView';
 import ConsumerDashboard from './pages/ConsumerDashboard';
+import FarmerAiAgentModal from './components/FarmerAiAgentModal';
 import { LanguageProvider } from './context/LanguageContext';
 
 /* Non-farmer pages keep the original background wrapper + top nav */
@@ -89,6 +90,7 @@ function App() {
           {/* All other pages — use the background wrapper */}
           <Route path="/*" element={<AppWrapper />} />
         </Routes>
+        <FarmerAiAgentModal />
       </Router>
     </LanguageProvider>
   );
