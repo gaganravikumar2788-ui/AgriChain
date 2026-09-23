@@ -108,7 +108,7 @@ export const COMMODITY_IMAGES = {
   'turmeric-raw': 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&q=80&w=500',
   'turmeric-nizamabad': 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&q=80&w=500',
   'cumin-jeera': 'https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&q=80&w=500',
-  'coriander-dhaniya': 'https://images.unsplash.com/photo-1588879460618-9249e7d947d1?auto=format&fit=crop&q=80&w=500',
+  'coriander-dhaniya': '/vegetables/coriander.jpg',
   'black-pepper': 'https://images.unsplash.com/photo-1509358271058-acd22cc93898?auto=format&fit=crop&q=80&w=500',
 };
 

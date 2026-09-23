@@ -108,7 +108,7 @@ export const COMMODITY_IMAGES = {
   'turmeric-raw': 'https://www.languageguide.org/vocabulary/veg/images/sweet-potato.webp',
   'turmeric-nizamabad': 'https://www.languageguide.org/vocabulary/veg/images/sweet-potato.webp',
   'cumin-jeera': 'https://www.languageguide.org/vocabulary/food_new/small/grains.png',
-  'coriander-dhaniya': 'https://www.languageguide.org/vocabulary/food_new/small/grains.png',
+  'coriander-dhaniya': '/vegetables/coriander.jpg',
   'black-pepper': 'https://www.languageguide.org/vocabulary/food_new/small/grains.png',
 };
 
