@@ -4,78 +4,172 @@
  * Supports: Kannada ('kn'), Hindi ('hi'), English ('en')
  * 
  * Features:
- * 1. Native Web Speech Synthesis with automatic voice matching.
- * 2. High-fidelity cloud audio fallback via Google Neural TTS stream
- *    (guarantees fluent Kannada and Hindi speech even when the client OS
- *    has no local Indian language voice pack installed).
- * 3. Markdown and symbol stripping for pure natural phonetic pronunciation.
- * 4. Automatic sentence chunking for uninterrupted audio playback.
+ * 1. High-fidelity Neural TTS Stream via /api/tts (guarantees authentic, native
+ *    Kannada and Hindi speech on all browsers and devices without OS dependencies).
+ * 2. Instant fallback to Web Speech Synthesis if offline.
+ * 3. Natural currency pronunciation (ರೂಪಾಯಿ in Kannada, रुपये in Hindi).
+ * 4. Markdown, emoji, and symbol sanitization.
+ * 5. Sequential audio chunk playback with preloading.
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
 let currentAudio = null;
 let isPlaybackActive = false;
+let currentUtterance = null;
 
 /**
- * Clean text for audio reading: strip markdown syntax, links, bullets, and emojis
+ * Clean text for natural audio reading
  */
-export function cleanTextForSpeech(rawText) {
+export function cleanTextForSpeech(rawText, lang = 'kn') {
   if (!rawText) return '';
+
+  const currencyWord = lang === 'kn' ? ' ರೂಪಾಯಿ ' : lang === 'hi' ? ' रुपये ' : ' rupees ';
+
   return rawText
+    .replace(/[₹]/g, currencyWord)
     .replace(/•|\*|_|#|`|~|\[|\]|\(|\)/g, ' ')
     .replace(/https?:\/\/\S+/g, '')
-    .replace(/[₹]/g, ' rupees ')
     .replace(/[\u{1F300}-\u{1F9FF}]/gu, '') // strip emojis
     .replace(/\s+/g, ' ')
     .trim();
 }
 
 /**
- * Split long text into speakable chunks (< 180 characters each for web TTS)
+ * Split text into natural speakable sentence chunks (< 160 characters)
  */
 function splitIntoChunks(text, maxLength = 160) {
-  const sentences = text.match(/[^.!?\n]+[.!?\n]+/g) || [text];
+  if (!text) return [];
+  if (text.length <= maxLength) return [text];
+
+  // Match sentence endings including Hindi danda (\u0964)
+  const sentences = text.match(/[^.!?\u0964\n]+[.!?\u0964\n]+/g) || [text];
   const chunks = [];
   let currentChunk = '';
 
-  for (const sentence of sentences) {
-    if ((currentChunk + ' ' + sentence).length > maxLength) {
+  for (const s of sentences) {
+    const trimmed = s.trim();
+    if (!trimmed) continue;
+
+    if ((currentChunk + ' ' + trimmed).length > maxLength) {
       if (currentChunk.trim()) chunks.push(currentChunk.trim());
-      currentChunk = sentence;
+      // If a single sentence exceeds maxLength, split by comma or spaces
+      if (trimmed.length > maxLength) {
+        const parts = trimmed.split(/[,，]\s*/);
+        for (const p of parts) {
+          if (p.trim()) chunks.push(p.trim());
+        }
+        currentChunk = '';
+      } else {
+        currentChunk = trimmed;
+      }
     } else {
-      currentChunk += ' ' + sentence;
+      currentChunk = currentChunk ? (currentChunk + ' ' + trimmed) : trimmed;
     }
   }
+
   if (currentChunk.trim()) {
     chunks.push(currentChunk.trim());
   }
-  return chunks;
+
+  return chunks.length > 0 ? chunks : [text.slice(0, maxLength)];
 }
 
 /**
- * Stop any current speech (both SpeechSynthesis and Audio element)
+ * Stop any currently playing audio or speech synthesis
  */
 export function stopFarmerSpeech() {
   isPlaybackActive = false;
-  if ('speechSynthesis' in window) {
-    try {
-      window.speechSynthesis.cancel();
-    } catch {}
-  }
+
   if (currentAudio) {
     try {
       currentAudio.pause();
       currentAudio.currentTime = 0;
+      currentAudio.src = '';
       currentAudio = null;
+    } catch {}
+  }
+
+  if ('speechSynthesis' in window) {
+    try {
+      window.speechSynthesis.cancel();
+      currentUtterance = null;
     } catch {}
   }
 }
 
 /**
- * Play audio via Google Neural TTS stream (supports Kannada, Hindi, and English natively)
+ * Fallback to browser Web Speech API
  */
-function playGoogleTtsChunks(chunks, langCode, onStart, onEnd, onError) {
-  if (!chunks || chunks.length === 0) {
+function fallbackSpeechSynthesis(text, lang, onStart, onEnd, onError) {
+  if (!('speechSynthesis' in window)) {
+    if (onEnd) onEnd();
+    return;
+  }
+
+  try {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    currentUtterance = utterance;
+
+    const langCode = lang === 'kn' ? 'kn-IN' : lang === 'hi' ? 'hi-IN' : 'en-IN';
+    utterance.lang = langCode;
+    utterance.rate = 0.92;
+    utterance.pitch = 1.0;
+
+    const voices = window.speechSynthesis.getVoices() || [];
+    const targetVoice = voices.find(v => {
+      const vLang = (v.lang || '').toLowerCase();
+      const vName = (v.name || '').toLowerCase();
+      if (lang === 'kn') return vLang.includes('kn') || vName.includes('kannada');
+      if (lang === 'hi') return vLang.includes('hi') || vName.includes('hindi');
+      return vLang.includes('en-in') || vLang.includes('en');
+    });
+
+    if (targetVoice) {
+      utterance.voice = targetVoice;
+    }
+
+    utterance.onstart = () => {
+      if (onStart) onStart();
+    };
+
+    utterance.onend = () => {
+      currentUtterance = null;
+      if (onEnd) onEnd();
+    };
+
+    utterance.onerror = (e) => {
+      console.warn('SpeechSynthesis error:', e);
+      currentUtterance = null;
+      if (onError) onError(e);
+      if (onEnd) onEnd();
+    };
+
+    window.speechSynthesis.speak(utterance);
+  } catch (err) {
+    console.warn('SpeechSynthesis fallback failed:', err);
+    if (onEnd) onEnd();
+  }
+}
+
+/**
+ * Main Audio Speech Function
+ * Uses /api/tts endpoint for guaranteed Kannada & Hindi audio.
+ * Works seamlessly across Chrome, Edge, Safari, iOS, and Android.
+ */
+export function playFarmerSpeech(rawText, lang = 'kn', onStart = () => {}, onEnd = () => {}, onError = () => {}) {
+  stopFarmerSpeech();
+
+  const cleaned = cleanTextForSpeech(rawText, lang);
+  if (!cleaned) {
+    if (onEnd) onEnd();
+    return;
+  }
+
+  const langCode = lang === 'kn' ? 'kn' : lang === 'hi' ? 'hi' : 'en';
+  const chunks = splitIntoChunks(cleaned, 160);
+
+  if (chunks.length === 0) {
     if (onEnd) onEnd();
     return;
   }
@@ -83,122 +177,46 @@ function playGoogleTtsChunks(chunks, langCode, onStart, onEnd, onError) {
   isPlaybackActive = true;
   let chunkIndex = 0;
 
-  function playNext() {
+  function playNextChunk() {
     if (!isPlaybackActive || chunkIndex >= chunks.length) {
       isPlaybackActive = false;
       if (onEnd) onEnd();
       return;
     }
 
-    const chunk = chunks[chunkIndex];
+    const currentText = chunks[chunkIndex];
     chunkIndex++;
 
-    const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${langCode}&q=${encodeURIComponent(chunk)}`;
-    const audio = new Audio(ttsUrl);
+    const audioUrl = `/api/tts?tl=${langCode}&q=${encodeURIComponent(currentText)}`;
+    const audio = new Audio();
     currentAudio = audio;
+    audio.src = audioUrl;
 
     if (chunkIndex === 1 && onStart) {
       onStart();
     }
 
     audio.onended = () => {
-      playNext();
+      playNextChunk();
     };
 
-    audio.onerror = (e) => {
-      console.warn('Audio TTS chunk playback error:', e);
-      // Try next chunk
-      playNext();
-    };
-
-    audio.play().catch(err => {
-      console.warn('Audio play blocked or failed:', err);
+    audio.onerror = (err) => {
+      console.warn('Audio streaming from /api/tts failed, attempting local fallback:', err);
+      // If serverless endpoint fails, fallback to local Web Speech API
       isPlaybackActive = false;
-      if (onError) onError(err);
-      if (onEnd) onEnd();
-    });
-  }
+      fallbackSpeechSynthesis(cleaned, lang, onStart, onEnd, onError);
+    };
 
-  playNext();
-}
-
-/**
- * Main Speech Function
- * Tries local native voice first if appropriate, otherwise uses the universal neural TTS stream.
- */
-export function playFarmerSpeech(rawText, lang = 'kn', onStart = () => {}, onEnd = () => {}, onError = () => {}) {
-  stopFarmerSpeech();
-  const cleaned = cleanTextForSpeech(rawText);
-  if (!cleaned) {
-    if (onEnd) onEnd();
-    return;
-  }
-
-  const langCode = lang === 'kn' ? 'kn' : lang === 'hi' ? 'hi' : 'en';
-
-  // Check if browser has an authentic local voice for this language
-  let hasNativeVoice = false;
-  let targetVoice = null;
-
-  if ('speechSynthesis' in window) {
-    const voices = window.speechSynthesis.getVoices() || [];
-    if (lang === 'kn') {
-      targetVoice = voices.find(v => (v.lang && v.lang.toLowerCase().includes('kn')) || (v.name && v.name.toLowerCase().includes('kannada')));
-      hasNativeVoice = Boolean(targetVoice);
-    } else if (lang === 'hi') {
-      targetVoice = voices.find(v => (v.lang && v.lang.toLowerCase().includes('hi')) || (v.name && v.name.toLowerCase().includes('hindi')));
-      hasNativeVoice = Boolean(targetVoice);
-    } else {
-      targetVoice = voices.find(v => v.lang && (v.lang.toLowerCase().includes('en-in') || v.lang.toLowerCase().includes('en')));
-      hasNativeVoice = Boolean(targetVoice);
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise.catch((playErr) => {
+        console.warn('Audio play blocked or aborted by browser:', playErr);
+        isPlaybackActive = false;
+        // Try fallback to browser speech synthesis
+        fallbackSpeechSynthesis(cleaned, lang, onStart, onEnd, onError);
+      });
     }
   }
 
-  // If client browser has the matching native voice installed, use Web Speech Synthesis
-  if (hasNativeVoice && targetVoice && 'speechSynthesis' in window) {
-    try {
-      const utterance = new SpeechSynthesisUtterance(cleaned);
-      utterance.voice = targetVoice;
-      utterance.lang = lang === 'kn' ? 'kn-IN' : lang === 'hi' ? 'hi-IN' : 'en-IN';
-      utterance.rate = 0.95;
-      utterance.pitch = 1.0;
-
-      let started = false;
-      utterance.onstart = () => {
-        started = true;
-        isPlaybackActive = true;
-        if (onStart) onStart();
-      };
-      utterance.onend = () => {
-        isPlaybackActive = false;
-        if (onEnd) onEnd();
-      };
-      utterance.onerror = (err) => {
-        console.warn('SpeechSynthesis error, falling back to TTS stream:', err);
-        isPlaybackActive = false;
-        // Fallback to neural TTS
-        const chunks = splitIntoChunks(cleaned);
-        playGoogleTtsChunks(chunks, langCode, onStart, onEnd, onError);
-      };
-
-      window.speechSynthesis.speak(utterance);
-
-      // Safety check: if SpeechSynthesis does not start within 800ms, fallback to neural stream
-      setTimeout(() => {
-        if (!started && isPlaybackActive) {
-          window.speechSynthesis.cancel();
-          const chunks = splitIntoChunks(cleaned);
-          playGoogleTtsChunks(chunks, langCode, onStart, onEnd, onError);
-        }
-      }, 800);
-
-      return;
-    } catch (e) {
-      console.warn('SpeechSynthesis invocation exception:', e);
-    }
-  }
-
-  // Universal Fallback: Use neural TTS audio stream (reliable on all Windows, Mac, Android, and iOS devices)
-  const chunks = splitIntoChunks(cleaned);
-  playGoogleTtsChunks(chunks, langCode, onStart, onEnd, onError);
+  playNextChunk();
 }

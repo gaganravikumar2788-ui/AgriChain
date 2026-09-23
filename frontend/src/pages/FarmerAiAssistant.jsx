@@ -49,11 +49,14 @@ export default function FarmerAiAssistant() {
   }, []);
 
   // Audio speech trigger
-  const triggerSpeech = useCallback((text, langCode) => {
-    if (!isSpeakingEnabled || !text) {
+  const triggerSpeech = useCallback((text, langCode, forcePlay = false) => {
+    if ((!isSpeakingEnabled && !forcePlay) || !text) {
       stopFarmerSpeech();
       setIsCurrentlySpeaking(false);
       return;
+    }
+    if (forcePlay && !isSpeakingEnabled) {
+      setIsSpeakingEnabled(true);
     }
     playFarmerSpeech(
       text,
@@ -569,7 +572,7 @@ export default function FarmerAiAssistant() {
                     <span className="text-slate-400">{msg.time}</span>
                     {msg.sender === 'bot' && msg.speechText && (
                       <button
-                        onClick={() => triggerSpeech(msg.speechText, activeLang)}
+                        onClick={() => triggerSpeech(msg.speechText, activeLang, true)}
                         className="flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 font-black bg-emerald-500/10 hover:bg-emerald-500/20 px-2.5 py-1 rounded-xl transition-all cursor-pointer"
                         title="Replay Audio in Kannada / Hindi / English"
                       >

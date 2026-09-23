@@ -51,11 +51,14 @@ export default function FarmerAiAgentModal() {
   const navigate = useNavigate();
 
   // Text-To-Speech audio speaker helper with native + neural fallback
-  const speakText = useCallback((text, langCode) => {
-    if (!isSpeakingEnabled || !text) {
+  const speakText = useCallback((text, langCode, forcePlay = false) => {
+    if ((!isSpeakingEnabled && !forcePlay) || !text) {
       stopFarmerSpeech();
       setIsCurrentlySpeaking(false);
       return;
+    }
+    if (forcePlay && !isSpeakingEnabled) {
+      setIsSpeakingEnabled(true);
     }
 
     playFarmerSpeech(
@@ -545,7 +548,7 @@ export default function FarmerAiAgentModal() {
                     <span>{msg.time}</span>
                     {msg.sender === 'bot' && msg.speechText && (
                       <button
-                        onClick={() => speakText(msg.speechText, activeLang)}
+                        onClick={() => speakText(msg.speechText, activeLang, true)}
                         className="flex items-center gap-1 hover:text-emerald-700 font-bold px-1.5 py-0.5 rounded-md hover:bg-slate-100 transition-colors cursor-pointer"
                         title="Listen to this reply aloud"
                       >

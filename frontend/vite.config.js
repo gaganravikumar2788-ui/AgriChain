@@ -196,6 +196,59 @@ function farmerSyncPlugin() {
 
         next()
       })
+
+      // 3. Multilingual Speech Proxy Endpoint (Kannada, Hindi, English)
+      server.middlewares.use('/api/tts', async (req, res, next) => {
+        res.setHeader('Access-Control-Allow-Origin', '*')
+        res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS')
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+
+        if (req.method === 'OPTIONS') {
+          res.statusCode = 204
+          res.end()
+          return
+        }
+
+        try {
+          const parsedUrl = new URL(req.url, 'http://localhost:5173')
+          const tl = parsedUrl.searchParams.get('tl') || 'kn'
+          const q = parsedUrl.searchParams.get('q') || ''
+
+          if (!q.trim()) {
+            res.statusCode = 400
+            res.setHeader('Content-Type', 'application/json')
+            res.end(JSON.stringify({ error: 'Text parameter "q" is required' }))
+            return
+          }
+
+          const lang = tl === 'hi' ? 'hi' : tl === 'kn' ? 'kn' : 'en'
+          const cleanText = q.trim().slice(0, 200)
+          const googleUrl = `https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=${lang}&q=${encodeURIComponent(cleanText)}`
+
+          const upstreamRes = await fetch(googleUrl, {
+            headers: {
+              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+            }
+          })
+
+          if (!upstreamRes.ok) {
+            res.statusCode = upstreamRes.status
+            res.end()
+            return
+          }
+
+          const buffer = Buffer.from(await upstreamRes.arrayBuffer())
+          res.setHeader('Content-Type', 'audio/mpeg')
+          res.setHeader('Content-Length', buffer.length)
+          res.setHeader('Cache-Control', 'public, max-age=86400')
+          res.statusCode = 200
+          res.end(buffer)
+        } catch (err) {
+          console.error('Vite TTS proxy error:', err)
+          res.statusCode = 500
+          res.end()
+        }
+      })
     }
   }
 }
