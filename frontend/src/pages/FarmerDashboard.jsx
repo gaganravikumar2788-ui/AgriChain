@@ -13,7 +13,7 @@ import { translateWeatherCondition } from '../utils/translations';
 import {
   Home, FileText, BarChart2, Cloud, User, Menu, X,
   Zap, Leaf, MapPin, Droplets, Wind, Umbrella, ArrowRight,
-  Calendar, CheckCircle, ExternalLink, ShieldCheck, TrendingUp, Sprout, LogOut
+  Calendar, CheckCircle, ExternalLink, ShieldCheck, TrendingUp, Sprout, LogOut, Bot
 } from 'lucide-react';
 
 export default function FarmerDashboard() {
@@ -80,6 +80,7 @@ export default function FarmerDashboard() {
 
   const navLinks = [
     { icon: Home, label: t('home', 'Home'), active: true, action: () => navigate('/farmer-dashboard') },
+    { icon: Bot, label: language === 'kn' ? 'ಕೃಷಿ ಎಐ ಮಿತ್ರ' : language === 'hi' ? 'किसान एआई मित्र' : 'AI Assistant', active: false, action: () => navigate('/farmer/ai') },
     { icon: FileText, label: t('schemes', 'Schemes'), active: false, action: () => navigate('/farmer/schemes') },
     { icon: BarChart2, label: t('market', 'Market'), active: false, action: () => navigate('/farmer/market') },
     { icon: Cloud, label: t('weather', 'Weather'), active: false, action: () => navigate('/farmer/weather') },

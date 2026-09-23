@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Mic, MicOff, Volume2, VolumeX, Send, Sparkles, X,
   Bot, Sprout, TrendingUp, Cloud, ExternalLink, RefreshCw,
-  MessageSquare, ChevronDown
+  MessageSquare, ChevronDown, Maximize2
 } from 'lucide-react';
 import { processFarmerQuery } from '../services/farmerAiAgentService';
+import { playFarmerSpeech, stopFarmerSpeech } from '../utils/farmerSpeechHelper';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function FarmerAiAgentModal() {
@@ -46,48 +48,23 @@ export default function FarmerAiAgentModal() {
     }
   }, []);
 
-  // Text-To-Speech audio speaker helper
+  const navigate = useNavigate();
+
+  // Text-To-Speech audio speaker helper with native + neural fallback
   const speakText = useCallback((text, langCode) => {
-    if (!('speechSynthesis' in window)) return;
-    
-    window.speechSynthesis.cancel(); // Cancel any existing speech
     if (!isSpeakingEnabled || !text) {
+      stopFarmerSpeech();
       setIsCurrentlySpeaking(false);
       return;
     }
 
-    try {
-      const utterance = new SpeechSynthesisUtterance(text);
-      currentUtteranceRef.current = utterance;
-
-      // Select language code
-      if (langCode === 'kn') {
-        utterance.lang = 'kn-IN';
-      } else if (langCode === 'hi') {
-        utterance.lang = 'hi-IN';
-      } else {
-        utterance.lang = 'en-IN';
-      }
-
-      utterance.rate = 0.95; // Clear natural pace for farmers
-      utterance.pitch = 1.0;
-
-      // Find matching voice if available
-      const voices = window.speechSynthesis.getVoices() || [];
-      const matchingVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith(utterance.lang.toLowerCase().slice(0, 2)));
-      if (matchingVoice) {
-        utterance.voice = matchingVoice;
-      }
-
-      utterance.onstart = () => setIsCurrentlySpeaking(true);
-      utterance.onend = () => setIsCurrentlySpeaking(false);
-      utterance.onerror = () => setIsCurrentlySpeaking(false);
-
-      window.speechSynthesis.speak(utterance);
-    } catch (e) {
-      console.warn('Speech synthesis error:', e);
-      setIsCurrentlySpeaking(false);
-    }
+    playFarmerSpeech(
+      text,
+      langCode,
+      () => setIsCurrentlySpeaking(true),
+      () => setIsCurrentlySpeaking(false),
+      () => setIsCurrentlySpeaking(false)
+    );
   }, [isSpeakingEnabled]);
 
   // Initialize initial greeting when modal opens or language changes
@@ -119,7 +96,7 @@ export default function FarmerAiAgentModal() {
   // Stop speech when closing or muting
   const toggleSpeaking = () => {
     if (isSpeakingEnabled) {
-      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      stopFarmerSpeech();
       setIsCurrentlySpeaking(false);
       setIsSpeakingEnabled(false);
     } else {
@@ -130,7 +107,7 @@ export default function FarmerAiAgentModal() {
   // Switch language handler
   const handleLanguageChange = async (newLang) => {
     if (newLang === activeLang) return;
-    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    stopFarmerSpeech();
     setIsCurrentlySpeaking(false);
     setActiveLang(newLang);
     if (setContextLang) setContextLang(newLang);
@@ -382,10 +359,24 @@ export default function FarmerAiAgentModal() {
                   )}
                 </button>
 
+                {/* Full Page Button */}
+                <button
+                  onClick={() => {
+                    stopFarmerSpeech();
+                    setIsCurrentlySpeaking(false);
+                    setIsOpen(false);
+                    navigate('/farmer/ai');
+                  }}
+                  title="Open Full Page / ಪ್ರತ್ಯೇಕ ಪುಟ"
+                  className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
+                >
+                  <Maximize2 className="w-4 h-4" />
+                </button>
+
                 {/* Close Button */}
                 <button
                   onClick={() => {
-                    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+                    stopFarmerSpeech();
                     setIsCurrentlySpeaking(false);
                     setIsOpen(false);
                   }}
