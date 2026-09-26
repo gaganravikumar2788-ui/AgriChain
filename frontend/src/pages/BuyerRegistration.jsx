@@ -297,7 +297,7 @@ export default function BuyerRegistration() {
           </span>
           <span className="inline-flex items-center gap-1.5 bg-orange-50 border border-orange-300 text-orange-900 px-3 py-0.5 rounded-full text-xs font-bold">
             <span className="w-2 h-2 rounded-full bg-orange-500" />
-            <span>AI Vegetable Shop Machine Vision Verification</span>
+            <span>Automated Vegetable Shop Machine Vision Verification</span>
           </span>
         </div>
       </div>

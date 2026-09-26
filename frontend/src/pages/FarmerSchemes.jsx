@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   Home, FileText, BarChart2, Cloud, User, LogOut, Menu, X,
   Search, Sprout, Star, ExternalLink,
-  CheckCircle, TrendingUp, Info, ChevronDown, ArrowLeft, Bell
+  CheckCircle, TrendingUp, Info, ChevronDown, ArrowLeft, Bell, Bot
 } from 'lucide-react';
 import LanguageSelector from '../components/LanguageSelector';
 import { useLanguage } from '../context/LanguageContext';
@@ -121,6 +121,7 @@ function SchemeCard({ scheme }) {
 
 const NAV_LINKS = [
   { icon: Home,      label: 'Home'    },
+  { icon: Bot,       label: 'AI Assistant' },
   { icon: FileText,  label: 'Schemes', active: true },
   { icon: BarChart2, label: 'Market'  },
   { icon: Cloud,     label: 'Weather' },
@@ -187,6 +188,7 @@ export default function FarmerSchemes() {
           {NAV_LINKS.map(({ icon: Icon, label, active }) => (
             <button key={label} onClick={() => {
               if (label === 'Home') navigate('/farmer-dashboard');
+              if (label === 'AI Assistant') navigate('/farmer/ai');
               if (label === 'Market') navigate('/farmer/market');
               if (label === 'Weather') navigate('/farmer/weather');
               if (label === 'Crop Recommendation') navigate('/farmer/crops');

@@ -13,7 +13,8 @@ import { translateWeatherCondition } from '../utils/translations';
 import {
   Home, FileText, BarChart2, Cloud, User, Menu, X,
   Zap, Leaf, MapPin, Droplets, Wind, Umbrella, ArrowRight,
-  Calendar, CheckCircle, ExternalLink, ShieldCheck, TrendingUp, Sprout, LogOut, Bot
+  Calendar, CheckCircle, ExternalLink, ShieldCheck, TrendingUp, Sprout, LogOut, Bot,
+  Mic, Sparkles
 } from 'lucide-react';
 
 export default function FarmerDashboard() {
@@ -353,8 +354,9 @@ export default function FarmerDashboard() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 pt-3 sm:pt-4">
+              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 pt-3 sm:pt-4">
                 {[
+                  { icon: '🤖', label: language === 'kn' ? 'ಎಐ ಮಿತ್ರ' : language === 'hi' ? 'एआई मित्र' : 'AI Assistant', bg: 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200 border border-emerald-300 font-bold', action: () => navigate('/farmer/ai') },
                   { icon: '📋', label: 'Schemes', bg: 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100', action: () => navigate('/farmer/schemes') },
                   { icon: '₹', label: 'Market Price', bg: 'bg-rose-50 text-rose-700 hover:bg-rose-100', action: () => navigate('/farmer/market') },
                   { icon: '☁️', label: 'Weather', bg: 'bg-sky-50 text-sky-700 hover:bg-sky-100', action: () => navigate('/farmer/weather') },
@@ -617,6 +619,44 @@ export default function FarmerDashboard() {
             </div>
           </div>
 
+        </div>
+
+        {/* ── DEDICATED FARMER AI VOICE ASSISTANT BANNER (Farmer Side Only) ── */}
+        <div
+          onClick={() => navigate('/farmer/ai')}
+          className="w-full rounded-3xl border-2 border-emerald-500/50 bg-gradient-to-r from-emerald-900 via-slate-900 to-teal-950 p-5 sm:p-6 shadow-xl hover:shadow-2xl hover:border-emerald-400 transition-all duration-300 relative overflow-hidden flex-shrink-0 cursor-pointer group"
+        >
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-4 text-center md:text-left">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-tr from-emerald-500 to-green-400 flex items-center justify-center text-white shadow-xl shadow-emerald-500/30 flex-shrink-0 group-hover:scale-110 transition-transform">
+                <Bot size={32} />
+              </div>
+              <div>
+                <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-1">
+                  <h3 className="text-lg sm:text-xl font-black text-white group-hover:text-emerald-300 transition-colors">
+                    🌾 {language === 'kn' ? 'ಕೃಷಿ ಎಐ ಧ್ವನಿ ಮಿತ್ರ' : language === 'hi' ? 'किसान एआई वॉइस मित्र' : 'AgriChain Farmer AI Voice Assistant'}
+                  </h3>
+                  <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wider flex items-center gap-1">
+                    <Sparkles className="w-3 h-3 text-amber-400 fill-amber-400" />
+                    <span>{language === 'kn' ? 'ಧ್ವನಿ ಮತ್ತು ಚಾಟ್' : language === 'hi' ? 'वॉइस और चैट' : 'Voice & Chat AI'}</span>
+                  </span>
+                </div>
+                <p className="text-xs sm:text-sm text-emerald-100/90 font-medium max-w-xl">
+                  {language === 'kn'
+                    ? 'ಕನ್ನಡ, हिन्दी & ಇಂಗ್ಲಿಷ್: ಮಾರುಕಟ್ಟೆ ಲೈವ್ ದರಗಳು, ನೈಜ-ಸಮಯದ ಹವಾಮಾನ, ಬೆಳೆ ಶಿಫಾರಸು ಮತ್ತು ಸರಕಾರಿ ಯೋಜನೆಗಳ ಮಾಹಿತಿ.'
+                    : language === 'hi'
+                    ? 'हिन्दी, ಕನ್ನಡ & English: लाइव मंडी भाव, मौसम अपडेट, फसल सलाह और सरकारी योजनाएं।'
+                    : 'Kannada, Hindi & English: Live Mandi Prices, Real-Time Weather, Crop Advisory & Govt Schemes.'}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-black text-xs sm:text-sm px-6 py-3.5 rounded-2xl shadow-lg shadow-emerald-600/30 transition-all flex-shrink-0">
+              <Mic size={18} className="animate-pulse text-amber-300" />
+              <span>{language === 'kn' ? 'ಎಐ ಜೊತೆ ಮಾತನಾಡಿ' : language === 'hi' ? 'एआई से बात करें' : 'Talk to AI Assistant'}</span>
+              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+            </div>
+          </div>
         </div>
 
         {/* ── 3. ALL STATES / UT PANNER (Fills the entire bottom width seamlessly) ── */}

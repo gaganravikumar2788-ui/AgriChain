@@ -4,7 +4,7 @@ import {
   Home, FileText, BarChart2, Cloud, User, LogOut, Menu, X,
   Search, ArrowLeft, TrendingUp, TrendingDown, Minus,
   ExternalLink, Filter, MapPin, RefreshCw, CheckCircle2,
-  Calendar, Info, ArrowUpDown, ChevronRight, Bell, Sparkles, Scale, Sprout
+  Calendar, Info, ArrowUpDown, ChevronRight, Bell, Sparkles, Scale, Sprout, Bot
 } from 'lucide-react';
 import {
   getDailyMarketPrices,
@@ -77,6 +77,7 @@ export default function FarmerMarket() {
 
   const navLinks = [
     { icon: Home, label: t('home', 'Home'), active: false, action: () => navigate('/farmer-dashboard') },
+    { icon: Bot, label: t('aiAssistant', 'AI Assistant'), active: false, action: () => navigate('/farmer/ai') },
     { icon: FileText, label: t('schemes', 'Schemes'), active: false, action: () => navigate('/farmer/schemes') },
     { icon: BarChart2, label: t('market', 'Market'), active: true, action: () => { } },
     { icon: Cloud, label: t('weather', 'Weather'), active: false, action: () => navigate('/farmer/weather') },

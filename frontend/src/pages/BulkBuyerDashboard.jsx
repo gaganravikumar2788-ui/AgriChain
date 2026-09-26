@@ -205,7 +205,7 @@ export default function BulkBuyerDashboard() {
 
   const navItems = [
     { id: 'home', label: 'Home', icon: Home },
-    { id: 'routes', label: 'Route Optimization', icon: Navigation, badge: 'AI' },
+    { id: 'routes', label: 'Route Optimization', icon: Navigation },
     { id: 'browse', label: 'Browse Products', icon: LayoutGrid },
     { id: 'bulk', label: 'Buy in Bulk', icon: Package },
     { id: 'orders', label: 'My Orders', icon: ClipboardList },
@@ -1472,7 +1472,7 @@ export default function BulkBuyerDashboard() {
                   </div>
                 </div>
 
-                {/* Bottom Promo: AI Route */}
+                {/* Bottom Promo: Route Planner */}
                 <div
                   onClick={() => setActiveTab('routes')}
                   className="mt-auto p-3.5 rounded-2xl bg-gradient-to-r from-emerald-100/90 to-green-100/80 border border-emerald-300/80 flex items-center justify-between gap-3 cursor-pointer hover:shadow-sm transition-all group"
@@ -1482,7 +1482,7 @@ export default function BulkBuyerDashboard() {
                       <Navigation className="w-4 h-4" />
                     </div>
                     <div>
-                      <div className="text-xs font-bold text-emerald-950">AI Route Optimization</div>
+                      <div className="text-xs font-bold text-emerald-950">Route Optimization</div>
                       <div className="text-[11px] text-emerald-900/80 font-medium">Plan your route, reduce travel time & fuel cost.</div>
                     </div>
                   </div>

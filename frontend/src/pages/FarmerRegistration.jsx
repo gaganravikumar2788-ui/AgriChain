@@ -361,7 +361,7 @@ export default function FarmerRegistration() {
           </span>
           <span className="inline-flex items-center gap-1.5 bg-green-50 border border-green-300 text-green-800 px-3 py-0.5 rounded-full text-xs font-bold">
             <span className="w-2 h-2 rounded-full bg-green-600" />
-            <span>AI Green Land Machine Vision Engine</span>
+            <span>Automated Farm Land Verification Engine</span>
           </span>
         </div>
       </div>

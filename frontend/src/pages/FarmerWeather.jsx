@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   Home, FileText, BarChart2, Cloud, User, LogOut, Menu, X,
   MapPin, Droplets, Wind, Umbrella, Sun, ArrowRight,
-  ExternalLink, CheckCircle2, AlertTriangle, RefreshCw, Sprout
+  ExternalLink, CheckCircle2, AlertTriangle, RefreshCw, Sprout, Bot
 } from 'lucide-react';
 import {
   KARNATAKA_DISTRICTS,
@@ -57,6 +57,7 @@ export default function FarmerWeather() {
 
   const navLinks = [
     { icon: Home, label: t('home', 'Home'), active: false, action: () => navigate('/farmer-dashboard') },
+    { icon: Bot, label: t('aiAssistant', 'AI Assistant'), active: false, action: () => navigate('/farmer/ai') },
     { icon: FileText, label: t('schemes', 'Schemes'), active: false, action: () => navigate('/farmer/schemes') },
     { icon: BarChart2, label: t('market', 'Market'), active: false, action: () => navigate('/farmer/market') },
     { icon: Cloud, label: t('weather', 'Weather'), active: true, action: () => {} },

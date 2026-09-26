@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   Mic, MicOff, Volume2, VolumeX, Send, Sparkles, X,
   Bot, Sprout, TrendingUp, Cloud, ExternalLink, RefreshCw,
@@ -11,6 +11,43 @@ import { useLanguage } from '../context/LanguageContext';
 
 export default function FarmerAiAgentModal() {
   const { language: contextLang, setLanguage: setContextLang } = useLanguage();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Strictly enforce that this AI feature ONLY displays on the Farmer side
+  const isFarmerRoute = useCallback(() => {
+    const p = (location?.pathname || '').toLowerCase();
+
+    // 1. Explicitly block register pages, bulk buyer side, consumer, admin, and home
+    if (
+      !p ||
+      p === '/' ||
+      p.startsWith('/register') ||
+      p.startsWith('/buyer') ||
+      p.startsWith('/bulk-buyer') ||
+      p.startsWith('/routes') ||
+      p.startsWith('/route-optimization') ||
+      p.startsWith('/consumer') ||
+      p.startsWith('/quick-commerce') ||
+      p.startsWith('/admin')
+    ) {
+      return false;
+    }
+
+    // 2. Hide on dedicated full-page AI screen to prevent duplicate floating modal
+    if (p === '/farmer/ai' || p === '/farmer-ai' || p === '/ai-assistant') {
+      return false;
+    }
+
+    // 3. Only show on farmer portal pages
+    return (
+      p.startsWith('/farmer') ||
+      p === '/schemes' ||
+      p === '/market' ||
+      p === '/weather'
+    );
+  }, [location?.pathname]);
+
   const [isOpen, setIsOpen] = useState(false);
   const [activeLang, setActiveLang] = useState(contextLang || 'en');
   const [isSpeakingEnabled, setIsSpeakingEnabled] = useState(true);
@@ -24,6 +61,21 @@ export default function FarmerAiAgentModal() {
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
   const currentUtteranceRef = useRef(null);
+
+  // Automatically silence speech and close modal if user leaves farmer pages
+  useEffect(() => {
+    if (!isFarmerRoute()) {
+      stopFarmerSpeech();
+      setIsCurrentlySpeaking(false);
+      setIsOpen(false);
+      if (recognitionRef.current && isListening) {
+        try {
+          recognitionRef.current.stop();
+        } catch {}
+        setIsListening(false);
+      }
+    }
+  }, [isFarmerRoute, isListening]);
 
   // Sync with global language context if changed externally
   useEffect(() => {
@@ -47,8 +99,6 @@ export default function FarmerAiAgentModal() {
       }
     }
   }, []);
-
-  const navigate = useNavigate();
 
   // Text-To-Speech audio speaker helper with native + neural fallback
   const speakText = useCallback((text, langCode, forcePlay = false) => {
@@ -270,6 +320,11 @@ export default function FarmerAiAgentModal() {
     if (activeLang === 'hi') return 'अपना सवाल यहाँ लिखें या बोलकर पूछें...';
     return 'Ask market price, weather, crops, schemes...';
   };
+
+  // Strictly guard: do NOT render floating AI widget on register pages, bulk buyer side, consumer, admin, or landing
+  if (!isFarmerRoute()) {
+    return null;
+  }
 
   return (
     <>
